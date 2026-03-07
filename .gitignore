@@ -1,0 +1,38 @@
+# 模型与检查点
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+checkpoints/
+
+# 训练/评估数据
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+outputs/data/
+
+# 训练输出（日志、TensorBoard、检查点）
+bc_baseline/outputs/
+**/outputs/checkpoints/
+**/outputs/logs/
+**/outputs/data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# 环境与 IDE
+.env
+.venv/
+venv/
+.idea/
+.vscode/
+*.swp
+*.swo
