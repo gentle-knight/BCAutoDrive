@@ -12,7 +12,7 @@ class BCDataset(Dataset):
     从 Phase 2 生成的 .npz 文件读取 Behavior Cloning 数据集。
 
     .npz 文件格式（由 generate_bc_data.py 生成）：
-        - 'obs'     : np.ndarray, shape = (N, 45)
+        - 'obs'     : np.ndarray, shape = (N, 51)
         - 'actions' : np.ndarray, shape = (N, 2)
 
     本类在 __init__ 中一次性加载到内存，并转换为 torch.FloatTensor。
@@ -27,8 +27,8 @@ class BCDataset(Dataset):
         obs = data["obs"]
         actions = data["actions"]
 
-        if obs.ndim != 2 or obs.shape[1] != 45:
-            raise ValueError(f"BCDataset: obs 期望形状 (N, 45)，实际为 {obs.shape}。")
+        if obs.ndim != 2 or obs.shape[1] != 51:
+            raise ValueError(f"BCDataset: obs 期望形状 (N, 51)，实际为 {obs.shape}。")
         if actions.ndim != 2 or actions.shape[1] != 2:
             raise ValueError(f"BCDataset: actions 期望形状 (N, 2)，实际为 {actions.shape}。")
         if obs.shape[0] != actions.shape[0]:

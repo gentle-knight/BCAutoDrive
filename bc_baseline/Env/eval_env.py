@@ -16,7 +16,7 @@ BCEvalEnv: 用于 Behavior Cloning 模型的闭环验证环境
 设计目标：
     - 复用 MetaDrive 的 ScenarioEnv 机制，让**所有背景车辆严格按真实轨迹进行 Log-replay**；
     - 只将 SDC / Ego 车辆交给外部策略（例如训练好的 BCActor）控制；
-    - 将环境对外暴露的观测统一为 Phase 1 定义的 45 维 Ego-centric 向量。
+    - 将环境对外暴露的观测统一为 Phase 1 定义的 51 维 Ego-centric 向量。
 
 关键点：
     - 不改动 MetaDrive 的 traffic_manager / background replay 逻辑；
@@ -39,7 +39,7 @@ class BCEvalEnv(ScenarioEnv):
             )
         )
         env = BCEvalEnv(config)
-        obs = env.reset(seed=i)  # obs 为 45 维 np.ndarray
+        obs = env.reset(seed=i)  # obs 为 51 维 np.ndarray
         done = False
         while not done:
             action = policy(obs)  # action: [steering, acceleration] in [-1, 1]
@@ -69,12 +69,12 @@ class BCEvalEnv(ScenarioEnv):
         self._ego_agent_id: str | None = None
 
     # ------------------------------------------------------------------ #
-    #  工具函数：基于当前引擎状态构造 45 维 Ego 观测
+    #  工具函数：基于当前引擎状态构造 51 维 Ego 观测
     # ------------------------------------------------------------------ #
 
     def _build_ego_obs(self) -> np.ndarray:
         """
-        使用 Phase 1 的 extract_ego_observation 构造 45 维自车观测。
+        使用 Phase 1 的 extract_ego_observation 构造 51 维自车观测。
 
         约定：
             - 控制的自车为 MetaDrive 默认的 "default_agent"；
@@ -153,14 +153,14 @@ class BCEvalEnv(ScenarioEnv):
         return obs
 
     # ------------------------------------------------------------------ #
-    #  对外接口：reset / step 均返回 45 维观测
+    #  对外接口：reset / step 均返回 51 维观测
     # ------------------------------------------------------------------ #
 
     def reset(self, seed: int | None = None, options: Dict[str, Any] | None = None):
         """
         重置场景：
             - 由父类 ScenarioEnv 完成地图和 traffic replay 的初始化；
-            - 然后用 extract_ego_observation 生成 45 维观测返回。
+            - 然后用 extract_ego_observation 生成 51 维观测返回。
         """
         super().reset(seed=seed)
         obs = self._build_ego_obs()
@@ -171,7 +171,7 @@ class BCEvalEnv(ScenarioEnv):
         单步仿真：
             - 外部提供的 action 应为长度 2 的向量 [steering, acceleration]，范围 [-1, 1]；
             - 直接交由 ScenarioEnv 进行一步仿真（默认控制 "default_agent"）；
-            - 然后基于更新后的引擎状态计算下一时刻 45 维观测。
+            - 然后基于更新后的引擎状态计算下一时刻 51 维观测。
 
         注意：
             - 这里假设 MetaDrive 配置的动作空间与 BCActor 输出对齐（二维连续、范围 [-1, 1]）。
@@ -193,7 +193,7 @@ class BCEvalEnv(ScenarioEnv):
                 "请检查 MetaDrive / Gym 版本。"
             )
 
-        # 忽略父类的观测，统一返回 45 维 Ego-centric 观测
+        # 忽略父类的观测，统一返回 51 维 Ego-centric 观测
         obs = self._build_ego_obs()
         return obs, reward, done, info
 

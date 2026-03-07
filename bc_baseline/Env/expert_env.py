@@ -8,7 +8,7 @@ import numpy as np
 from metadrive.envs.scenario_env import ScenarioEnv
 from metadrive.type import MetaDriveType
 
-from bc_baseline.Env.utils import extract_ego_observation
+from bc_baseline.Env.utils import extract_ego_observation, OBS_DIM
 
 
 """
@@ -20,7 +20,7 @@ Expert 环境（BCExpertEnv）
     - 通过 MetaDrive 的 ScenarioEnv 加载 Waymo->ScenarioNet 的场景（.pkl），
       然后直接在轨迹层面遍历所有“动态车辆”的真实轨迹。
     - 对每一帧 t：
-        1) 基于轨迹构造“虚拟车辆对象”，调用 extract_ego_observation() 提取 45 维 Ego-centric 观测 obs_t；
+        1) 基于轨迹构造“虚拟车辆对象”，调用 extract_ego_observation() 提取 51 维 Ego-centric 观测 obs_t；
         2) 使用简单的**逆动力学（Inverse Dynamics）自行车模型**，从 (state_t, state_{t+1}) 反推出
            连续动作 a_t = [steering, acceleration]。
 
@@ -196,7 +196,7 @@ class BCExpertEnv(ScenarioEnv):
 
         3. 提取当前场景的所有 (obs, action)：
                obs, actions = env.collect_expert_data()
-               # obs.shape     = (N, 45)
+               # obs.shape     = (N, 51)
                # actions.shape = (N, 2)
 
     注意：
@@ -368,12 +368,12 @@ class BCExpertEnv(ScenarioEnv):
                     - 在时间 t，为场景中所有“该帧 valid 的动态车辆”构造 _VehicleProxy 集合，
                       并将当前轨迹对应的 proxy 作为 ego 车辆；
                     - 使用 extract_ego_observation(ego, map_manager, active_agents)，
-                      计算当前帧的 45 维 Ego-centric 观测 obs_t；
+                      计算当前帧的 51 维 Ego-centric 观测 obs_t；
                     - 基于 (state_t, state_{t+1}) 调用 InverseDynamics.compute_action()，
                       得到连续动作 a_t = [steering, acceleration]。
 
         返回：
-            obs     : np.ndarray, shape = (N, 45)
+            obs     : np.ndarray, shape = (N, 51)
             actions : np.ndarray, shape = (N, 2)
         """
         engine = getattr(self, "engine", None)
@@ -415,7 +415,7 @@ class BCExpertEnv(ScenarioEnv):
                     # 理论上不应该发生，但为鲁棒起见直接跳过
                     continue
 
-                # 2) 提取 Ego-centric 观测 obs_t（45 维）
+                # 2) 提取 Ego-centric 观测 obs_t（51 维）
                 obs_t = extract_ego_observation(
                     vehicle=ego_vehicle,
                     map_manager=map_manager,
@@ -453,7 +453,7 @@ class BCExpertEnv(ScenarioEnv):
         if not obs_list:
             # 当前场景可能没有任何动态车辆，返回空数组（方便上层脚本跳过）
             return (
-                np.zeros((0, 45), dtype=np.float32),
+                np.zeros((0, OBS_DIM), dtype=np.float32),
                 np.zeros((0, 2), dtype=np.float32),
             )
 

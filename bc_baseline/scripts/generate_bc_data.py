@@ -18,7 +18,7 @@ generate_bc_data.py
       本脚本不会也不应该修改这部分逻辑；
     - 输出阶段：我们基于 BCExpertEnv + extract_ego_observation，直接在轨迹层面构造
       (obs, action) 数值矩阵：
-          obs     : shape = (N, 45)
+          obs     : shape = (N, 51)
           actions : shape = (N, 2)
       最终使用 np.savez_compressed 以 .npz 格式持久化，键为 'obs' 与 'actions'。
 
@@ -32,7 +32,7 @@ generate_bc_data.py
     - 在 output_dir 下创建文件：
           bc_training_data.npz
       内容包含两个键：
-          'obs'     -> np.ndarray, shape = (N, 45), dtype = float32
+          'obs'     -> np.ndarray, shape = (N, 51), dtype = float32
           'actions' -> np.ndarray, shape = (N, 2),  dtype = float32
 """
 
