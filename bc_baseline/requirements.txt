@@ -1,0 +1,9 @@
+numpy
+torch
+tensorboard
+scenarionet
+
+# 说明：
+# - MetaDrive 已通过 conda 环境单独安装（例如 metadrive / BCDrive），
+#   这里不再通过 pip 固定版本，以避免和现有 0.4.3 产生冲突或安装失败。
+
