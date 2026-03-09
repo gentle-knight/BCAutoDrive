@@ -2,6 +2,9 @@ numpy
 torch
 tensorboard
 scenarionet
+scikit-learn
+matplotlib
+tqdm
 
 # 说明：
 # - MetaDrive 已通过 conda 环境单独安装（例如 metadrive / BCDrive），
