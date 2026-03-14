@@ -16,16 +16,28 @@ bc_baseline/
 │   └── utils.py               # extract_ego_observation：51 维 Ego-centric 观测
 ├── datasets/
 │   └── bc_dataset.py          # BCDataset：从 .npz 加载 (obs, action)
-├── scripts/                   # 工具脚本
-│   ├── generate_bc_data.py    # 从 Waymo .pkl 生成 bc_training_data.npz
+├── scripts/                       # 工具脚本
+│   ├── generate_bc_data.py        # 从 Waymo .pkl 生成 bc_training_data.npz
 │   ├── cluster_driving_styles.py  # 驾驶风格聚类（elbow / cluster）
-│   ├── eval_bc.py             # 闭环评估：Success / Collision / Out-of-Road
-│   └── visualize_bc.py       # 单场景可视化回放
-├── outputs/                   # 默认输出目录
-│   ├── data/                  # bc_training_data.npz
-│   ├── checkpoints/           # best_bc.pth, last_bc.pth
-│   ├── logs/                  # TensorBoard
-│   └── elbow_curve.png, elbow_table.csv, style_labels.json  # 聚类相关
+│   ├── extract_interaction_episodes.py  # 提取强交互 episodes 及 8 维特征
+│   ├── visualize_episode_trajectory.py  # 可视化单个 interaction episode 的轨迹
+│   ├── visualize_episodes.py     # 统计 episode 特征分布直方图
+│   ├── eval_bc.py                 # 闭环评估：Success / Collision / Out-of-Road
+│   └── visualize_bc.py            # 单场景可视化回放
+├── outputs/                       # 默认输出目录（相对项目根）
+│   ├── data/                      # bc_training_data.npz
+│   ├── checkpoints/               # best_bc.pth, last_bc.pth
+│   ├── logs/                      # TensorBoard
+│   ├── driving_style/             # 驾驶风格聚类相关输出
+│   │   ├── elbow_curve.png
+│   │   ├── elbow_table.csv
+│   │   ├── elbow_table.png
+│   │   └── style_labels.json
+│   └── interaction_episodes/      # 交互 episode 相关输出
+│       ├── episode_features.npz
+│       ├── episode_meta.json
+│       ├── feature_distributions.png
+│       └── episode_vis/           # 单 episode 轨迹可视化 PNG
 ├── train.py                   # BC 训练入口
 └── README.md
 ```
@@ -159,19 +171,74 @@ python -m bc_baseline.scripts.visualize_bc \
 python -m bc_baseline.scripts.cluster_driving_styles \
     --waymo_dir /path/to/exp_filtered \
     --num_scenarios 348 \
-    --mode elbow
+    --mode elbow \
+    --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 
 # 正式聚类（需指定 K）
 python -m bc_baseline.scripts.cluster_driving_styles \
     --waymo_dir /path/to/exp_filtered \
     --num_scenarios 348 \
-    --mode cluster --k 4
+    --mode cluster --k 4 \
+    --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 ```
 
-**输出**：
+**输出目录**：`bc_baseline/outputs/driving_style/`
 
-- mode elbow：`elbow_curve.png`、`elbow_table.csv`、`elbow_table.png`
-- mode cluster：`style_labels.json`（{scenario_index: {track_id: cluster_label}}）
+- mode elbow：
+  - `elbow_curve.png`
+  - `elbow_table.csv`
+  - `elbow_table.png`
+- mode cluster：
+  - `style_labels.json`（{scenario_index: {track_id: cluster_label}}）
+
+### 6. 提取强交互 episodes（可选）
+
+```bash
+python -m bc_baseline.scripts.extract_interaction_episodes \
+    --waymo_dir /path/to/exp_filtered \
+    --num_scenarios 348 \
+    --start_index 0 \
+    --waymo_dt 0.1 \
+    --ttc_threshold 5.0 \
+    --window_seconds 3.0 \
+    --min_episode_frames 10 \
+    --output_dir bc_baseline/outputs/interaction_episodes   # 可选，默认同此路径
+```
+
+**输出目录**：`bc_baseline/outputs/interaction_episodes/`
+
+- `episode_features.npz`：shape (N, 8)，列顺序：
+  - mean_speed, std_speed, max_speed,
+  - mean_acc, min_acc, jerk_peak,
+  - min_ttc, min_pet
+- `episode_meta.json`：长度为 N 的列表，每个元素：
+  - scenario_index, ego_track_id, partner_track_id,
+  - t_peak, t_start, t_end,
+  - min_ttc, min_pet
+
+### 7. episode 相关可视化（可选）
+
+1）**特征分布直方图**
+
+```bash
+python -m bc_baseline.scripts.visualize_episodes
+```
+
+**输出**：`bc_baseline/outputs/interaction_episodes/feature_distributions.png`
+
+2）**单个 interaction episode 轨迹回放**
+
+```bash
+python -m bc_baseline.scripts.visualize_episode_trajectory \
+    --waymo_dir /path/to/exp_filtered \
+    --n 20 \
+    --sort_by min_ttc \
+    --output_dir bc_baseline/outputs/interaction_episodes/episode_vis
+```
+
+**输出目录**：`bc_baseline/outputs/interaction_episodes/episode_vis/`
+
+- `rankXXX_epYYY.png`：按排序规则选出的若干 episode 轨迹图
 
 ---
 

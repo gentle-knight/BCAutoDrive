@@ -435,10 +435,9 @@ def main():
 
     output_dir = args.output_dir
     if output_dir is None:
-        output_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "outputs",
-        )
+        # 默认输出到 bc_baseline/outputs/driving_style
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        output_dir = os.path.join(project_root, "outputs", "driving_style")
     output_dir = os.path.abspath(output_dir)
     os.makedirs(output_dir, exist_ok=True)
 
