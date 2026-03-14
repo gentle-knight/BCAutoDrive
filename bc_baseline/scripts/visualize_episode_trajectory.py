@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from bc_baseline.Env.expert_env import BCExpertEnv
+from bc_baseline.scripts.extract_interaction_episodes import FEATURE_NAMES
 
 def visualize_episode(waymo_dir, episode_meta, episode_features, save_path=None):
     """
@@ -69,11 +70,10 @@ def visualize_episode(waymo_dir, episode_meta, episode_features, save_path=None)
 
     ax.set_aspect("equal")
     ax.legend(fontsize=9)
-    feat_str = (f"mean_spd={episode_features[0]:.1f} std_spd={episode_features[1]:.1f} "
-                f"max_spd={episode_features[2]:.1f}\n"
-                f"mean_acc={episode_features[3]:.2f} min_acc={episode_features[4]:.2f} "
-                f"jerk={episode_features[5]:.2f}\n"
-                f"min_ttc={episode_features[6]:.2f} min_pet={episode_features[7]:.2f}")
+    feat_str = "\n".join(
+        f"{FEATURE_NAMES[i]}={episode_features[i]:.3f}"
+        for i in range(len(FEATURE_NAMES))
+    )
     ax.set_title(f"Scenario {scenario_idx} | Episode\n{feat_str}", fontsize=9)
     ax.set_xlabel("x (m)"); ax.set_ylabel("y (m)")
     plt.tight_layout()
@@ -129,20 +129,23 @@ if __name__ == "__main__":
         metas = json.load(f)
     feats = np.load(args.features)["features"]
 
-    # 排序选取极端样本
-    feat_col = {"min_ttc": 6, "min_pet": 7, "jerk_peak": 5}
+    # 排序选取极端样本（min_ttc/min_pet 来自 meta，jerk_peak 来自特征列 2）
     if args.sort_by == "random":
-        import random; indices = random.sample(range(len(metas)), args.n)
-    else:
-        col = feat_col[args.sort_by]
-        vals = feats[:, col]
+        import random
+        indices = random.sample(range(len(metas)), args.n)
+    elif args.sort_by in ("min_ttc", "min_pet"):
+        vals = np.array([metas[i][args.sort_by] for i in range(len(metas))])
         if args.sort_by == "min_pet":
-            # PET 有效的里面取最小
             valid = vals < 99.0
             vals_masked = np.where(valid, vals, 999.0)
-            indices = np.argsort(vals_masked)[:args.n].tolist()
+            indices = np.argsort(vals_masked)[: args.n].tolist()
         else:
-            indices = np.argsort(vals)[:args.n].tolist()
+            indices = np.argsort(vals)[: args.n].tolist()
+    else:
+        # jerk_peak 对应特征列 2
+        col = 2
+        vals = feats[:, col]
+        indices = np.argsort(vals)[: args.n].tolist()
 
     for rank, idx in enumerate(indices):
         save_path = os.path.join(args.output_dir,

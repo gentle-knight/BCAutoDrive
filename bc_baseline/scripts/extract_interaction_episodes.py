@@ -3,15 +3,31 @@ from __future__ import annotations
 """
 extract_interaction_episodes.py
 --------------------------------
+从 Waymo/ScenarioNet 数据集中提取交互事件片段（Interaction Episodes），
+并为每个片段计算8维驾驶风格特征向量。
 
-从 Waymo/ScenarioNet 轨迹中自动提取“强交互 episode”，
-并为每个 episode 计算 8 维驾驶风格特征向量，用于后续聚类。
+特征设计原则：
+  所有特征描述的是 ego 车的"个体响应行为"，而非两车关系量。
+  min_ttc/min_pet 仅保留在 InteractionEpisode 元信息字段中用于
+  交互强度记录，不进入聚类特征向量。
 
-用法示例：
+用法：
+  # 提取所有 episode 并保存特征
+  python -m bc_baseline.scripts.extract_interaction_episodes \\
+      --waymo_dir /path/to/waymo_pkls \\
+      --num_scenarios 348 \\
+      --output_dir bc_baseline/outputs/interaction_episodes
 
-    python -m bc_baseline.scripts.extract_interaction_episodes \\
-        --waymo_dir /path/to/waymo_pkls \\
-        --num_scenarios 100
+  # 可选参数
+  --start_index     0       起始场景索引
+  --waymo_dt        0.1     Waymo 采样周期（秒）
+  --ttc_threshold   5.0     触发 episode 的 TTC 阈值（秒）
+  --window_seconds  3.0     episode 时间窗口半径（秒）
+  --min_episode_frames 10   episode 最小有效帧数
+
+输出文件（保存在 output_dir）：
+  episode_features.npz  shape (N, 8)，float32
+  episode_meta.json     List[Dict]，每条 episode 的元信息
 """
 
 import argparse
@@ -34,21 +50,25 @@ except ImportError:
 
 DEFAULT_TTC: float = 60.0
 DEFAULT_PET: float = 99.0
+MAX_TTC_CLIP: float = 60.0
+MAX_PET_CLIP: float = 99.0
 
 FEATURE_NAMES: List[str] = [
-    "mean_speed",
-    "std_speed",
-    "max_speed",
-    "mean_acc",
-    "min_acc",
-    "jerk_peak",
-    "min_ttc",
-    "min_pet",
+    "mean_acc",           # 0: 全程纵向加速度均值
+    "min_acc",            # 1: 全程最大制动（最小加速度）
+    "jerk_peak",          # 2: 全程 jerk 峰值绝对值
+    "response_mean_acc",  # 3: t_peak 窗口内平均加速度
+    "response_min_acc",   # 4: t_peak 窗口内最小加速度
+    "mean_thw",           # 5: 全程平均跟车时间距
+    "mean_speed_ratio",   # 6: 全程平均速度比 ego/partner
+    "relative_speed",     # 7: ego均值速度 - partner均值速度
 ]
 FEATURE_DIM: int = len(FEATURE_NAMES)
 
-MAX_TTC_CLIP: float = 60.0
-MAX_PET_CLIP: float = 99.0
+RESPONSE_PEAK_WINDOW: int = 5   # t_peak 前后各5帧（0.5s @10Hz）用于响应特征
+DEFAULT_THW: float = 5.0        # 无法计算 THW 时的填充值（秒）
+MAX_THW_CLIP: float = 10.0      # THW 上限 clip（秒）
+MAX_SPEED_RATIO_CLIP: float = 3.0  # 速度比上限 clip
 
 
 @dataclass
@@ -264,27 +284,34 @@ def extract_episode_features(
     t_start: int,
     t_end: int,
     dt: float,
+    t_peak: int,
 ) -> Tuple[np.ndarray, float, float]:
     """
-    为单个 episode 提取 8 维特征向量，并返回 episode 内的最小 TTC / PET。
+    提取单个 interaction episode 的8维特征向量。
+
+    重要设计说明：
+    1. 所有特征均描述 ego 车的个体行为，不包含两车关系量（min_ttc/min_pet）。
+    2. response_mean_acc / response_min_acc 基于 t_peak 前后固定窗口计算，
+       而非 TTC 阈值筛选，避免部分 episode 无响应帧的问题。
+    3. peak_slice 使用局部索引（相对于 t_start 的偏移），
+       注意：t_peak 是全局帧索引，转换为局部索引需减去 t_start。
+    4. min_ttc 和 min_pet 仍然计算并返回，但不进入 features 数组，
+       仅用于填充 InteractionEpisode.min_ttc / min_pet 字段。
 
     参数：
-        ego_meta    : ego 轨迹的元信息。
-        partner_meta: 对手车轨迹元信息。
-        t_start     : episode 起始帧索引（包含）。
-        t_end       : episode 结束帧索引（包含）。
-        dt          : 时间步长（秒）。
+      ego_meta     : ego 车的 _TrackMeta 对象
+      partner_meta : partner 车的 _TrackMeta 对象
+      t_start      : episode 开始的全局帧索引
+      t_end        : episode 结束的全局帧索引
+      dt           : 时间步长（秒）
+      t_peak       : TTC 最小帧的全局帧索引，满足 t_start <= t_peak <= t_end
 
     返回：
-        features: shape (8,) 的特征向量。
-        min_ttc : episode 内最小 TTC（秒）。
-        min_pet : episode 内最小 PET（秒；若无法计算则为 DEFAULT_PET）。
-
-    若数据不足（有效帧 < 3），
-        - 速度 / 加速度 / jerk 特征置 0；
-        - min_ttc 置 DEFAULT_TTC；
-        - min_pet 置 DEFAULT_PET。
+      features     : np.ndarray shape (8,)，8维特征向量
+      min_ttc_ref  : float，episode 内最小 TTC（仅用于元信息记录）
+      min_pet_ref  : float，episode 内最小 PET（仅用于元信息记录）
     """
+    # -------------------------- 步骤一：数据准备 --------------------------
     state_ego = ego_meta.track["state"]
     state_partner = partner_meta.track["state"]
 
@@ -292,6 +319,7 @@ def extract_episode_features(
     t_start = max(0, min(t_start, T_global - 1))
     t_end = max(t_start, min(t_end, T_global - 1))
 
+    # sl 是全局切片；pos/vel/valid 的数组索引为局部索引，0 对应 t_start
     sl = slice(t_start, t_end + 1)
 
     pos_ego = np.asarray(state_ego["position"][sl, :2], dtype=np.float64)
@@ -305,24 +333,18 @@ def extract_episode_features(
     valid_both = valid_ego & valid_partner
     num_valid = int(valid_both.sum())
 
+    ego_speeds = np.linalg.norm(vel_ego, axis=1)
+    partner_speeds = np.linalg.norm(vel_partner, axis=1)
+
+    # 数据不足时返回全 0 特征及默认 TTC/PET
     if num_valid < 3:
         features = np.zeros(FEATURE_DIM, dtype=np.float64)
-        features[6] = DEFAULT_TTC
-        features[7] = DEFAULT_PET
         return features, DEFAULT_TTC, DEFAULT_PET
 
-    speeds = np.linalg.norm(vel_ego, axis=1)
-
-    mean_speed, std_speed, max_speed, mean_acc, min_acc, jerk_peak = _extract_speed_acc_jerk(
-        speeds, valid_ego, dt
+    # -------------------------- 步骤二：全程特征（mean_acc, min_acc, jerk_peak）--------------------------
+    _, _, _, mean_acc, min_acc, jerk_peak = _extract_speed_acc_jerk(
+        ego_speeds, valid_ego, dt
     )
-
-    if mean_speed is None:
-        mean_speed = 0.0
-    if std_speed is None:
-        std_speed = 0.0
-    if max_speed is None:
-        max_speed = 0.0
     if mean_acc is None:
         mean_acc = 0.0
     if min_acc is None:
@@ -330,10 +352,72 @@ def extract_episode_features(
     if jerk_peak is None:
         jerk_peak = 0.0
 
-    # 逐帧计算 TTC，取最小值
-    min_ttc = DEFAULT_TTC
-    for k in range(pos_ego.shape[0]):
-        if not (valid_ego[k] or not valid_partner[k]):
+    # -------------------------- 步骤三：峰值窗口响应特征（response_mean_acc, response_min_acc）--------------------------
+    # t_peak 为全局索引，转换为相对于 t_start 的局部索引
+    peak_local = t_peak - t_start
+    n_frames = len(pos_ego)
+    peak_start_local = max(0, peak_local - RESPONSE_PEAK_WINDOW)
+    peak_end_local = min(n_frames, peak_local + RESPONSE_PEAK_WINDOW + 1)
+
+    # 在峰值窗口内取 ego 的 valid 帧速度，按连续帧计算加速度
+    peak_idx = np.where(valid_ego[peak_start_local:peak_end_local])[0] + peak_start_local
+    response_accs_list: List[float] = []
+    for i in range(len(peak_idx) - 1):
+        if peak_idx[i + 1] != peak_idx[i] + 1:
+            continue
+        acc = (ego_speeds[peak_idx[i + 1]] - ego_speeds[peak_idx[i]]) / float(dt)
+        response_accs_list.append(float(acc))
+
+    if response_accs_list:
+        response_accs = np.asarray(response_accs_list, dtype=np.float64)
+        response_mean_acc = float(np.mean(response_accs))
+        response_min_acc = float(np.min(response_accs))
+    else:
+        response_mean_acc = 0.0
+        response_min_acc = 0.0
+
+    # -------------------------- 步骤四：mean_thw（平均跟车时间距）--------------------------
+    thw_list: List[float] = []
+    for k in range(n_frames):
+        if not (valid_ego[k] and valid_partner[k]):
+            continue
+        if ego_speeds[k] <= 1.0:
+            continue
+        dist_k = float(np.linalg.norm(pos_ego[k] - pos_partner[k]))
+        thw_k = dist_k / ego_speeds[k]
+        thw_k = float(np.clip(thw_k, 0.0, MAX_THW_CLIP))
+        thw_list.append(thw_k)
+    mean_thw = float(np.mean(thw_list)) if thw_list else DEFAULT_THW
+
+    # -------------------------- 步骤五：mean_speed_ratio（平均速度比）--------------------------
+    ratio_list: List[float] = []
+    for k in range(n_frames):
+        if not (valid_ego[k] and valid_partner[k]):
+            continue
+        if partner_speeds[k] <= 1.0:
+            continue
+        ratio_k = ego_speeds[k] / partner_speeds[k]
+        ratio_k = float(np.clip(ratio_k, 0.0, MAX_SPEED_RATIO_CLIP))
+        ratio_list.append(ratio_k)
+    mean_speed_ratio = float(np.mean(ratio_list)) if ratio_list else 1.0
+
+    # -------------------------- 步骤六：relative_speed（相对速度均值）--------------------------
+    ego_speed_both: List[float] = []
+    partner_speed_both: List[float] = []
+    for k in range(n_frames):
+        if not (valid_ego[k] and valid_partner[k]):
+            continue
+        ego_speed_both.append(float(ego_speeds[k]))
+        partner_speed_both.append(float(partner_speeds[k]))
+    if ego_speed_both and partner_speed_both:
+        relative_speed = float(np.mean(ego_speed_both)) - float(np.mean(partner_speed_both))
+    else:
+        relative_speed = 0.0
+
+    # -------------------------- 步骤七：min_ttc_ref 与 min_pet_ref（不进入 features，仅元信息）--------------------------
+    min_ttc_ref = DEFAULT_TTC
+    for k in range(n_frames):
+        if not (valid_ego[k] and valid_partner[k]):
             continue
         ttc = compute_ttc_between(
             ego_pos=pos_ego[k],
@@ -341,34 +425,34 @@ def extract_episode_features(
             other_pos=pos_partner[k],
             other_vel=vel_partner[k],
         )
-        if ttc < min_ttc:
-            min_ttc = ttc
-    min_ttc = float(np.clip(min_ttc, 0.0, MAX_TTC_CLIP))
+        if ttc < min_ttc_ref:
+            min_ttc_ref = ttc
+    min_ttc_ref = float(np.clip(min_ttc_ref, 0.0, MAX_TTC_CLIP))
 
-    # PET：只在双方同时 valid 的帧上计算
-    idx = np.where(valid_both)[0]
-    if idx.size >= 2:
-        ego_seq = pos_ego[idx]
-        partner_seq = pos_partner[idx]
-        min_pet = compute_pet_between(ego_seq, partner_seq, dt=dt)
+    idx_both = np.where(valid_both)[0]
+    if idx_both.size >= 2:
+        ego_seq = pos_ego[idx_both]
+        partner_seq = pos_partner[idx_both]
+        min_pet_ref = compute_pet_between(ego_seq, partner_seq, dt=dt)
     else:
-        min_pet = DEFAULT_PET
-    min_pet = float(np.clip(min_pet, 0.0, MAX_PET_CLIP))
+        min_pet_ref = DEFAULT_PET
+    min_pet_ref = float(np.clip(min_pet_ref, 0.0, MAX_PET_CLIP))
 
+    # -------------------------- 步骤八：组装 features 数组 --------------------------
     features = np.array(
         [
-            mean_speed,
-            std_speed,
-            max_speed,
             mean_acc,
             min_acc,
             jerk_peak,
-            min_ttc,
-            min_pet,
+            response_mean_acc,
+            response_min_acc,
+            mean_thw,
+            mean_speed_ratio,
+            relative_speed,
         ],
         dtype=np.float64,
     )
-    return features, min_ttc, min_pet
+    return features, min_ttc_ref, min_pet_ref
 
 
 # -------------------------- 单场景 episode 提取 -------------------------- #
@@ -570,6 +654,7 @@ def find_interaction_episodes_in_scene(
                 t_start=t_start,
                 t_end=t_end,
                 dt=dt,
+                t_peak=t_peak,
             )
 
             episode = InteractionEpisode(
@@ -839,6 +924,11 @@ def main() -> None:
         f"[extract_interaction_episodes] 共提取 {features.shape[0]} 个 episodes，"
         f"特征维度={features.shape[1]}"
     )
+    print("[extract_interaction_episodes] 特征维度=8:")
+    print("  0: mean_acc, 1: min_acc, 2: jerk_peak")
+    print("  3: response_mean_acc, 4: response_min_acc")
+    print("  5: mean_thw, 6: mean_speed_ratio, 7: relative_speed")
+    print("[extract_interaction_episodes] 注意：min_ttc/min_pet 仅记录在元信息中，不进入特征向量")
 
     save_episodes(features, episodes, output_dir=output_dir)
 
