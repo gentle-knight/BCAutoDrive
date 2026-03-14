@@ -107,6 +107,17 @@ CLUSTER_FEATURE_NAMES: List[str] = [
 #        "jerk_peak", "mean_speed_ratio"]
 
 
+def _normalize_feature_names(raw_feature_names: np.ndarray) -> List[str]:
+    """将 npz 中读取到的 feature_names 统一转换为 Python 字符串列表。"""
+    names: List[str] = []
+    for name in np.asarray(raw_feature_names).tolist():
+        if isinstance(name, bytes):
+            names.append(name.decode("utf-8"))
+        else:
+            names.append(str(name))
+    return names
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="从 interaction episode 特征文件进行驾驶风格 K-Means 聚类。"
@@ -167,12 +178,32 @@ def load_episode_data(
     data = np.load(features_path)
     if "features" not in data:
         raise KeyError(f"npz 中需包含键 'features'，当前键: {list(data.keys())}")
+    if "feature_names" not in data:
+        data.close()
+        raise KeyError(
+            "npz 中缺少键 'feature_names'，无法确认列语义。"
+            "请使用当前版本的 extract_interaction_episodes.py 重新导出 features。"
+        )
+
+    feature_names = _normalize_feature_names(data["feature_names"])
     features = np.asarray(data["features"], dtype=np.float64)
     data.close()
 
     if features.ndim != 2 or features.shape[1] != 8:
         raise ValueError(
             f"特征矩阵期望 shape (N, 8)，实际为 {features.shape}"
+        )
+    if len(feature_names) != len(ALL_FEATURE_NAMES):
+        raise ValueError(
+            "feature_names 长度与当前脚本预期不一致："
+            f"读取到 {len(feature_names)} 项，预期 {len(ALL_FEATURE_NAMES)} 项。"
+        )
+    if feature_names != ALL_FEATURE_NAMES:
+        raise ValueError(
+            "episode_features.npz 的 feature_names 与当前聚类脚本不一致。\n"
+            f"读取到: {feature_names}\n"
+            f"预期为: {ALL_FEATURE_NAMES}\n"
+            "请重新运行 extract_interaction_episodes.py 导出与当前脚本一致的特征文件。"
         )
 
     with open(meta_path, encoding="utf-8") as f:

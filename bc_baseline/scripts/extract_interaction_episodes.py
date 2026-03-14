@@ -52,6 +52,7 @@ DEFAULT_TTC: float = 60.0
 DEFAULT_PET: float = 99.0
 MAX_TTC_CLIP: float = 60.0
 MAX_PET_CLIP: float = 99.0
+FEATURE_SCHEMA_VERSION: str = "interaction_episode_v1"
 
 FEATURE_NAMES: List[str] = [
     "mean_acc",           # 0: 全程纵向加速度均值
@@ -774,7 +775,10 @@ def save_episodes(
     将 episode 特征与元信息分别保存到 .npz 与 .json 文件。
 
     输出：
-        - episode_features.npz: 包含键 "features"，shape (N, 8)
+        - episode_features.npz: 包含键
+              "features"        -> shape (N, 8)
+              "feature_names"   -> shape (8,)
+              "feature_version" -> 标识当前特征 schema 版本
         - episode_meta.json   : List[dict]，每个元素包含：
               {
                   "scenario_index": int,
@@ -790,7 +794,12 @@ def save_episodes(
     os.makedirs(output_dir, exist_ok=True)
 
     npz_path = os.path.join(output_dir, "episode_features.npz")
-    np.savez_compressed(npz_path, features=features.astype(np.float32))
+    np.savez_compressed(
+        npz_path,
+        features=features.astype(np.float32),
+        feature_names=np.asarray(FEATURE_NAMES, dtype="<U64"),
+        feature_version=np.asarray(FEATURE_SCHEMA_VERSION),
+    )
 
     json_path = os.path.join(output_dir, "episode_meta.json")
     meta_list: List[Dict[str, Any]] = []

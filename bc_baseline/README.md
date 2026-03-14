@@ -29,10 +29,12 @@ bc_baseline/
 │   ├── checkpoints/               # best_bc.pth, last_bc.pth
 │   ├── logs/                      # TensorBoard
 │   ├── driving_style/             # 驾驶风格聚类相关输出
-│   │   ├── elbow_curve.png
+│   │   ├── elbow_analysis.png
 │   │   ├── elbow_table.csv
-│   │   ├── elbow_table.png
-│   │   └── style_labels.json
+│   │   ├── style_labels.json
+│   │   ├── episode_labels.json
+│   │   ├── cluster_centers.json
+│   │   └── cluster_report.txt
 │   └── interaction_episodes/      # 交互 episode 相关输出
 │       ├── episode_features.npz
 │       ├── episode_meta.json
@@ -167,17 +169,20 @@ python -m bc_baseline.scripts.visualize_bc \
 用于对轨迹进行风格聚类，辅助后续分析或按风格训练：
 
 ```bash
+# 需先提取 interaction episode 特征
+# 参见下面“提取强交互 episodes”
+
 # 肘部法确定最优 K
 python -m bc_baseline.scripts.cluster_driving_styles \
-    --waymo_dir /path/to/exp_filtered \
-    --num_scenarios 348 \
+    --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
+    --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
     --mode elbow \
     --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 
 # 正式聚类（需指定 K）
 python -m bc_baseline.scripts.cluster_driving_styles \
-    --waymo_dir /path/to/exp_filtered \
-    --num_scenarios 348 \
+    --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
+    --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
     --mode cluster --k 4 \
     --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 ```
@@ -185,11 +190,13 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 **输出目录**：`bc_baseline/outputs/driving_style/`
 
 - mode elbow：
-  - `elbow_curve.png`
+  - `elbow_analysis.png`
   - `elbow_table.csv`
-  - `elbow_table.png`
 - mode cluster：
   - `style_labels.json`（{scenario_index: {track_id: cluster_label}}）
+  - `episode_labels.json`（每条 episode 附加 `cluster_label` / `semantic_label`）
+  - `cluster_centers.json`（聚类中心物理值 + 语义标签）
+  - `cluster_report.txt`（人类可读聚类报告）
 
 ### 6. 提取强交互 episodes（可选）
 
@@ -207,14 +214,22 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 
 **输出目录**：`bc_baseline/outputs/interaction_episodes/`
 
-- `episode_features.npz`：shape (N, 8)，列顺序：
-  - mean_speed, std_speed, max_speed,
+- `episode_features.npz`：包含以下键：
+  - `features`：shape (N, 8)
+  - `feature_names`：长度为 8 的列名列表
+  - `feature_version`：当前特征 schema 版本
+- `features` 的列顺序：
   - mean_acc, min_acc, jerk_peak,
-  - min_ttc, min_pet
+  - response_mean_acc, response_min_acc,
+  - mean_thw, mean_speed_ratio, relative_speed
 - `episode_meta.json`：长度为 N 的列表，每个元素：
   - scenario_index, ego_track_id, partner_track_id,
   - t_peak, t_start, t_end,
   - min_ttc, min_pet
+
+注意：
+- `min_ttc` 和 `min_pet` 仅保存在 `episode_meta.json` 中，不进入 `features`
+- 下游聚类与可视化脚本会校验 `feature_names`，若不一致需重新导出 `episode_features.npz`
 
 ### 7. episode 相关可视化（可选）
 

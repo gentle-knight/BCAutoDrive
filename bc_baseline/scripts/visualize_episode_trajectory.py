@@ -6,6 +6,29 @@ import matplotlib.patches as patches
 from bc_baseline.Env.expert_env import BCExpertEnv
 from bc_baseline.scripts.extract_interaction_episodes import FEATURE_NAMES
 
+
+def load_features_with_schema_check(features_path):
+    data = np.load(features_path)
+    if "features" not in data:
+        raise KeyError(f"npz 中缺少键 'features'：{features_path}")
+    if "feature_names" not in data:
+        data.close()
+        raise KeyError(
+            "npz 中缺少键 'feature_names'，无法确认列语义。"
+            "请使用当前版本的 extract_interaction_episodes.py 重新导出 features。"
+        )
+
+    feature_names = [str(x) for x in np.asarray(data["feature_names"]).tolist()]
+    features = np.asarray(data["features"])
+    data.close()
+
+    if feature_names != FEATURE_NAMES:
+        raise ValueError(
+            f"feature_names 不匹配，读取到 {feature_names}，预期 {FEATURE_NAMES}"
+        )
+    return features
+
+
 def visualize_episode(waymo_dir, episode_meta, episode_features, save_path=None):
     """
     可视化单个 interaction episode 的轨迹。
@@ -127,7 +150,7 @@ if __name__ == "__main__":
     os.makedirs(args.output_dir, exist_ok=True)
     with open(args.meta, encoding="utf-8") as f:
         metas = json.load(f)
-    feats = np.load(args.features)["features"]
+    feats = load_features_with_schema_check(args.features)
 
     # 排序选取极端样本（min_ttc/min_pet 来自 meta，jerk_peak 来自特征列 2）
     if args.sort_by == "random":
