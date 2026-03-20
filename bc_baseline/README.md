@@ -257,6 +257,37 @@ python -m bc_baseline.scripts.visualize_episode_trajectory \
 
 ---
 
+### 8. 规则型场景标签器 v1（可解释复核，可选）
+
+用于对 ScenarioNet（Waymo Motion 转换后）场景自动打标签，并输出：
+`scene_labels.json`、`scene_features.csv`、`review_samples.json`（便于人工复核）。
+
+```bash
+python -m bc_baseline.scene_labeling.label_scenes \
+    --input legacy_magail/data/exp_filtered/ \
+    --output_dir bc_baseline/scene_labeling/outputs \
+    --samples_per_class 20 \
+    --seed 42
+```
+
+当你想把某个 `scene_id` 复核到 `scenarionet.sim` 可视化时，需要先把 `scene_id` 转成整数 `--scenario_index`：
+
+```bash
+python -m bc_baseline.scripts.scene_id_to_scenario_index \
+    -d legacy_magail/data/exp_filtered \
+    --id a7545087f82dafeb
+```
+
+然后把输出的整数作为 `--scenario_index` 传给：
+
+```bash
+python -m scenarionet.sim -d legacy_magail/data/exp_filtered \
+    --render 2D \
+    --scenario_index <整数>
+```
+
+---
+
 ## 数据流汇总
 
 ```text

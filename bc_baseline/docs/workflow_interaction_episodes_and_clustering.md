@@ -199,3 +199,32 @@ python -m bc_baseline.scripts.cluster_driving_styles \
    根据 cluster_report 与 cluster_centers 理解各风格；用 episode_labels / style_labels 做按风格筛选、分析或接入 IRL 等下游流程。
 
 以上即“提取 episode → 可视化特征/轨迹 → 聚类 → 利用聚类结果”的完整工作流，可按此顺序记录在科研日志中。
+
+---
+## 八、规则型场景标签器（Scene Labeling v1，可选）
+
+如果你还希望在“全场景层面”对地图/交通控制/交互类型进行可解释标签（输出 `scene_labels.json`、`scene_features.csv`、`review_samples.json`），可以运行：
+
+```bash
+python -m bc_baseline.scene_labeling.label_scenes \
+    --input legacy_magail/data/exp_filtered/ \
+    --output_dir bc_baseline/scene_labeling/outputs \
+    --samples_per_class 20 \
+    --seed 42
+```
+
+随后你可以用 `review_samples.json` 做人工抽样复核。若需要把某个 `scene_id` 用 `scenarionet.sim` 渲染，请先把 `scene_id` 转为整数 `--scenario_index`：
+
+```bash
+python -m bc_baseline.scripts.scene_id_to_scenario_index \
+    -d legacy_magail/data/exp_filtered \
+    --id a7545087f82dafeb
+```
+
+随后将得到的整数 `scenario_index` 传给：
+
+```bash
+python -m scenarionet.sim -d legacy_magail/data/exp_filtered \
+    --render 2D \
+    --scenario_index <整数>
+```
