@@ -63,6 +63,7 @@ def build_export_plan(
     *,
     categories: Sequence[str],
     subset_limit_per_label: Optional[int] = None,
+    allowed_scene_ids_by_category_label: Optional[Dict[str, Dict[str, set[str]]]] = None,
 ) -> Tuple[List[ExportPlan], Dict[str, int]]:
     """
     返回 ExportPlan 列表，以及丢失统计（scene_id -> scenario_file 找不到）。
@@ -80,6 +81,16 @@ def build_export_plan(
             if label_value is None:
                 continue
             label_value = str(label_value)
+
+            if allowed_scene_ids_by_category_label is not None:
+                allowed_for_cat = allowed_scene_ids_by_category_label.get(c, {})
+                allowed_set = allowed_for_cat.get(label_value, None)
+                # 若该 (category,label) 不在 allowed 中，则跳过整个组
+                if allowed_set is None:
+                    continue
+                if scene_id not in allowed_set:
+                    continue
+
             scenario_file = _scenario_file_name_from_scene_id(scene_id_to_scenario_file, scene_id)
             if scenario_file is None:
                 # 不同 category 会重复统计，这里简化：只要一个 category 缺就计一次
@@ -92,6 +103,8 @@ def build_export_plan(
         for label_value, scenario_files in grouped[c].items():
             if subset_limit_per_label is not None:
                 scenario_files = scenario_files[: int(subset_limit_per_label)]
+            if len(scenario_files) == 0:
+                continue
             plans.append(ExportPlan(category=c, label_value=label_value, scenario_files=scenario_files))
 
     # missing_scene_id 指的是“至少一次 category 缺失”的次数（粗略）
@@ -232,6 +245,23 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="每个 label 最多导出多少个 scenario_file_name（调试用）。",
     )
+    parser.add_argument(
+        "--use_review_samples",
+        action="store_true",
+        help="若启用，则只导出 review_samples.json 里包含的 scene_id（复核抽样子集）。",
+    )
+    parser.add_argument(
+        "--review_samples_json",
+        type=str,
+        default="bc_baseline/scene_labeling/outputs/review_samples.json",
+        help="review_samples.json 路径（仅在 --use_review_samples 启用时生效）。",
+    )
+    parser.add_argument(
+        "--report_path",
+        type=str,
+        default=None,
+        help="报告文件路径（JSON）。默认写入 output_root/export_report.json。",
+    )
     return parser.parse_args()
 
 
@@ -273,11 +303,42 @@ def main() -> None:
         )
 
     categories = ["control_type", "road_type", "interaction_type"]
+
+    allowed_scene_ids_by_category_label: Optional[Dict[str, Dict[str, set[str]]]] = None
+    export_mode = "all"
+    review_samples_payload: Optional[Dict[str, Any]] = None
+
+    if args.use_review_samples:
+        export_mode = "review"
+        review_samples_json = os.path.abspath(args.review_samples_json)
+        if not os.path.isfile(review_samples_json):
+            raise FileNotFoundError(f"review_samples.json not found: {review_samples_json}")
+        review_samples_payload = json.load(open(review_samples_json, "r", encoding="utf-8"))
+
+        allowed_scene_ids_by_category_label = {"control_type": {}, "road_type": {}, "interaction_type": {}}
+        by_control = review_samples_payload.get("by_control_type", {}) or {}
+        by_road = review_samples_payload.get("by_road_type", {}) or {}
+        by_inter = review_samples_payload.get("by_interaction_type", {}) or {}
+
+        if isinstance(by_control, dict):
+            for label_value, ids in by_control.items():
+                if isinstance(ids, list):
+                    allowed_scene_ids_by_category_label["control_type"][str(label_value)] = set([str(x) for x in ids])
+        if isinstance(by_road, dict):
+            for label_value, ids in by_road.items():
+                if isinstance(ids, list):
+                    allowed_scene_ids_by_category_label["road_type"][str(label_value)] = set([str(x) for x in ids])
+        if isinstance(by_inter, dict):
+            for label_value, ids in by_inter.items():
+                if isinstance(ids, list):
+                    allowed_scene_ids_by_category_label["interaction_type"][str(label_value)] = set([str(x) for x in ids])
+
     plans, missing_info = build_export_plan(
         scene_labels=scene_labels,
         scene_id_to_scenario_file=scene_id_to_scenario_file,
         categories=categories,
         subset_limit_per_label=args.subset_limit_per_label,
+        allowed_scene_ids_by_category_label=allowed_scene_ids_by_category_label,
     )
 
     print(
@@ -286,6 +347,37 @@ def main() -> None:
     )
 
     os.makedirs(output_root, exist_ok=True)
+
+    # ----------------- report ----------------- #
+    counts_by_category_and_label: Dict[str, Dict[str, int]] = {c: {} for c in categories}
+    for p in plans:
+        counts_by_category_and_label[p.category][p.label_value] = len(p.scenario_files)
+
+    report: Dict[str, Any] = {
+        "version": "export_labeled_subsets_v2",
+        "export_mode": export_mode,
+        "scene_labels_json": scene_labels_json,
+        "dataset_dir": original_dataset_dir,
+        "output_root": output_root,
+        "categories": categories,
+        "subset_limit_per_label": args.subset_limit_per_label,
+        "counts_by_category_and_label": counts_by_category_and_label,
+        "total_scenarios_in_plans": int(sum(len(p.scenario_files) for p in plans)),
+        "missing_info": missing_info,
+    }
+    if args.use_review_samples:
+        report["review_samples_json"] = os.path.abspath(args.review_samples_json)
+
+    report_path = args.report_path
+    if report_path is None:
+        report_path = os.path.join(output_root, "export_report.json")
+    report_path = os.path.abspath(report_path)
+
+    if not args.dry_run:
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=2)
+        print(f"[export_labeled_subsets] report -> {report_path}")
+
     # Execute
     for plan in plans:
         export_dataset_root(
