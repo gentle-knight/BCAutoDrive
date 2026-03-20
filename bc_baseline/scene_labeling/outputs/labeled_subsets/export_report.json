@@ -16,17 +16,16 @@
       "stop_controlled": 284
     },
     "road_type": {
-      "merge_ramp": 187,
-      "urban_road": 147,
-      "freeway": 14,
-      "intersection": 1
+      "freeway": 36,
+      "intersection": 302,
+      "merge_ramp": 11
     },
     "interaction_type": {
-      "mixed": 309,
-      "lane_change": 37,
+      "lane_change": 277,
+      "mixed": 67,
       "turning_conflict": 1,
-      "merge": 1,
-      "crossing_conflict": 1
+      "crossing_conflict": 3,
+      "merge": 1
     }
   },
   "total_scenarios_in_plans": 1047,

@@ -20,12 +20,12 @@ class LabelingConfig:
     stop_sign_min_count: int = 1
 
     # ---------- Road type rules ----------
-    crossing_candidates_high: int = 5
-    merge_candidates_high: int = 3
+    crossing_candidates_high: int = 2
+    merge_candidates_high: int = 1
 
     # freeway 近似条件：并行车道比例 + 高速 + 少交叉
-    parallel_lane_ratio_threshold: float = 0.65
-    p90_vehicle_speed_threshold: float = 18.0  # m/s
+    parallel_lane_ratio_threshold: float = 0.70
+    p90_vehicle_speed_threshold: float = 12.0  # m/s（仅作软指标/置信度参考）
     crossing_candidates_few: int = 1
 
     # ---------- Interaction type rules ----------
@@ -45,7 +45,7 @@ class LabelingConfig:
     turning_conflict_max_ttc: float = 8.0  # s，越小越冲突
 
     # ---------- Mixed decision ----------
-    mixed_min_hit_count: int = 2
+    mixed_min_hit_count: int = 3
 
     # ---------- Confidence shaping ----------
     # 对“命中强度”做温和的置信度映射
@@ -179,25 +179,108 @@ def label_scene(scene_features: SceneFeatures, config: LabelingConfig) -> Dict[s
     merge_cnt = int(scene_features.get("num_merge_candidates", 0) or 0)
     parallel_lane_ratio = float(scene_features.get("parallel_lane_ratio", 0.0) or 0.0)
     p90_speed = float(scene_features.get("p90_vehicle_speed", 0.0) or 0.0)
+    num_crosswalks = int(scene_features.get("num_crosswalks", 0) or 0)
+    num_stop_signs = int(scene_features.get("num_stop_signs", 0) or 0)
+    control_is_signalized = str(control_label) == "signalized"
 
     road_trace_items: List[RuleTraceItem] = []
     road_label: RoadType = "urban_road"
     road_conf: float = 0.6
 
+    # 新优先级（按顺序遇到即停止）：
+    # 1) intersection（路口）
+    # 2) freeway（高速）
+    # 3) merge_ramp（匝道汇入）
+    # 4) urban_road（兜底）
+
+    # -------- Priority 1: intersection --------
+    intersection_reasons: List[str] = []
+    if num_crosswalks > 0:
+        intersection_reasons.append("num_crosswalks > 0")
+    if num_stop_signs > 0:
+        intersection_reasons.append("num_stop_signs > 0")
+    if control_is_signalized:
+        intersection_reasons.append("control_type == signalized")
     if crossing_cnt >= int(config.crossing_candidates_high):
+        intersection_reasons.append("num_crossing_candidates >= crossing_candidates_high")
+
+    intersection_hit = len(intersection_reasons) > 0
+
+    if intersection_hit:
         road_label = "intersection"
-        # 命中强度越大置信度越高
-        strength = float(crossing_cnt) / max(1.0, float(config.crossing_candidates_high))
-        road_conf = 0.65 + 0.3 * _confidence_from_hit_strength(strength - 1.0)
+        # 置信度：把“地图证据/控制证据/轨迹冲突 proxy”综合成强度
+        strength = 0.0
+        if num_crosswalks > 0:
+            strength += 1.0
+        if num_stop_signs > 0:
+            strength += 1.0
+        if control_is_signalized:
+            strength += 1.0
+        # crossing 证据按比例叠加
+        strength += float(crossing_cnt) / max(1.0, float(config.crossing_candidates_high))
+
+        road_conf = 0.6 + 0.35 * _confidence_from_hit_strength(strength - 1.0)
         road_trace_items.append(
             _make_trace(
                 step="road_type",
-                rule="intersection_by_crossing_candidates",
-                condition=f"num_crossing_candidates >= {config.crossing_candidates_high}",
+                rule="intersection_by_map_control_or_crossing_proxy",
+                condition=(
+                    "num_crosswalks > 0 OR num_stop_signs > 0 OR "
+                    "control_type == signalized OR num_crossing_candidates >= crossing_candidates_high"
+                ),
                 result="intersection",
-                details={"num_crossing_candidates": crossing_cnt},
+                details={
+                    "num_crosswalks": num_crosswalks,
+                    "num_stop_signs": num_stop_signs,
+                    "control_type": str(control_label),
+                    "num_crossing_candidates": crossing_cnt,
+                    "crossing_candidates_high": int(config.crossing_candidates_high),
+                    "trigger_reasons": intersection_reasons,
+                },
             )
         )
+
+    # -------- Priority 2: freeway --------
+    elif (
+        parallel_lane_ratio >= float(config.parallel_lane_ratio_threshold)
+        and num_crosswalks == 0
+        and (not control_is_signalized)
+        and (crossing_cnt <= int(config.crossing_candidates_few))
+    ):
+        road_label = "freeway"
+
+        # 速度不参与硬阈值（拥堵仍可能是 freeway）；只用于置信度软参考。
+        lane_strength = parallel_lane_ratio / max(1e-3, float(config.parallel_lane_ratio_threshold))
+        speed_strength = p90_speed / max(1e-3, float(config.p90_vehicle_speed_threshold))
+        # lane 强权重，speed 轻权重
+        hit_strength = 0.85 * float(lane_strength) + 0.15 * float(speed_strength)
+
+        road_conf = 0.55 + 0.4 * _confidence_from_hit_strength(hit_strength - 1.0)
+        road_trace_items.append(
+            _make_trace(
+                step="road_type",
+                rule="freeway_by_parallel_lane_no_crosswalk_no_signal_and_crossing_few",
+                condition=(
+                    f"parallel_lane_ratio >= {config.parallel_lane_ratio_threshold} AND "
+                    f"num_crosswalks == 0 AND control_type != signalized AND "
+                    f"num_crossing_candidates <= {config.crossing_candidates_few}"
+                ),
+                result="freeway",
+                details={
+                    "parallel_lane_ratio": parallel_lane_ratio,
+                    "parallel_lane_ratio_threshold": float(config.parallel_lane_ratio_threshold),
+                    "num_crosswalks": num_crosswalks,
+                    "control_type": str(control_label),
+                    "num_crossing_candidates": crossing_cnt,
+                    "crossing_candidates_few": int(config.crossing_candidates_few),
+                    "p90_vehicle_speed": p90_speed,
+                    "speed_strength_soft": speed_strength,
+                    "lane_strength": lane_strength,
+                },
+            )
+        )
+
+    # -------- Priority 3: merge_ramp --------
     elif merge_cnt >= int(config.merge_candidates_high):
         road_label = "merge_ramp"
         strength = float(merge_cnt) / max(1.0, float(config.merge_candidates_high))
@@ -208,58 +291,35 @@ def label_scene(scene_features: SceneFeatures, config: LabelingConfig) -> Dict[s
                 rule="merge_ramp_by_merge_candidates",
                 condition=f"num_merge_candidates >= {config.merge_candidates_high}",
                 result="merge_ramp",
-                details={"num_merge_candidates": merge_cnt},
+                details={
+                    "num_merge_candidates": merge_cnt,
+                    "merge_candidates_high": int(config.merge_candidates_high),
+                },
             )
         )
+
+    # -------- Priority 4: urban_road (fallback) --------
     else:
-        crossing_few = crossing_cnt <= int(config.crossing_candidates_few)
-        freeway_cond = (
-            parallel_lane_ratio >= float(config.parallel_lane_ratio_threshold)
-            and p90_speed >= float(config.p90_vehicle_speed_threshold)
-            and crossing_few
+        road_label = "urban_road"
+        road_conf = 0.55
+        road_trace_items.append(
+            _make_trace(
+                step="road_type",
+                rule="default_urban_road",
+                condition="fallback_else",
+                result="urban_road",
+                details={
+                    "num_crosswalks": num_crosswalks,
+                    "num_stop_signs": num_stop_signs,
+                    "control_type": str(control_label),
+                    "parallel_lane_ratio": parallel_lane_ratio,
+                    "p90_vehicle_speed": p90_speed,
+                    "num_crossing_candidates": crossing_cnt,
+                    "num_merge_candidates": merge_cnt,
+                    "intersection_reasons": intersection_reasons,
+                },
+            )
         )
-        if freeway_cond:
-            road_label = "freeway"
-            # 强度由并行车道与速度共同决定
-            speed_strength = p90_speed / max(1e-3, float(config.p90_vehicle_speed_threshold))
-            lane_strength = parallel_lane_ratio / max(1e-3, float(config.parallel_lane_ratio_threshold))
-            strength = 0.5 * float(speed_strength) + 0.5 * float(lane_strength)
-            road_conf = 0.6 + 0.35 * _confidence_from_hit_strength(strength - 1.0)
-            road_trace_items.append(
-                _make_trace(
-                    step="road_type",
-                    rule="freeway_by_parallel_speed_few_crossing",
-                    condition=(
-                        f"parallel_lane_ratio >= {config.parallel_lane_ratio_threshold} and "
-                        f"p90_vehicle_speed >= {config.p90_vehicle_speed_threshold} and "
-                        f"num_crossing_candidates <= {config.crossing_candidates_few}"
-                    ),
-                    result="freeway",
-                    details={
-                        "parallel_lane_ratio": parallel_lane_ratio,
-                        "p90_vehicle_speed": p90_speed,
-                        "num_crossing_candidates": crossing_cnt,
-                        "crossing_few": crossing_few,
-                    },
-                )
-            )
-        else:
-            road_label = "urban_road"
-            road_conf = 0.55
-            road_trace_items.append(
-                _make_trace(
-                    step="road_type",
-                    rule="default_urban_road",
-                    condition="else",
-                    result="urban_road",
-                    details={
-                        "parallel_lane_ratio": parallel_lane_ratio,
-                        "p90_vehicle_speed": p90_speed,
-                        "num_crossing_candidates": crossing_cnt,
-                        "num_merge_candidates": merge_cnt,
-                    },
-                )
-            )
 
     for it in road_trace_items:
         it.confidence = road_conf
