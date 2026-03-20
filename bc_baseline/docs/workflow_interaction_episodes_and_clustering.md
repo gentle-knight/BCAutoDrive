@@ -228,3 +228,5 @@ python -m scenarionet.sim -d legacy_magail/data/exp_filtered \
     --render 2D \
     --scenario_index <整数>
 ```
+
+更完整的脚本职责与规则推导（包含 `road_type` 划分依据）请参考：`bc_baseline/docs/scene_labeling_rule_based_v1.md`。
