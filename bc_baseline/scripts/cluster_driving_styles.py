@@ -18,8 +18,8 @@ cluster_driving_styles.py
   6: mean_speed_ratio   ego/partner 速度比
   7: relative_speed     ego 均值速度 - partner 均值速度
 
-聚类使用5维核心特征（indices [3,4,5,2,6]），排除信噪比低的全程均值
-和与 mean_speed_ratio 高度相关的 relative_speed。
+聚类使用 3 维核心特征（indices [3,5,6]）：response_mean_acc、mean_thw、
+mean_speed_ratio；并对物理不可能离群点做过滤后再聚类。
 
 支持两种模式：
   --mode elbow  : 测试 K=2~10，输出三联评估图（SSE/Silhouette/DBI）
@@ -88,23 +88,22 @@ ALL_FEATURE_NAMES: List[str] = [
     "relative_speed",
 ]
 
-# 聚类使用的特征列索引（5维核心特征）
-# 选择依据：
-#   - index 3 (response_mean_acc)：高风险时刻响应，最有风格区分力
-#   - index 4 (response_min_acc) ：峰值响应强度
-#   - index 5 (mean_thw)         ：跟车偏好，经典风格指标
-#   - index 2 (jerk_peak)        ：操作平顺性，不受路况影响
-#   - index 6 (mean_speed_ratio) ：相对速度倾向
-# 排除：
-#   - index 0 (mean_acc)         ：被 response_mean_acc 取代，全程均值信噪比低
-#   - index 1 (min_acc)          ：被 response_min_acc 取代
-#   - index 7 (relative_speed)   ：与 mean_speed_ratio 高度相关，保留比值更鲁棒
-CLUSTER_FEATURE_INDICES: List[int] = [3, 4, 5, 2, 6]
+# 聚类使用的特征列索引（3 维，降低 jerk/峰值等噪声敏感高阶量对 K-Means 的绑架）
+#   - index 3 (response_mean_acc)：博弈窗口内平均纵向响应
+#   - index 5 (mean_thw)           ：跟车时间距
+#   - index 6 (mean_speed_ratio) ：ego/partner 速度比
+CLUSTER_FEATURE_INDICES: List[int] = [3, 5, 6]
 CLUSTER_FEATURE_NAMES: List[str] = [
     ALL_FEATURE_NAMES[i] for i in CLUSTER_FEATURE_INDICES
 ]
-# 结果：["response_mean_acc", "response_min_acc", "mean_thw",
-#        "jerk_peak", "mean_speed_ratio"]
+
+# 物理边界过滤（全量 8 维矩阵上的列索引，在聚类前剔除不可能离群点）
+IDX_RESPONSE_MEAN_ACC = 3
+IDX_MEAN_SPEED_RATIO = 6
+RESPONSE_MEAN_ACC_MIN = -15.0
+RESPONSE_MEAN_ACC_MAX = 5.0
+MEAN_SPEED_RATIO_MIN = 0.0
+MEAN_SPEED_RATIO_MAX = 5.0
 
 
 def _normalize_feature_names(raw_feature_names: np.ndarray) -> List[str]:
@@ -217,53 +216,79 @@ def load_episode_data(
     return features, meta_list
 
 
+def filter_episodes_by_physical_bounds(
+    features: np.ndarray,
+    meta_list: List[Dict[str, Any]],
+) -> Tuple[np.ndarray, List[Dict[str, Any]], int]:
+    """
+    在聚类前剔除物理上不可能的离群点（避免绑架 K-Means）。
+    依据全量特征中的 response_mean_acc 与 mean_speed_ratio。
+    """
+    rma = features[:, IDX_RESPONSE_MEAN_ACC]
+    msr = features[:, IDX_MEAN_SPEED_RATIO]
+    mask = (
+        (rma >= RESPONSE_MEAN_ACC_MIN)
+        & (rma <= RESPONSE_MEAN_ACC_MAX)
+        & (msr >= MEAN_SPEED_RATIO_MIN)
+        & (msr <= MEAN_SPEED_RATIO_MAX)
+    )
+    keep = np.flatnonzero(mask)
+    n_drop = int(features.shape[0] - keep.size)
+    if n_drop == 0:
+        return features, meta_list, 0
+    features_f = features[keep]
+    meta_f = [meta_list[int(i)] for i in keep]
+    return features_f, meta_f, n_drop
+
+
 def get_cluster_features(features: np.ndarray) -> np.ndarray:
-    """从 8 维特征中取出 5 维聚类用特征。"""
+    """从 8 维特征中取出聚类用子矩阵（维度由 CLUSTER_FEATURE_INDICES 决定）。"""
     return features[:, CLUSTER_FEATURE_INDICES].astype(np.float64)
 
 
 def assign_semantic_labels(centers_physical: np.ndarray, k: int) -> List[str]:
     """
     根据聚类中心的相对排名分配语义标签，而非固定阈值。
-    使用相对排名而非绝对阈值，确保无论数据分布如何，
-    始终能分配出有区分力的语义标签。
+    路口博弈语义：
+      - conservative：response_mean_acc 偏小（制动）且 mean_speed_ratio 偏小（相对对手更慢）
+      - aggressive：response_mean_acc 偏正或趋近 0（少刹/加速）且 mean_speed_ratio 偏大（相对更快）
 
-    规则：
-      - response_mean_acc（centers_physical 第0列）最小的簇
-        → "conservative"（高风险时刻制动最强，最保守）
-      - response_mean_acc 最大的簇
-        → "aggressive"（高风险时刻不减速甚至加速，最激进）
-      - 其余中间簇按 mean_thw（centers_physical 第2列）从大到小排序：
-        → 若只有1个中间簇，标记为 "normal"
-        → 若有多个中间簇，标记为 "normal_1", "normal_2", ...
-          （_1 对应 mean_thw 最大的，即最谨慎的中间类）
+    实现：对第 0 列 rma、第 2 列 msr 分别做 0..K-1 升序秩，综合得分
+    rank_rma + rank_msr 最小者为 conservative，最大者为 aggressive；
+    其余中间簇按 mean_thw（第 1 列）从大到小标为 normal / normal_1, ...
 
     参数：
-      centers_physical: np.ndarray shape (K, 5)，反标准化后的聚类中心
-                        列顺序与 CLUSTER_FEATURE_NAMES 一致：
-                        [response_mean_acc, response_min_acc, mean_thw,
-                         jerk_peak, mean_speed_ratio]
+      centers_physical: shape (K, 3)，列顺序与 CLUSTER_FEATURE_NAMES 一致：
+                        [response_mean_acc, mean_thw, mean_speed_ratio]
       k: 簇数量
 
     返回：
-      List[str] 长度为 K，每个元素是对应 cluster 的语义标签
+      List[str] 长度为 K
     """
-    rma_values = centers_physical[:, 0]  # response_mean_acc
-    thw_values = centers_physical[:, 2]  # mean_thw
+    rma_values = centers_physical[:, 0]
+    thw_values = centers_physical[:, 1]
+    msr_values = centers_physical[:, 2]
 
-    # 按 response_mean_acc 从小到大排列簇索引
-    order = np.argsort(rma_values)
+    # 升序秩：rma/msr 越小秩越小 → 综合秩和最小 ≈ 最保守
+    rank_rma = np.argsort(np.argsort(rma_values))
+    rank_msr = np.argsort(np.argsort(msr_values))
+    composite = rank_rma.astype(np.float64) + rank_msr.astype(np.float64)
+
+    cons_idx = int(np.argmin(composite))
+    agg_idx = int(np.argmax(composite))
+    if cons_idx == agg_idx and k > 1:
+        order_rma = np.argsort(rma_values)
+        cons_idx = int(order_rma[0])
+        agg_idx = int(order_rma[-1])
 
     semantic = ["normal"] * k
-    semantic[order[0]] = "conservative"   # rma 最小 = 制动最强 = 最保守
-    semantic[order[-1]] = "aggressive"   # rma 最大 = 制动最弱 = 最激进
+    semantic[cons_idx] = "conservative"
+    semantic[agg_idx] = "aggressive"
 
-    # 处理中间簇
-    middle_indices = order[1:-1].tolist()
+    middle_indices = [i for i in range(k) if i not in (cons_idx, agg_idx)]
     if len(middle_indices) == 1:
         semantic[middle_indices[0]] = "normal"
     elif len(middle_indices) > 1:
-        # 按 mean_thw 从大到小排序（thw 大 = 跟车距离大 = 相对谨慎）
         middle_sorted = sorted(
             middle_indices,
             key=lambda i: thw_values[i],
@@ -371,9 +396,10 @@ def run_elbow_mode(
 
     best_sil_k = k_range[int(np.argmax(sil_list))]
     best_dbi_k = k_range[int(np.argmin(dbi_list))]
+    # 使用 ASCII 标题：默认 DejaVu Sans 不含中文字形，中文 suptitle 会触发大量 Glyph missing 警告
     fig.suptitle(
-        f"推荐 K = {best_sil_k}（Silhouette 最大）"
-        f" 或 K = {best_dbi_k}（DBI 最小）",
+        f"Suggested K = {best_sil_k} (max Silhouette) "
+        f"or K = {best_dbi_k} (min DBI)",
         fontsize=12,
         y=1.03,
     )
@@ -488,7 +514,7 @@ def run_cluster_mode(
         "========== Driving Style Cluster Report ==========",
         f"K = {k}",
         f"Total episodes = {len(meta_list)}",
-        f"Features used (5-dim): {CLUSTER_FEATURE_NAMES}",
+        f"Features used (3-dim): {CLUSTER_FEATURE_NAMES}",
         "",
     ]
     for c in range(k):
@@ -556,6 +582,15 @@ def main() -> None:
 
     print("[cluster_driving_styles] 加载 episode 特征与元信息...")
     features, meta_list = load_episode_data(args.features_path, args.meta_path)
+    features, meta_list, n_drop = filter_episodes_by_physical_bounds(
+        features, meta_list
+    )
+    if n_drop > 0:
+        print(
+            f"[cluster_driving_styles] 物理边界过滤剔除 {n_drop} 条 episode "
+            f"(response_mean_acc∈[{RESPONSE_MEAN_ACC_MIN},{RESPONSE_MEAN_ACC_MAX}], "
+            f"mean_speed_ratio∈[{MEAN_SPEED_RATIO_MIN},{MEAN_SPEED_RATIO_MAX}])"
+        )
     X = get_cluster_features(features)
     print(f"[cluster_driving_styles] 共 {X.shape[0]} 条 episode，聚类特征维度={X.shape[1]}")
 
