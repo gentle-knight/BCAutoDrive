@@ -166,7 +166,11 @@ python -m bc_baseline.scripts.visualize_bc \
 
 ### 5. 驾驶风格聚类（可选）
 
-用于对轨迹进行风格聚类，辅助后续分析或按风格训练：
+用于对轨迹进行风格聚类，辅助后续分析或按风格训练。**实现以** `bc_baseline/scripts/cluster_driving_styles.py` **为准**：
+
+- **聚类特征（3 维）**：从 8 维全量特征中取列索引 **3, 5, 6**，即 `response_mean_acc`、`mean_thw`、`mean_speed_ratio`（不纳入 `jerk_peak` 等对噪声敏感的高阶量）。
+- **聚类前过滤**：按 `response_mean_acc ∈ [-15, 5]`、`mean_speed_ratio ∈ [0, 5]` 剔除离群 episode（与 meta 同步缩减）；终端会打印剔除条数。
+- **语义标签**：对聚类中心上 `response_mean_acc` 与 `mean_speed_ratio` 的**秩和**取最小 → `conservative`，最大 → `aggressive`；其余中间簇按 `mean_thw` 标 `normal` / `normal_1` 等。详见 `docs/workflow_interaction_episodes_and_clustering.md` 第五节。
 
 ```bash
 # 需先提取 interaction episode 特征
@@ -195,7 +199,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 - mode cluster：
   - `style_labels.json`（{scenario_index: {track_id: cluster_label}}）
   - `episode_labels.json`（每条 episode 附加 `cluster_label` / `semantic_label`）
-  - `cluster_centers.json`（聚类中心物理值 + 语义标签）
+  - `cluster_centers.json`（**3 维**聚类中心物理值 + 语义标签）
   - `cluster_report.txt`（人类可读聚类报告）
 
 ### 6. 提取强交互 episodes（可选）

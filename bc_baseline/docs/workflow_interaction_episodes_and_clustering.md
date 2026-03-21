@@ -12,7 +12,7 @@ Waymo .pkl 场景
     → episode_features.npz + episode_meta.json
     → [2] visualize_episodes.py            可选：8 维特征分布直方图
     → [3] visualize_episode_trajectory.py  可选：单 episode 轨迹图（按 min_ttc/min_pet/jerk 等排序）
-    → [4] cluster_driving_styles.py       elbow 选 K → cluster 正式聚类
+    → [4] cluster_driving_styles.py       elbow 选 K → cluster 正式聚类（3 维特征 + 物理过滤，见第五节）
     → style_labels.json、episode_labels.json、cluster_centers.json、cluster_report.txt
     → 后续：按风格标签筛选/分析 episode，或用于 IRL 等
 ```
@@ -123,19 +123,32 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 
 **依赖**：必须先有 `episode_features.npz` 和 `episode_meta.json`（即先完成步骤 1），且 npz 中需包含 `feature_names` 并与脚本内定义的 8 维顺序一致。
 
-### 5.1 聚类用特征（5 维）
+### 5.1 聚类用特征（3 维）
 
-聚类时**不是**用全部 8 维，而是用 5 维核心特征（索引 3,4,5,2,6）：
+聚类时**不是**用全部 8 维，而是用 **3 维核心特征**（与 `cluster_driving_styles.py` 中 `CLUSTER_FEATURE_INDICES = [3, 5, 6]` 一致）：
 
-- response_mean_acc、response_min_acc、mean_thw、jerk_peak、mean_speed_ratio  
+| 全量列索引 | 名称 | 含义 |
+|-----------|------|------|
+| 3 | response_mean_acc | 博弈响应窗口内平均纵向加速度 |
+| 5 | mean_thw | 平均跟车时间距 |
+| 6 | mean_speed_ratio | ego/partner 速度比 |
 
-排除：mean_acc、min_acc（由 response 系列取代）、relative_speed（与 mean_speed_ratio 高度相关）。
+**不纳入聚类**：`jerk_peak`、`response_min_acc` 等对感知噪声敏感的高阶量，以及全程 `mean_acc` / `min_acc`、`relative_speed` 等，避免异常峰值绑架 K-Means。
 
-### 5.2 两种运行模式
+### 5.2 聚类前物理边界过滤
+
+在提取聚类子矩阵并做 `StandardScaler` 之前，脚本会按**全量特征**中的两列对 episode **整行剔除**（`features` 行与 `episode_meta.json` 条目同步减少）：
+
+- `response_mean_acc`（列 3）∈ **[-15.0, 5.0]**
+- `mean_speed_ratio`（列 6）∈ **[0.0, 5.0]**
+
+超出上述物理合理区间的样本不参与肘部法与正式聚类，终端会打印剔除条数。
+
+### 5.3 两种运行模式
 
 **（1）Elbow 模式**：用于选聚类数 K。
 
-- 对 K=2～10 分别做 K-Means（特征先 StandardScaler），计算 SSE、Silhouette、DBI。
+- 对 K=2～10 分别做 K-Means（**3 维**特征先 `StandardScaler`），计算 SSE、Silhouette、DBI。
 - 输出：`elbow_analysis.png`（三联图）、`elbow_table.csv`（K 与三指标表格）。  
   根据 Silhouette 最大或 DBI 最小等确定一个合适的 K。
 
@@ -144,12 +157,15 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 - 输出：
   - **style_labels.json**：结构为 `{scenario_index: {track_id: cluster_label}}`。同一辆车若有多个 episode，先得到多个标签，再按**众数**确定该车的风格标签；平票时用 min_ttc 最小的那条 episode 的标签代表该车。
   - **episode_labels.json**：在每条 episode 的 meta 上附加 `cluster_label` 和 `semantic_label`（如 conservative / normal / aggressive）。
-  - **cluster_centers.json**：各簇中心在 5 维上的物理值及语义标签。
+  - **cluster_centers.json**：各簇中心在 **3 维**上的物理值（列顺序与上表一致）及语义标签。
   - **cluster_report.txt**：每簇样本数、中心、语义标签，以及“同一车多 episode 标签一致率”等简要分析。
 
-语义标签规则（由聚类中心相对大小自动分配）：response_mean_acc 最小的簇标为 conservative，最大的标为 aggressive，中间按 mean_thw 再细分为 normal / normal_1 / normal_2 等。
+**语义标签规则**（由聚类中心**相对排名**自动分配，与脚本 `assign_semantic_labels` 一致）：
 
-### 5.3 常用命令示例
+- **conservative** / **aggressive**：对反标准化后的中心，取第 0 列 `response_mean_acc` 与第 2 列 `mean_speed_ratio` 分别做升序秩（0…K−1），计算 **秩和** `rank_rma + rank_msr`。**秩和最小**的簇标为 conservative（相对更偏制动且相对对手更慢），**秩和最大**的簇标为 aggressive（相对更偏少刹/加速且相对更快）。若二者索引冲突（极少见），则回退为仅按 `response_mean_acc` 最小/最大两簇区分。
+- **中间簇**（K>2 时）：其余簇按 **mean_thw**（中心第 1 列）从大到小标为 `normal` 或 `normal_1`、`normal_2`、…
+
+### 5.4 常用命令示例
 
 ```bash
 # 选 K
