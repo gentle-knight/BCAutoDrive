@@ -262,6 +262,8 @@ python -m bc_baseline.scripts.visualize_episode_trajectory \
 用于对 ScenarioNet（Waymo Motion 转换后）场景自动打标签，并输出：
 `scene_labels.json`、`scene_features.csv`、`review_samples.json`（便于人工复核）。
 
+规则实现与默认阈值见 `bc_baseline/scene_labeling/scene_rules.py`；**完整原理与 `road_type` 优先级说明**见 [`bc_baseline/docs/scene_labeling_rule_based_v1.md`](docs/scene_labeling_rule_based_v1.md)（含地图 + 控制类型 + 轨迹融合、`freeway` 弱化 `p90` 硬依赖等）。
+
 ```bash
 python -m bc_baseline.scene_labeling.label_scenes \
     --input legacy_magail/data/exp_filtered/ \

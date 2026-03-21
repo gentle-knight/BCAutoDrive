@@ -203,7 +203,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 ---
 ## 八、规则型场景标签器（Scene Labeling v1，可选）
 
-如果你还希望在“全场景层面”对地图/交通控制/交互类型进行可解释标签（输出 `scene_labels.json`、`scene_features.csv`、`review_samples.json`），可以运行：
+如果你还希望在“全场景层面”对地图/交通控制/交互类型进行可解释标签（输出 `scene_labels.json`、`scene_features.csv`、`review_samples.json`），可执行：
 
 ```bash
 python -m bc_baseline.scene_labeling.label_scenes \
@@ -212,6 +212,8 @@ python -m bc_baseline.scene_labeling.label_scenes \
     --samples_per_class 20 \
     --seed 42
 ```
+
+当前 `road_type` 已融合 **地图特征**（如人行横道、stop sign）、**控制类型**（如 `signalized`）与 **轨迹 proxy**；`freeway` 判定不再强依赖 `p90_vehicle_speed`（拥堵场景下仍可能为高速，详见下文文档）。`mixed` 交互类型需同时命中更多子规则（默认 `mixed_min_hit_count = 3`）。
 
 随后你可以用 `review_samples.json` 做人工抽样复核。若需要把某个 `scene_id` 用 `scenarionet.sim` 渲染，请先把 `scene_id` 转为整数 `--scenario_index`：
 

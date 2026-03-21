@@ -2,6 +2,8 @@
 
 本文档对应代码目录 `bc_baseline/scene_labeling/`，用于说明这里所有脚本的作用、关键计算原理，并重点解释**道路类型 `road_type` 的划分依据**。
 
+**规则版本说明**：`road_type` 已融合 `map_parser` 的地图特征（如 `num_crosswalks`、`num_stop_signs`）与已判定的 `control_type`（如 `signalized`），并与轨迹 proxy（`parallel_lane_ratio`、`num_crossing_candidates`、`num_merge_candidates` 等）按固定优先级判定；`freeway` **不再**用 `p90_vehicle_speed` 做硬阈值（拥堵高速仍可判为 freeway）。具体见第 8 节。
+
 ---
 
 ## 0) 你会用到什么（新手速览）
@@ -9,7 +11,7 @@
 这套“规则型场景标签器”会把每个场景（`scene_id`）打上三个标签：
 
 - `control_type`：是 `none / stop_controlled / signalized` 里的哪一种（来自地图里的动态车道状态或 stop sign 数量）
-- `road_type`：是 `freeway / urban_road / merge_ramp / intersection` 里的哪一种（来自轨迹几何统计：并行性、路口冲突 proxy、merge proxy）
+- `road_type`：是 `freeway / urban_road / merge_ramp / intersection` 里的哪一种（**地图特征 + 控制类型 + 轨迹几何统计**融合：人行横道/stop sign/信号灯、并行性、路口冲突 proxy、merge proxy 等）
 - `interaction_type`：是 `following / lane_change / merge / crossing_conflict / turning_conflict / mixed` 里的哪一种（来自轨迹交互候选）
 
 你最终会得到三个落盘文件（默认输出路径见第 3 节）：
@@ -116,7 +118,7 @@ python -m bc_baseline.scene_labeling.export_labeled_subsets \
 ### 3.5 你如何“读懂输出文件”（建议新手先做）
 
 1) 打开 `scene_labels.json`，挑一个你关心的 `scene_id`：先找到 `road_type.label` 看最终类别，再在对应的 `rule_trace` 里确认触发顺序与触发条件（代码是按 `control_type -> road_type -> interaction_type` 依次执行的）。
-2) 用 `scene_features.csv` 核对该 `scene_id` 的关键特征值：`num_crossing_candidates / num_merge_candidates / parallel_lane_ratio / p90_vehicle_speed`。
+2) 用 `scene_features.csv` 核对该 `scene_id` 的关键特征值：`num_crosswalks / num_stop_signs / num_crossing_candidates / num_merge_candidates / parallel_lane_ratio / p90_vehicle_speed`（并与 `scene_labels.json` 里 `control_type` 对照）。
 3) 如果最终类别和你的直觉不一致：先看 `rule_trace` 是否被 `intersection` 的优先级截断（因为 intersection 是最高优先级），再回到 `track_parser.py` 检查 crossing/merge 的 proxy 计数逻辑（第 8 节详细讲）。
 
 ---
@@ -201,7 +203,7 @@ lane-change 的近似依据（核心思想）：
 ### 5.5 速度与航向统计（给 road_type 用的关键特征之一）
 
 - `mean_vehicle_speed`：所有 moving vehicle 的速度均值
-- `p90_vehicle_speed`：所有 moving vehicle 的速度 90 分位数（Road_type freeway 判断会用）
+- `p90_vehicle_speed`：所有 moving vehicle 的速度 90 分位数（**当前规则下 freeway 不做硬阈值**；仅作为 `freeway` 置信度的软参考，避免拥堵时因低速误判为 `urban_road`）
 - `heading_dispersion`：所有 moving vehicle 的航向样本做圆周标准差（`circular_std`）
 
 ### 5.6 parallel_lane_ratio（给 road_type 用的关键特征之一）
@@ -249,30 +251,66 @@ lane-change 的近似依据（核心思想）：
 
 并为每个步骤生成可解释的 `rule_trace` 条目（`step / rule / condition / result / details / confidence`）。
 
-阈值都集中在 `LabelingConfig`，文档后面单独列出 road_type 相关参数。
+阈值都集中在 `LabelingConfig`（见第 11 节）；`road_type` 融合地图与轨迹特征，详见第 8 节。
 
 ---
 
-## 8) 重点：`road_type` 划分依据（intersection / merge_ramp / freeway / urban_road）
+## 8) 重点：`road_type` 划分依据（intersection / freeway / merge_ramp / urban_road）
 
-`road_type` 是一个“规则打分 + 明确优先级”的分类器。它只看 `SceneFeatures` 里几个字段，并且按下面顺序做判定（这是最重要的部分：**先命中谁就直接定类**，不会再看后面的条件）：
+`road_type` 在 `scene_rules.label_scene()` 中按**固定优先级**判定：**先命中谁就直接定类**，后续分支不再执行。顺序为：
 
-1. 命中 `intersection`（路口）
-   - 触发条件：`num_crossing_candidates >= crossing_candidates_high`（默认 `>= 5`）
-2. 否则命中 `merge_ramp`（并入/匝道）
-   - 触发条件：`num_merge_candidates >= merge_candidates_high`（默认 `>= 3`）
-3. 否则命中 `freeway`（高速并行道路）
-   - 触发条件需要同时满足：
-     - `parallel_lane_ratio >= parallel_lane_ratio_threshold`（默认 `>= 0.65`）
-     - `p90_vehicle_speed >= p90_vehicle_speed_threshold`（默认 `>= 18.0`，单位 m/s）
-     - `num_crossing_candidates <= crossing_candidates_few`（默认 `<= 1`，即路口冲突 proxy 不要多）
-4. 否则落到 `urban_road`（城市一般道路）
+`intersection → freeway → merge_ramp → urban_road`（兜底）。
 
-### 8.1 每个字段（上面的特征）在代码里怎么来的
+### 8.0 四类判定的触发条件（与代码一致）
 
-下面把 `road_type` 需要的 4 个特征，逐个对应到具体代码/计算逻辑。
+**优先级 1：`intersection`（路口）**  
+满足以下**任意一项**即判为路口：
 
-#### 8.1.1 `num_crossing_candidates`（路口冲突 proxy）
+- `num_crosswalks > 0`（地图中存在人行横道）
+- `num_stop_signs > 0`（地图中存在 stop sign；注意：`control_type` 可能为 `stop_controlled`）
+- `control_type == signalized`（动态车道状态/信号灯有效，由 `has_dynamic_lane_state` 触发）
+- `num_crossing_candidates >= crossing_candidates_high`（默认 `>= 2`，轨迹 crossing proxy）
+
+**优先级 2：`freeway`（高速/快速路）**  
+在**未**命中 intersection 的前提下，须**同时**满足：
+
+- `parallel_lane_ratio >= parallel_lane_ratio_threshold`（默认 `>= 0.70`）
+- `num_crosswalks == 0`，且 `control_type` 不为 `signalized`（避免与路口类地图/控制冲突）
+- `num_crossing_candidates <= crossing_candidates_few`（默认 `<= 1`）
+
+**不再**要求 `p90_vehicle_speed` 达到某阈值；`p90_vehicle_speed` 仅用于 **freeway 置信度**的软加权（与 `parallel_lane_ratio` 一起映射），以缓解拥堵场景下高速被误判为 `urban_road` 的问题。
+
+**优先级 3：`merge_ramp`（匝道汇入）**  
+在**未**命中 intersection、freeway 的前提下：
+
+- `num_merge_candidates >= merge_candidates_high`（默认 `>= 1`）
+
+**优先级 4：`urban_road`（城市道路，兜底）**  
+以上条件均不满足。
+
+### 8.1 `rule_trace` 如何体现新规则
+
+在 `scene_labels.json` 中，`road_type.rule_trace` 会记录命中的规则名与 `details`：
+
+- **intersection**：`rule` 多为 `intersection_by_map_control_or_crossing_proxy`；`details.trigger_reasons` 为字符串列表，标明是 `num_crosswalks > 0`、`num_stop_signs > 0`、`control_type == signalized` 还是 `num_crossing_candidates >= crossing_candidates_high` 等触发的。
+- **freeway**：`rule` 多为 `freeway_by_parallel_lane_no_crosswalk_no_signal_and_crossing_few`；`details` 含 `lane_strength`、`speed_strength_soft`、`p90_vehicle_speed` 等，便于核对置信度来源。
+
+### 8.2 每个字段在代码里怎么来的
+
+下面把 `road_type` 用到的主要特征，对应到具体模块/计算逻辑。
+
+#### 8.2.1 `num_crosswalks` / `num_stop_signs`（地图证据）
+
+来源：`map_parser.extract_map_features()`，分别统计 `map_features` 中 `type == CROSSWALK` 与 `type == STOP_SIGN` 的条目数。
+
+用于 **intersection** 的强证据；同时 **freeway** 要求 `num_crosswalks == 0`，减少“路口区域”被标成高速。
+
+#### 8.2.2 `control_type == signalized`
+
+来源：`scene_rules` 先于 `road_type` 判定：若 `has_dynamic_lane_state` 为真，则 `control_type` 为 `signalized`。  
+用于 **intersection**（信号灯路口倾向）；**freeway** 要求非 `signalized`，与 `num_crosswalks == 0` 一起约束。
+
+#### 8.2.3 `num_crossing_candidates`（路口冲突 proxy）
 
 来源：`track_parser.extract_track_features()` 中 pairwise 车辆对统计变量 `crossing_cands`。
 
@@ -288,7 +326,7 @@ lane-change 的近似依据（核心思想）：
 
 > 直觉理解：它不是直接看“路口几何”，而是用“最近接近时刻的相对航向是否接近交叉（大概 90 度）”来做 proxy。
 
-#### 8.1.2 `num_merge_candidates`（并入/变道 merge proxy）
+#### 8.2.4 `num_merge_candidates`（并入/变道 merge proxy）
 
 来源：`track_parser.extract_track_features()` 对每辆 moving vehicle 计算 `merge_candidate_count`。
 
@@ -308,7 +346,7 @@ lane_merge_score 的关键判断条件（默认阈值）：
 
 > 直觉理解：它不是检测真实的匝道几何，而是检测“侧向移动范围 + 侧向趋势 + 航向变化是否符合并入机理”的 proxy。
 
-#### 8.1.3 `parallel_lane_ratio`（并行/同向的一致性比例）
+#### 8.2.5 `parallel_lane_ratio`（并行/同向的一致性比例）
 
 来源：`track_parser` 从所有 moving vehicle 收集航向样本后计算。
 
@@ -318,24 +356,26 @@ lane_merge_score 的关键判断条件（默认阈值）：
 2. 计算圆周均值航向 `mean_angle`（用圆周统计，避免角度跨越导致的均值错误）
 3. 统计满足 `|wrap(angles - mean_angle)| <= parallel_heading_window_rad`（默认 `10 deg`）的样本比例
 
-比例越高说明整体交通流更“同向并行”，因此更像 freeway。
+比例越高说明整体交通流更“同向并行”，是 **freeway** 的主证据之一。
 
-#### 8.1.4 `p90_vehicle_speed`（高速的速度证据）
+#### 8.2.6 `p90_vehicle_speed`（拥堵下仍可能为高速时的软证据）
 
-来源：`track_parser` 对所有 moving vehicles 的速度（在有效帧上取范数）求 90 分位数。
+来源：`track_parser` 对所有 moving vehicles 的速度（在有效帧上取范数）求 90 分位数，写入 `scene_features["p90_vehicle_speed"]`。
 
-最后把它作为 `scene_features["p90_vehicle_speed"]`。
+**当前规则**：不用于 freeway 的硬判定；在命中 freeway 分支时，与 `parallel_lane_ratio` 相对阈值一起做加权，映射到置信度（`lane` 权重大、`speed` 权重小）。
 
 ---
 
-### 8.2 confidence（置信度）如何产生（理解即可，不影响类别）
+### 8.3 confidence（置信度）如何产生（理解即可，不改变类别）
 
-`road_type` 的类别由上面的阈值“命中”决定；置信度只是为了表示“命中的强弱”。
+`road_type` 的**类别**由第 8.0 节的硬条件决定；**置信度**表示命中强弱或软证据叠加。
 
-- `intersection/merge_ramp/freeway`：置信度来自命中强度 `hit_strength` 的非线性映射（`_confidence_from_hit_strength`，本质是 `1 - exp(-hit_strength)` 并裁剪到 `[0,1]`）
-- `urban_road`：不满足前三类条件时，固定给较低置信度（默认 `0.55`）
+- `intersection`：综合地图证据、是否 `signalized`、以及 `num_crossing_candidates` 相对 `crossing_candidates_high` 的强度。
+- `freeway`：主要由 `parallel_lane_ratio` 相对阈值决定强度，`p90_vehicle_speed` 仅轻量参与软映射。
+- `merge_ramp`：与 `num_merge_candidates` 相对 `merge_candidates_high` 的强度相关。
+- `urban_road`：兜底时固定较低置信度（默认约 `0.55`）。
 
-> 你可以把它当作可解释的“软指标”：`road_type` 类别看硬规则，confidence 只是额外信息。
+映射函数仍为 `_confidence_from_hit_strength`（本质是 `1 - exp(-hit_strength)` 并裁剪到 `[0,1]`）。
 
 ---
 
@@ -348,7 +388,7 @@ lane_merge_score 的关键判断条件（默认阈值）：
 - `merge`：merge_candidates 足够多，且 crossing 候选不多
 - `crossing_conflict`：crossing_candidates 足够多
 - `turning_conflict`：turning_tracks 足够多，且 `mean_min_ttc` 不大（更危险）
-- `mixed`：如果满足的命中规则数达到 `mixed_min_hit_count (2)`，则标记为 mixed；否则按强命中顺序选单一规则，否则默认 `following`
+- `mixed`：如果满足的命中规则数达到 `mixed_min_hit_count`（默认 `3`），则标记为 mixed；否则按强命中顺序选单一规则，否则默认 `following`
 
 ---
 
@@ -375,15 +415,21 @@ lane_merge_score 的关键判断条件（默认阈值）：
 
 ---
 
-## 11) road_type 相关参数一览（可调参入口）
+## 11) road_type / mixed 相关参数一览（`LabelingConfig`，可调参入口）
 
-`LabelingConfig` 中 road_type 直接使用的阈值：
+`bc_baseline/scene_labeling/scene_rules.py` 中 `LabelingConfig` 与当前 `road_type`、`interaction_type` 相关的默认值如下（以代码为准）：
 
-- `crossing_candidates_high = 5`（intersection）
-- `merge_candidates_high = 3`（merge_ramp）
-- `parallel_lane_ratio_threshold = 0.65`（freeway 条件）
-- `p90_vehicle_speed_threshold = 18.0`（freeway 条件，单位 m/s）
-- `crossing_candidates_few = 1`（freeway 条件：crossing 不要太多）
+**road_type**
 
-如需调整道路划分粗细程度，通常优先调这几个阈值；同时也建议你同步检查 `track_parser` 中 crossing/merge 的生成逻辑是否符合你的直觉标注口径。
+- `crossing_candidates_high = 2`：intersection 的轨迹 crossing proxy 下限（与地图/控制证据为“或”关系）
+- `merge_candidates_high = 1`：merge_ramp
+- `parallel_lane_ratio_threshold = 0.70`：freeway 主条件之一
+- `p90_vehicle_speed_threshold = 12.0`（m/s）：**仅作 freeway 置信度软参考**，不做硬阈值
+- `crossing_candidates_few = 1`：freeway 要求 crossing proxy 不超过该值
+
+**interaction_type（mixed）**
+
+- `mixed_min_hit_count = 3`：同时命中的交互子规则数达到该值才标为 `mixed`
+
+如需调整道路划分粗细程度，建议先调 `crossing_candidates_high`、`parallel_lane_ratio_threshold`、`merge_candidates_high`，并抽查 `scene_labels.json` 中 `road_type.rule_trace.details`；同时可对照 `track_parser` 中 crossing/merge 的生成逻辑是否符合标注口径。
 

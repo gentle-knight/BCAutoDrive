@@ -2,6 +2,11 @@
 
 本目录包含一套“规则型、可解释”的场景标签流程，面向 ScenarioNet（Waymo Motion 转换后）数据。
 
+**规则与阈值以代码为准**：`scene_rules.py` 中的 `LabelingConfig` + `label_scene()`。  
+**完整说明文档**（脚本职责、`road_type`/`interaction_type` 判定、`rule_trace` 含义、默认阈值）：[`bc_baseline/docs/scene_labeling_rule_based_v1.md`](../docs/scene_labeling_rule_based_v1.md)。
+
+**`road_type` 要点（摘要）**：融合地图特征（如 `num_crosswalks`、`num_stop_signs`）、`control_type`（如 `signalized`）与轨迹 proxy；优先级为 `intersection → freeway → merge_ramp → urban_road`；`freeway` 不再用 `p90_vehicle_speed` 做硬阈值（拥堵高速仍可判为 freeway，速度仅影响置信度）。
+
 核心输出：
 - `scene_labels.json`：每个 `scene_id` 的 `control_type / road_type / interaction_type` 标签 + `rule_trace`
 - `scene_features.csv`：每个 `scene_id` 的特征证据（用于调阈值/排查）
