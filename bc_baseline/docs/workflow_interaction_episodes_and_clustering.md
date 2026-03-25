@@ -12,7 +12,7 @@ Waymo .pkl 场景
     → episode_features.npz + episode_meta.json
     → [2] visualize_episodes.py            可选：8 维特征分布直方图
     → [3] visualize_episode_trajectory.py  可选：单 episode 轨迹图（按 min_ttc/min_pet/jerk 等排序）
-    → [4] cluster_driving_styles.py       elbow 选 K → cluster 正式聚类（3 维特征 + 物理过滤，见第五节）
+    → [4] cluster_driving_styles.py       elbow 选 K → cluster 正式聚类（8 维特征 + 物理过滤，见第五节）
     → style_labels.json、episode_labels.json、cluster_centers.json、cluster_report.txt
     → 后续：按风格标签筛选/分析 episode，或用于 IRL 等
 ```
@@ -49,18 +49,22 @@ Waymo .pkl 场景
 
 因此，**一个 episode = 一个 (ego, partner, 时间窗)**，对应一段“有风险峰值”的交互。
 
-### 2.3 8 维特征含义（仅描述 ego 行为，不含 min_ttc/min_pet）
+### 2.3 8 维特征含义
+
+**v2（`--feature_schema v2`，默认）**：在 episode 时间窗内，对 ego **合速度**及其由连续帧差分得到的**加速度**分别计算 mean / max / min / std（m/s 与 m/s²）。
 
 | 索引 | 名称 | 含义 |
 |------|------|------|
-| 0 | mean_acc | 窗口内纵向加速度均值 |
-| 1 | min_acc | 窗口内最大制动（最小加速度） |
-| 2 | jerk_peak | 窗口内 jerk 峰值绝对值 |
-| 3 | response_mean_acc | t_peak 前后小窗口内平均加速度（风险时刻响应） |
-| 4 | response_min_acc | t_peak 前后小窗口内最小加速度 |
-| 5 | mean_thw | 窗口内平均跟车时间距（距离/ego 速度） |
-| 6 | mean_speed_ratio | ego 与 partner 速度比均值 |
-| 7 | relative_speed | ego 平均速度 − partner 平均速度 |
+| 0 | speed_mean | 速度均值 |
+| 1 | speed_max | 速度最大值 |
+| 2 | speed_min | 速度最小值 |
+| 3 | speed_std | 速度标准差 |
+| 4 | acc_mean | 加速度均值 |
+| 5 | acc_max | 加速度最大值 |
+| 6 | acc_min | 加速度最小值 |
+| 7 | acc_std | 加速度标准差 |
+
+**v1（`--feature_schema v1`）**：原行为特征（mean_acc、min_acc、jerk_peak、response_mean_acc、response_min_acc、mean_thw、mean_speed_ratio、relative_speed），详见仓库中 `interaction_feature_schema.py` 与旧版文档说明。
 
 **min_ttc、min_pet** 只写入 **episode_meta.json**，不进入特征矩阵，用于标记交互强度与后续排序/筛选。
 
@@ -74,7 +78,14 @@ Waymo .pkl 场景
 - **episode_meta.json**  
   长度为 N 的列表，第 i 条对应第 i 行 features，字段包括：scenario_index, ego_track_id, partner_track_id, t_peak, t_start, t_end, min_ttc, min_pet。
 
-### 2.5 常用命令示例
+### 2.5 特征 schema 可选：`--feature_schema v1|v2`
+
+- **v1**（`interaction_episode_v1`）：原 8 维行为/交互统计（mean_acc、jerk_peak、response_*、mean_thw 等），与早期聚类脚本一致。
+- **v2**（`interaction_episode_v2`，默认）：ego 速度与加速度的 mean/max/min/std 共 8 维。
+
+提取与下游聚类、可视化须使用**同一** schema；列定义见 `bc_baseline/scripts/interaction_feature_schema.py`。
+
+### 2.6 常用命令示例
 
 ```bash
 python -m bc_baseline.scripts.extract_interaction_episodes \
@@ -85,6 +96,7 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
     --ttc_threshold 5.0 \
     --window_seconds 3.0 \
     --min_episode_frames 10 \
+    --feature_schema v2 \
     --output_dir bc_baseline/outputs/interaction_episodes
 ```
 
@@ -107,13 +119,13 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 
 **脚本**：`bc_baseline/scripts/visualize_episode_trajectory.py`
 
-**作用**：按某种规则（如 min_ttc 最小、min_pet 最小、jerk_peak 最大，或随机）选出若干 episode，对**每一个**在二维平面画出 ego 与 partner 在 [t_start, t_end] 内的轨迹，并标出 **t_peak** 位置及该 episode 的 8 维特征数值。
+**作用**：按某种规则（如 min_ttc 最小、min_pet 最小、acc_std 最大，或随机）选出若干 episode，对**每一个**在二维平面画出 ego 与 partner 在 [t_start, t_end] 内的轨迹，并标出 **t_peak** 位置及该 episode 的 8 维特征数值。
 
 - **依赖 Waymo 场景**：需要能通过 `BCExpertEnv` 加载对应 scenario_index 的 .pkl，以便读取轨迹位置。
-- 输入：`--waymo_dir`、`--meta`（episode_meta.json）、`--features`（episode_features.npz）、`--n`（选几个）、`--sort_by`（min_ttc / min_pet / jerk_peak / random）、`--output_dir`。
+- 输入：`--waymo_dir`、`--meta`（episode_meta.json）、`--features`（episode_features.npz）、`--n`（选几个）、`--sort_by`（min_ttc / min_pet / acc_std / random）、`--output_dir`。
 - 输出：多张 PNG，如 `rank000_ep123.png`，表示按排序规则选出的第 0 个 episode（全局第 123 条）的轨迹图。
 
-用途：人工查看“最危险”（min_ttc 小）或“最不平顺”（jerk 大）的片段，核对提取与特征是否合理。
+用途：人工查看“最危险”（min_ttc 小）或“纵向加速度波动大”（acc_std 大）的片段，核对提取与特征是否合理。
 
 ---
 
@@ -121,34 +133,22 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 
 **脚本**：`bc_baseline/scripts/cluster_driving_styles.py`
 
-**依赖**：必须先有 `episode_features.npz` 和 `episode_meta.json`（即先完成步骤 1），且 npz 中需包含 `feature_names` 并与脚本内定义的 8 维顺序一致。
+**依赖**：必须先有 `episode_features.npz` 和 `episode_meta.json`（即先完成步骤 1），且 npz 中 `feature_names` 与聚类时的 **`--feature_schema`** 一致。
 
-### 5.1 聚类用特征（3 维）
+### 5.1 聚类用特征（由 `--feature_schema` 决定）
 
-聚类时**不是**用全部 8 维，而是用 **3 维核心特征**（与 `cluster_driving_styles.py` 中 `CLUSTER_FEATURE_INDICES = [3, 5, 6]` 一致）：
-
-| 全量列索引 | 名称 | 含义 |
-|-----------|------|------|
-| 3 | response_mean_acc | 博弈响应窗口内平均纵向加速度 |
-| 5 | mean_thw | 平均跟车时间距 |
-| 6 | mean_speed_ratio | ego/partner 速度比 |
-
-**不纳入聚类**：`jerk_peak`、`response_min_acc` 等对感知噪声敏感的高阶量，以及全程 `mean_acc` / `min_acc`、`relative_speed` 等，避免异常峰值绑架 K-Means。
+- **v2**：使用全部 8 维（速度/加速度统计），列索引 `0…7`。
+- **v1**：使用子空间列 **3、5、6**（`response_mean_acc`、`mean_thw`、`mean_speed_ratio`），与旧版默认一致。
 
 ### 5.2 聚类前物理边界过滤
 
-在提取聚类子矩阵并做 `StandardScaler` 之前，脚本会按**全量特征**中的两列对 episode **整行剔除**（`features` 行与 `episode_meta.json` 条目同步减少）：
-
-- `response_mean_acc`（列 3）∈ **[-15.0, 5.0]**
-- `mean_speed_ratio`（列 6）∈ **[0.0, 5.0]**
-
-超出上述物理合理区间的样本不参与肘部法与正式聚类，终端会打印剔除条数。
+在 `StandardScaler` 之前按 schema 过滤（行与 meta 同步剔除）：**v1** 为 `response_mean_acc`、`mean_speed_ratio` 区间；**v2** 为 8 维速度与加速度统计的宽松区间（见 `cluster_driving_styles.py`）。终端会打印剔除条数。
 
 ### 5.3 两种运行模式
 
 **（1）Elbow 模式**：用于选聚类数 K。
 
-- 对 K=2～10 分别做 K-Means（**3 维**特征先 `StandardScaler`），计算 SSE、Silhouette、DBI。
+- 对 K=2～10 分别做 K-Means（选定子空间先 `StandardScaler`），计算 SSE、Silhouette、DBI。
 - 输出：`elbow_analysis.png`（三联图）、`elbow_table.csv`（K 与三指标表格）。  
   根据 Silhouette 最大或 DBI 最小等确定一个合适的 K。
 
@@ -157,21 +157,22 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 - 输出：
   - **style_labels.json**：结构为 `{scenario_index: {track_id: cluster_label}}`。同一辆车若有多个 episode，先得到多个标签，再按**众数**确定该车的风格标签；平票时用 min_ttc 最小的那条 episode 的标签代表该车。
   - **episode_labels.json**：在每条 episode 的 meta 上附加 `cluster_label` 和 `semantic_label`（如 conservative / normal / aggressive）。
-  - **cluster_centers.json**：各簇中心在 **3 维**上的物理值（列顺序与上表一致）及语义标签。
+  - **cluster_centers.json**：各簇中心在**聚类子空间**上的物理值及语义标签（v2 为 8 维，v1 为 3 维）。
   - **cluster_report.txt**：每簇样本数、中心、语义标签，以及“同一车多 episode 标签一致率”等简要分析。
 
-**语义标签规则**（由聚类中心**相对排名**自动分配，与脚本 `assign_semantic_labels` 一致）：
+**语义标签规则**（与脚本 `assign_semantic_labels` 一致）：
 
-- **conservative** / **aggressive**：对反标准化后的中心，取第 0 列 `response_mean_acc` 与第 2 列 `mean_speed_ratio` 分别做升序秩（0…K−1），计算 **秩和** `rank_rma + rank_msr`。**秩和最小**的簇标为 conservative（相对更偏制动且相对对手更慢），**秩和最大**的簇标为 aggressive（相对更偏少刹/加速且相对更快）。若二者索引冲突（极少见），则回退为仅按 `response_mean_acc` 最小/最大两簇区分。
-- **中间簇**（K>2 时）：其余簇按 **mean_thw**（中心第 1 列）从大到小标为 `normal` 或 `normal_1`、`normal_2`、…
+- **v2**：`speed_mean` 与 `acc_mean` 秩和最小/最大 → conservative / aggressive；中间簇按 `acc_std` 排序。
+- **v1**：`response_mean_acc` 与 `mean_speed_ratio` 秩和最小/最大 → conservative / aggressive；中间簇按 `mean_thw` 排序。
 
 ### 5.4 常用命令示例
 
 ```bash
-# 选 K
+# 选 K（与 npz 同为 v2）
 python -m bc_baseline.scripts.cluster_driving_styles \
     --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
     --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
+    --feature_schema v2 \
     --mode elbow \
     --output_dir bc_baseline/outputs/driving_style
 
@@ -179,6 +180,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 python -m bc_baseline.scripts.cluster_driving_styles \
     --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
     --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
+    --feature_schema v2 \
     --mode cluster --k 4 \
     --output_dir bc_baseline/outputs/driving_style
 ```
@@ -206,7 +208,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
    运行 `visualize_episodes.py`，对 8 维特征画直方图，检查分布与量纲。
 
 3. **单 Episode 轨迹可视化（可选）**  
-   运行 `visualize_episode_trajectory.py`，按 min_ttc / min_pet / jerk_peak 或随机选取若干 episode，在二维平面画出 ego 与 partner 轨迹并标出 t_peak 与特征值，用于定性检查。
+   运行 `visualize_episode_trajectory.py`，按 min_ttc / min_pet / acc_std 或随机选取若干 episode，在二维平面画出 ego 与 partner 轨迹并标出 t_peak 与特征值，用于定性检查。
 
 4. **聚类**  
    先运行 `cluster_driving_styles.py --mode elbow` 选 K，再 `--mode cluster --k K` 得到 style_labels、episode_labels、cluster_centers、cluster_report。

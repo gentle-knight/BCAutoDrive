@@ -166,20 +166,21 @@ python -m bc_baseline.scripts.visualize_bc \
 
 ### 5. 驾驶风格聚类（可选）
 
-用于对轨迹进行风格聚类，辅助后续分析或按风格训练。**实现以** `bc_baseline/scripts/cluster_driving_styles.py` **为准**：
+用于对轨迹进行风格聚类，辅助后续分析或按风格训练。**实现以** `bc_baseline/scripts/cluster_driving_styles.py` **为准**。
 
-- **聚类特征（3 维）**：从 8 维全量特征中取列索引 **3, 5, 6**，即 `response_mean_acc`、`mean_thw`、`mean_speed_ratio`（不纳入 `jerk_peak` 等对噪声敏感的高阶量）。
-- **聚类前过滤**：按 `response_mean_acc ∈ [-15, 5]`、`mean_speed_ratio ∈ [0, 5]` 剔除离群 episode（与 meta 同步缩减）；终端会打印剔除条数。
-- **语义标签**：对聚类中心上 `response_mean_acc` 与 `mean_speed_ratio` 的**秩和**取最小 → `conservative`，最大 → `aggressive`；其余中间簇按 `mean_thw` 标 `normal` / `normal_1` 等。详见 `docs/workflow_interaction_episodes_and_clustering.md` 第五节。
+- **特征 schema（`--feature_schema v1|v2`）**须与提取 npz 时一致（默认 **v2**）：
+  - **v1**：原 8 维行为特征；K-Means 使用列 **3,5,6**；过滤 `response_mean_acc`、`mean_speed_ratio`；语义基于二者秩和 + `mean_thw`。
+  - **v2**：速度/加速度各 mean/max/min/std；K-Means 使用**全部 8 维**；过滤与语义见 `docs/workflow_interaction_episodes_and_clustering.md` 第五节。
 
 ```bash
-# 需先提取 interaction episode 特征
+# 需先提取 interaction episode 特征（与聚类使用相同 --feature_schema）
 # 参见下面“提取强交互 episodes”
 
-# 肘部法确定最优 K
+# 肘部法确定最优 K（示例：v2）
 python -m bc_baseline.scripts.cluster_driving_styles \
     --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
     --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
+    --feature_schema v2 \
     --mode elbow \
     --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 
@@ -187,6 +188,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 python -m bc_baseline.scripts.cluster_driving_styles \
     --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
     --meta_path bc_baseline/outputs/interaction_episodes/episode_meta.json \
+    --feature_schema v2 \
     --mode cluster --k 4 \
     --output_dir bc_baseline/outputs/driving_style    # 可选，默认同此路径
 ```
@@ -199,7 +201,7 @@ python -m bc_baseline.scripts.cluster_driving_styles \
 - mode cluster：
   - `style_labels.json`（{scenario_index: {track_id: cluster_label}}）
   - `episode_labels.json`（每条 episode 附加 `cluster_label` / `semantic_label`）
-  - `cluster_centers.json`（**3 维**聚类中心物理值 + 语义标签）
+  - `cluster_centers.json`（聚类子空间物理中心 + 语义标签）
   - `cluster_report.txt`（人类可读聚类报告）
 
 ### 6. 提取强交互 episodes（可选）
@@ -213,6 +215,7 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
     --ttc_threshold 5.0 \
     --window_seconds 3.0 \
     --min_episode_frames 10 \
+    --feature_schema v2 \
     --output_dir bc_baseline/outputs/interaction_episodes   # 可选，默认同此路径
 ```
 
@@ -221,11 +224,8 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 - `episode_features.npz`：包含以下键：
   - `features`：shape (N, 8)
   - `feature_names`：长度为 8 的列名列表
-  - `feature_version`：当前特征 schema 版本
-- `features` 的列顺序：
-  - mean_acc, min_acc, jerk_peak,
-  - response_mean_acc, response_min_acc,
-  - mean_thw, mean_speed_ratio, relative_speed
+  - `feature_version`：`interaction_episode_v1` 或 `interaction_episode_v2`（由 `--feature_schema` 决定）
+- `features` 列顺序：见 `bc_baseline/scripts/interaction_feature_schema.py`（**v1** 为 mean_acc…relative_speed；**v2** 为 speed_* / acc_*）
 - `episode_meta.json`：长度为 N 的列表，每个元素：
   - scenario_index, ego_track_id, partner_track_id,
   - t_peak, t_start, t_end,
@@ -240,10 +240,12 @@ python -m bc_baseline.scripts.extract_interaction_episodes \
 1）**特征分布直方图**
 
 ```bash
-python -m bc_baseline.scripts.visualize_episodes
+python -m bc_baseline.scripts.visualize_episodes \
+    --features_path bc_baseline/outputs/interaction_episodes/episode_features.npz \
+    --feature_schema v2
 ```
 
-**输出**：`bc_baseline/outputs/interaction_episodes/feature_distributions.png`
+**输出**：默认同目录 `feature_distributions.png`（可用 `--output_path` 指定）
 
 2）**单个 interaction episode 轨迹回放**
 

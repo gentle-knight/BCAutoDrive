@@ -4,10 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from bc_baseline.Env.expert_env import BCExpertEnv
-from bc_baseline.scripts.extract_interaction_episodes import FEATURE_NAMES
+from bc_baseline.scripts.interaction_feature_schema import (
+    feature_names,
+    parse_feature_schema_arg,
+)
 
 
-def load_features_with_schema_check(features_path):
+def load_features_with_schema_check(
+    features_path: str,
+    expected_names: list,
+) -> np.ndarray:
     data = np.load(features_path)
     if "features" not in data:
         raise KeyError(f"npz 中缺少键 'features'：{features_path}")
@@ -18,18 +24,25 @@ def load_features_with_schema_check(features_path):
             "请使用当前版本的 extract_interaction_episodes.py 重新导出 features。"
         )
 
-    feature_names = [str(x) for x in np.asarray(data["feature_names"]).tolist()]
+    names = [str(x) for x in np.asarray(data["feature_names"]).tolist()]
     features = np.asarray(data["features"])
     data.close()
 
-    if feature_names != FEATURE_NAMES:
+    if names != expected_names:
         raise ValueError(
-            f"feature_names 不匹配，读取到 {feature_names}，预期 {FEATURE_NAMES}"
+            f"feature_names 不匹配，读取到 {names}，预期 {expected_names}。"
+            "请调整 --feature_schema 或重新提取。"
         )
     return features
 
 
-def visualize_episode(waymo_dir, episode_meta, episode_features, save_path=None):
+def visualize_episode(
+    waymo_dir,
+    episode_meta,
+    episode_features,
+    feat_names: list,
+    save_path=None,
+):
     """
     可视化单个 interaction episode 的轨迹。
     episode_meta: dict，来自 episode_meta.json 的一条记录
@@ -94,8 +107,8 @@ def visualize_episode(waymo_dir, episode_meta, episode_features, save_path=None)
     ax.set_aspect("equal")
     ax.legend(fontsize=9)
     feat_str = "\n".join(
-        f"{FEATURE_NAMES[i]}={episode_features[i]:.3f}"
-        for i in range(len(FEATURE_NAMES))
+        f"{feat_names[i]}={episode_features[i]:.3f}"
+        for i in range(len(feat_names))
     )
     ax.set_title(f"Scenario {scenario_idx} | Episode\n{feat_str}", fontsize=9)
     ax.set_xlabel("x (m)"); ax.set_ylabel("y (m)")
@@ -135,10 +148,17 @@ if __name__ == "__main__":
         help="可视化前 n 个 episode",
     )
     parser.add_argument(
+        "--feature_schema",
+        type=str,
+        default="v2",
+        choices=["v1", "v2"],
+        help="须与 episode_features.npz 一致（默认 v2）",
+    )
+    parser.add_argument(
         "--sort_by",
         default="min_ttc",
-        choices=["min_ttc", "min_pet", "jerk_peak", "random"],
-        help="按哪个维度排序（取极端样本）",
+        choices=["min_ttc", "min_pet", "jerk_peak", "acc_std", "random"],
+        help="jerk_peak 仅 v1（列 2）；acc_std 仅 v2（列 7）",
     )
     parser.add_argument(
         "--output_dir",
@@ -146,13 +166,20 @@ if __name__ == "__main__":
         help="可视化结果输出目录（默认 bc_baseline/outputs/interaction_episodes/episode_vis）",
     )
     args = parser.parse_args()
+    schema = parse_feature_schema_arg(args.feature_schema)
+    expected = feature_names(schema)
 
     os.makedirs(args.output_dir, exist_ok=True)
     with open(args.meta, encoding="utf-8") as f:
         metas = json.load(f)
-    feats = load_features_with_schema_check(args.features)
+    feats = load_features_with_schema_check(args.features, expected)
 
-    # 排序选取极端样本（min_ttc/min_pet 来自 meta，jerk_peak 来自特征列 2）
+    if args.sort_by == "jerk_peak" and schema != "v1":
+        raise ValueError("--sort_by jerk_peak 仅适用于 --feature_schema v1")
+    if args.sort_by == "acc_std" and schema != "v2":
+        raise ValueError("--sort_by acc_std 仅适用于 --feature_schema v2")
+
+    # 排序选取极端样本
     if args.sort_by == "random":
         import random
         indices = random.sample(range(len(metas)), args.n)
@@ -164,14 +191,19 @@ if __name__ == "__main__":
             indices = np.argsort(vals_masked)[: args.n].tolist()
         else:
             indices = np.argsort(vals)[: args.n].tolist()
-    else:
-        # jerk_peak 对应特征列 2
+    elif args.sort_by == "jerk_peak":
         col = 2
+        vals = feats[:, col]
+        indices = np.argsort(vals)[: args.n].tolist()
+    else:
+        col = 7  # acc_std (v2)
         vals = feats[:, col]
         indices = np.argsort(vals)[: args.n].tolist()
 
     for rank, idx in enumerate(indices):
         save_path = os.path.join(args.output_dir,
                                  f"rank{rank:03d}_ep{idx}.png")
-        visualize_episode(args.waymo_dir, metas[idx], feats[idx], save_path)
+        visualize_episode(
+            args.waymo_dir, metas[idx], feats[idx], expected, save_path
+        )
         print(f"saved {save_path}")

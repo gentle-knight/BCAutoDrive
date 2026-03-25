@@ -8,18 +8,11 @@ cluster_driving_styles.py
   episode_features.npz  shape (N, 8)，8维特征矩阵
   episode_meta.json     List[Dict]，每条 episode 的元信息
 
-特征顺序（8维）：
-  0: mean_acc           全程纵向加速度均值
-  1: min_acc            全程最大制动
-  2: jerk_peak          全程 jerk 峰值绝对值
-  3: response_mean_acc  t_peak 窗口内平均加速度（最能反映风格）
-  4: response_min_acc   t_peak 窗口内最小加速度
-  5: mean_thw           平均跟车时间距
-  6: mean_speed_ratio   ego/partner 速度比
-  7: relative_speed     ego 均值速度 - partner 均值速度
+须与 extract 时 --feature_schema 一致：
+  v1：原 8 维行为特征；聚类默认子空间列 3,5,6（response_mean_acc, mean_thw, mean_speed_ratio）
+  v2：速度/加速度各 mean,max,min,std；聚类使用全部 8 维
 
-聚类使用 3 维核心特征（indices [3,5,6]）：response_mean_acc、mean_thw、
-mean_speed_ratio；并对物理不可能离群点做过滤后再聚类。
+使用 --feature_schema v1|v2 指定；聚类前按 schema 做物理边界过滤。
 
 支持两种模式：
   --mode elbow  : 测试 K=2~10，输出三联评估图（SSE/Silhouette/DBI）
@@ -61,6 +54,14 @@ from typing import Any, Dict, List, Tuple
 
 import numpy as np
 
+from bc_baseline.scripts.interaction_feature_schema import (
+    FeatureSchemaId,
+    cluster_feature_indices,
+    feature_names,
+    npz_version_string,
+    parse_feature_schema_arg,
+)
+
 try:
     from sklearn.preprocessing import StandardScaler
     from sklearn.cluster import KMeans
@@ -76,34 +77,21 @@ except ImportError as e:
 
 # -------------------------- 常量定义 -------------------------- #
 
-# 全量特征名（与 extract_interaction_episodes.py 中定义一致）
-ALL_FEATURE_NAMES: List[str] = [
-    "mean_acc",
-    "min_acc",
-    "jerk_peak",
-    "response_mean_acc",
-    "response_min_acc",
-    "mean_thw",
-    "mean_speed_ratio",
-    "relative_speed",
-]
+# v2 物理边界过滤（聚类前剔除离群点）
+SPEED_LO = 0.0
+SPEED_HI = 120.0
+SPEED_STD_MAX = 60.0
+ACC_LO = -35.0
+ACC_HI = 25.0
+ACC_STD_MAX = 60.0
 
-# 聚类使用的特征列索引（3 维，降低 jerk/峰值等噪声敏感高阶量对 K-Means 的绑架）
-#   - index 3 (response_mean_acc)：博弈窗口内平均纵向响应
-#   - index 5 (mean_thw)           ：跟车时间距
-#   - index 6 (mean_speed_ratio) ：ego/partner 速度比
-CLUSTER_FEATURE_INDICES: List[int] = [3, 5, 6]
-CLUSTER_FEATURE_NAMES: List[str] = [
-    ALL_FEATURE_NAMES[i] for i in CLUSTER_FEATURE_INDICES
-]
-
-# 物理边界过滤（全量 8 维矩阵上的列索引，在聚类前剔除不可能离群点）
-IDX_RESPONSE_MEAN_ACC = 3
-IDX_MEAN_SPEED_RATIO = 6
-RESPONSE_MEAN_ACC_MIN = -15.0
-RESPONSE_MEAN_ACC_MAX = 5.0
-MEAN_SPEED_RATIO_MIN = 0.0
-MEAN_SPEED_RATIO_MAX = 5.0
+# v1 物理边界（全量 8 维中的列索引）
+IDX_V1_RESPONSE_MEAN_ACC = 3
+IDX_V1_MEAN_SPEED_RATIO = 6
+V1_RESPONSE_MEAN_ACC_MIN = -15.0
+V1_RESPONSE_MEAN_ACC_MAX = 5.0
+V1_MEAN_SPEED_RATIO_MIN = 0.0
+V1_MEAN_SPEED_RATIO_MAX = 5.0
 
 
 def _normalize_feature_names(raw_feature_names: np.ndarray) -> List[str]:
@@ -152,19 +140,25 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="输出目录，默认 bc_baseline/outputs/driving_style。",
     )
+    parser.add_argument(
+        "--feature_schema",
+        type=str,
+        default="v2",
+        choices=["v1", "v2"],
+        help="须与 episode_features.npz 一致：v1=原 8 维+聚类列 3,5,6；"
+        "v2=速度/加速度 8 统计+聚类 8 维（默认 v2）。",
+    )
     return parser.parse_args()
 
 
 def load_episode_data(
     features_path: str,
     meta_path: str,
+    feature_schema: FeatureSchemaId,
 ) -> Tuple[np.ndarray, List[Dict[str, Any]]]:
     """
     加载 episode_features.npz 与 episode_meta.json。
-
-    返回：
-        features: shape (N, 8)，float32
-        meta_list: 长度为 N 的 List[Dict]
+    feature_schema 须与提取时 --feature_schema 及 npz 内列名一致。
     """
     features_path = os.path.abspath(features_path)
     meta_path = os.path.abspath(meta_path)
@@ -184,26 +178,38 @@ def load_episode_data(
             "请使用当前版本的 extract_interaction_episodes.py 重新导出 features。"
         )
 
-    feature_names = _normalize_feature_names(data["feature_names"])
+    names_in_file = _normalize_feature_names(data["feature_names"])
     features = np.asarray(data["features"], dtype=np.float64)
+    fv_raw = data["feature_version"] if "feature_version" in data.files else None
     data.close()
+    expected = feature_names(feature_schema)
 
     if features.ndim != 2 or features.shape[1] != 8:
         raise ValueError(
             f"特征矩阵期望 shape (N, 8)，实际为 {features.shape}"
         )
-    if len(feature_names) != len(ALL_FEATURE_NAMES):
+    if len(names_in_file) != len(expected):
         raise ValueError(
-            "feature_names 长度与当前脚本预期不一致："
-            f"读取到 {len(feature_names)} 项，预期 {len(ALL_FEATURE_NAMES)} 项。"
+            "feature_names 长度与当前 schema 不一致："
+            f"读取到 {len(names_in_file)} 项，预期 {len(expected)} 项。"
         )
-    if feature_names != ALL_FEATURE_NAMES:
+    if names_in_file != expected:
         raise ValueError(
-            "episode_features.npz 的 feature_names 与当前聚类脚本不一致。\n"
-            f"读取到: {feature_names}\n"
-            f"预期为: {ALL_FEATURE_NAMES}\n"
-            "请重新运行 extract_interaction_episodes.py 导出与当前脚本一致的特征文件。"
+            "episode_features.npz 的 feature_names 与 --feature_schema 不匹配。\n"
+            f"读取到: {names_in_file}\n"
+            f"预期为 ({feature_schema}): {expected}\n"
+            "请使用 extract_interaction_episodes.py --feature_schema "
+            f"{feature_schema} 重新导出，或调整聚类时的 --feature_schema。"
         )
+
+    if fv_raw is not None:
+        fv = str(np.asarray(fv_raw).item())
+        exp_ver = npz_version_string(feature_schema)
+        if fv != exp_ver:
+            print(
+                f"[cluster_driving_styles] 警告: npz feature_version={fv!r}，"
+                f"与 schema 对应 {exp_ver!r} 不一致，已以列名为准继续。"
+            )
 
     with open(meta_path, encoding="utf-8") as f:
         meta_list = json.load(f)
@@ -219,19 +225,27 @@ def load_episode_data(
 def filter_episodes_by_physical_bounds(
     features: np.ndarray,
     meta_list: List[Dict[str, Any]],
+    feature_schema: FeatureSchemaId,
 ) -> Tuple[np.ndarray, List[Dict[str, Any]], int]:
     """
     在聚类前剔除物理上不可能的离群点（避免绑架 K-Means）。
-    依据全量特征中的 response_mean_acc 与 mean_speed_ratio。
+    v1：response_mean_acc、mean_speed_ratio；v2：8 维速度与加速度统计。
     """
-    rma = features[:, IDX_RESPONSE_MEAN_ACC]
-    msr = features[:, IDX_MEAN_SPEED_RATIO]
-    mask = (
-        (rma >= RESPONSE_MEAN_ACC_MIN)
-        & (rma <= RESPONSE_MEAN_ACC_MAX)
-        & (msr >= MEAN_SPEED_RATIO_MIN)
-        & (msr <= MEAN_SPEED_RATIO_MAX)
-    )
+    mask = np.isfinite(features).all(axis=1)
+    if feature_schema == "v1":
+        rma = features[:, IDX_V1_RESPONSE_MEAN_ACC]
+        msr = features[:, IDX_V1_MEAN_SPEED_RATIO]
+        mask &= (rma >= V1_RESPONSE_MEAN_ACC_MIN) & (rma <= V1_RESPONSE_MEAN_ACC_MAX)
+        mask &= (msr >= V1_MEAN_SPEED_RATIO_MIN) & (msr <= V1_MEAN_SPEED_RATIO_MAX)
+    else:
+        mask &= (features[:, 0] >= SPEED_LO) & (features[:, 0] <= SPEED_HI)
+        mask &= (features[:, 1] >= SPEED_LO) & (features[:, 1] <= SPEED_HI)
+        mask &= (features[:, 2] >= SPEED_LO) & (features[:, 2] <= SPEED_HI)
+        mask &= (features[:, 3] >= 0.0) & (features[:, 3] <= SPEED_STD_MAX)
+        mask &= (features[:, 4] >= ACC_LO) & (features[:, 4] <= ACC_HI)
+        mask &= (features[:, 5] >= ACC_LO) & (features[:, 5] <= ACC_HI)
+        mask &= (features[:, 6] >= ACC_LO) & (features[:, 6] <= ACC_HI)
+        mask &= (features[:, 7] >= 0.0) & (features[:, 7] <= ACC_STD_MAX)
     keep = np.flatnonzero(mask)
     n_drop = int(features.shape[0] - keep.size)
     if n_drop == 0:
@@ -241,62 +255,79 @@ def filter_episodes_by_physical_bounds(
     return features_f, meta_f, n_drop
 
 
-def get_cluster_features(features: np.ndarray) -> np.ndarray:
-    """从 8 维特征中取出聚类用子矩阵（维度由 CLUSTER_FEATURE_INDICES 决定）。"""
-    return features[:, CLUSTER_FEATURE_INDICES].astype(np.float64)
+def get_cluster_features(
+    features: np.ndarray,
+    cluster_indices: List[int],
+) -> np.ndarray:
+    """从 8 维全量特征中取出聚类子矩阵。"""
+    return features[:, cluster_indices].astype(np.float64)
 
 
-def assign_semantic_labels(centers_physical: np.ndarray, k: int) -> List[str]:
+def assign_semantic_labels(
+    centers_physical: np.ndarray,
+    k: int,
+    feature_schema: FeatureSchemaId,
+) -> List[str]:
     """
-    根据聚类中心的相对排名分配语义标签，而非固定阈值。
-    路口博弈语义：
-      - conservative：response_mean_acc 偏小（制动）且 mean_speed_ratio 偏小（相对对手更慢）
-      - aggressive：response_mean_acc 偏正或趋近 0（少刹/加速）且 mean_speed_ratio 偏大（相对更快）
-
-    实现：对第 0 列 rma、第 2 列 msr 分别做 0..K-1 升序秩，综合得分
-    rank_rma + rank_msr 最小者为 conservative，最大者为 aggressive；
-    其余中间簇按 mean_thw（第 1 列）从大到小标为 normal / normal_1, ...
-
-    参数：
-      centers_physical: shape (K, 3)，列顺序与 CLUSTER_FEATURE_NAMES 一致：
-                        [response_mean_acc, mean_thw, mean_speed_ratio]
-      k: 簇数量
-
-    返回：
-      List[str] 长度为 K
+    语义标签规则随 feature_schema 变化。
+    v1：子空间列为 response_mean_acc, mean_thw, mean_speed_ratio；
+    v2：子空间为 8 维全量，使用 speed_mean、acc_mean、acc_std。
     """
-    rma_values = centers_physical[:, 0]
-    thw_values = centers_physical[:, 1]
-    msr_values = centers_physical[:, 2]
+    if feature_schema == "v1":
+        rma_values = centers_physical[:, 0]
+        thw_values = centers_physical[:, 1]
+        msr_values = centers_physical[:, 2]
+        rank_rma = np.argsort(np.argsort(rma_values))
+        rank_msr = np.argsort(np.argsort(msr_values))
+        composite = rank_rma.astype(np.float64) + rank_msr.astype(np.float64)
+        cons_idx = int(np.argmin(composite))
+        agg_idx = int(np.argmax(composite))
+        if cons_idx == agg_idx and k > 1:
+            order_rma = np.argsort(rma_values)
+            cons_idx = int(order_rma[0])
+            agg_idx = int(order_rma[-1])
+        semantic = ["normal"] * k
+        semantic[cons_idx] = "conservative"
+        semantic[agg_idx] = "aggressive"
+        middle_indices = [i for i in range(k) if i not in (cons_idx, agg_idx)]
+        if len(middle_indices) == 1:
+            semantic[middle_indices[0]] = "normal"
+        elif len(middle_indices) > 1:
+            middle_sorted = sorted(
+                middle_indices,
+                key=lambda i: thw_values[i],
+                reverse=True,
+            )
+            for rank, idx in enumerate(middle_sorted):
+                semantic[idx] = f"normal_{rank + 1}"
+        return semantic
 
-    # 升序秩：rma/msr 越小秩越小 → 综合秩和最小 ≈ 最保守
-    rank_rma = np.argsort(np.argsort(rma_values))
-    rank_msr = np.argsort(np.argsort(msr_values))
-    composite = rank_rma.astype(np.float64) + rank_msr.astype(np.float64)
-
+    speed_mean = centers_physical[:, 0]
+    acc_mean = centers_physical[:, 4]
+    acc_std = centers_physical[:, 7]
+    rank_s = np.argsort(np.argsort(speed_mean))
+    rank_a = np.argsort(np.argsort(acc_mean))
+    composite = rank_s.astype(np.float64) + rank_a.astype(np.float64)
     cons_idx = int(np.argmin(composite))
     agg_idx = int(np.argmax(composite))
     if cons_idx == agg_idx and k > 1:
-        order_rma = np.argsort(rma_values)
-        cons_idx = int(order_rma[0])
-        agg_idx = int(order_rma[-1])
-
+        order_s = np.argsort(speed_mean)
+        cons_idx = int(order_s[0])
+        agg_idx = int(order_s[-1])
     semantic = ["normal"] * k
     semantic[cons_idx] = "conservative"
     semantic[agg_idx] = "aggressive"
-
     middle_indices = [i for i in range(k) if i not in (cons_idx, agg_idx)]
     if len(middle_indices) == 1:
         semantic[middle_indices[0]] = "normal"
     elif len(middle_indices) > 1:
         middle_sorted = sorted(
             middle_indices,
-            key=lambda i: thw_values[i],
+            key=lambda i: acc_std[i],
             reverse=True,
         )
         for rank, idx in enumerate(middle_sorted):
             semantic[idx] = f"normal_{rank + 1}"
-
     return semantic
 
 
@@ -426,6 +457,8 @@ def run_cluster_mode(
     meta_list: List[Dict[str, Any]],
     k: int,
     output_dir: str,
+    feature_schema: FeatureSchemaId,
+    cluster_feature_names: List[str],
 ) -> None:
     """
     按 K 聚类，输出 style_labels.json、episode_labels.json、
@@ -478,7 +511,9 @@ def run_cluster_mode(
     print(f"[cluster_driving_styles] episode_labels 已保存: {episode_path}")
 
     # ---------- cluster_centers.json：物理中心 + 语义标签 ----------
-    semantic_labels = assign_semantic_labels(centers_physical, k)
+    semantic_labels = assign_semantic_labels(
+        centers_physical, k, feature_schema
+    )
     # ---------- episode_labels.json：每条 meta 附加 cluster_label + semantic_label ----------
     episode_labels = []
     for i, meta in enumerate(meta_list):
@@ -501,7 +536,7 @@ def run_cluster_mode(
             "name": name,
             "semantic": semantic_labels[c],
             "center_physical": [round(x, 4) for x in phys],
-            "feature_names": CLUSTER_FEATURE_NAMES,
+            "feature_names": cluster_feature_names,
         })
 
     centers_path = os.path.join(output_dir, "cluster_centers.json")
@@ -510,11 +545,13 @@ def run_cluster_mode(
     print(f"[cluster_driving_styles] cluster_centers 已保存: {centers_path}")
 
     # ---------- cluster_report.txt ----------
+    dim_desc = f"{X.shape[1]}-dim"
     report_lines: List[str] = [
         "========== Driving Style Cluster Report ==========",
+        f"feature_schema = {feature_schema}",
         f"K = {k}",
         f"Total episodes = {len(meta_list)}",
-        f"Features used (3-dim): {CLUSTER_FEATURE_NAMES}",
+        f"Features used ({dim_desc}): {cluster_feature_names}",
         "",
     ]
     for c in range(k):
@@ -569,6 +606,10 @@ def run_cluster_mode(
 
 def main() -> None:
     args = parse_args()
+    feature_schema = parse_feature_schema_arg(args.feature_schema)
+    full_names = feature_names(feature_schema)
+    c_indices = cluster_feature_indices(feature_schema)
+    cluster_feature_names = [full_names[i] for i in c_indices]
 
     output_dir = args.output_dir
     if output_dir is None:
@@ -580,24 +621,46 @@ def main() -> None:
     if args.mode == "cluster" and args.k is None:
         raise ValueError("cluster 模式下必须指定 --k")
 
-    print("[cluster_driving_styles] 加载 episode 特征与元信息...")
-    features, meta_list = load_episode_data(args.features_path, args.meta_path)
+    print(
+        f"[cluster_driving_styles] 加载 episode 特征与元信息 "
+        f"(feature_schema={feature_schema})..."
+    )
+    features, meta_list = load_episode_data(
+        args.features_path, args.meta_path, feature_schema
+    )
     features, meta_list, n_drop = filter_episodes_by_physical_bounds(
-        features, meta_list
+        features, meta_list, feature_schema
     )
     if n_drop > 0:
-        print(
-            f"[cluster_driving_styles] 物理边界过滤剔除 {n_drop} 条 episode "
-            f"(response_mean_acc∈[{RESPONSE_MEAN_ACC_MIN},{RESPONSE_MEAN_ACC_MAX}], "
-            f"mean_speed_ratio∈[{MEAN_SPEED_RATIO_MIN},{MEAN_SPEED_RATIO_MAX}])"
-        )
-    X = get_cluster_features(features)
-    print(f"[cluster_driving_styles] 共 {X.shape[0]} 条 episode，聚类特征维度={X.shape[1]}")
+        if feature_schema == "v1":
+            print(
+                f"[cluster_driving_styles] 物理边界过滤剔除 {n_drop} 条 episode "
+                f"(response_mean_acc∈[{V1_RESPONSE_MEAN_ACC_MIN},{V1_RESPONSE_MEAN_ACC_MAX}], "
+                f"mean_speed_ratio∈[{V1_MEAN_SPEED_RATIO_MIN},{V1_MEAN_SPEED_RATIO_MAX}])"
+            )
+        else:
+            print(
+                f"[cluster_driving_styles] 物理边界过滤剔除 {n_drop} 条 episode "
+                f"(speed∈[{SPEED_LO},{SPEED_HI}] m/s, std≤{SPEED_STD_MAX}; "
+                f"acc∈[{ACC_LO},{ACC_HI}] m/s², acc_std≤{ACC_STD_MAX}; 且 finite)"
+            )
+    X = get_cluster_features(features, c_indices)
+    print(
+        f"[cluster_driving_styles] 共 {X.shape[0]} 条 episode，"
+        f"聚类特征维度={X.shape[1]} ({feature_schema})"
+    )
 
     if args.mode == "elbow":
         run_elbow_mode(X, output_dir)
     else:
-        run_cluster_mode(X, meta_list, args.k, output_dir)
+        run_cluster_mode(
+            X,
+            meta_list,
+            args.k,
+            output_dir,
+            feature_schema,
+            cluster_feature_names,
+        )
 
 
 if __name__ == "__main__":
