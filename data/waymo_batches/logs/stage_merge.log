@@ -1,0 +1,343 @@
+[2026-03-28 11:50:21] Found 334 parts
+[2026-03-28 11:50:21] GROUP_SIZE=10
+[2026-03-28 11:50:21] START group_000 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.60it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.35it/s]Merge Data:  30%|███       | 3/10 [00:00<00:02,  3.49it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.70it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.83it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.16it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.39it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.30it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.49it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.90it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.25it/s]
+Filter Scenarios:   0%|          | 0/14577 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14577/14577 [00:00<00:00, 735355.16it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_000/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14577
+[2026-03-28 11:50:43] DONE group_000
+[2026-03-28 11:50:48] START group_001 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.79it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.33it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.94it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.25it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.50it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  3.06it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.42it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.50it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.74it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.15it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.13it/s]
+Filter Scenarios:   0%|          | 0/14476 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14476/14476 [00:00<00:00, 1079677.51it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_001/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14476
+[2026-03-28 11:51:06] DONE group_001
+[2026-03-28 11:51:11] START group_002 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.89it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.50it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  3.86it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  4.02it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.27it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.68it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.80it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.00it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.24it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.50it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.78it/s]
+Filter Scenarios:   0%|          | 0/14710 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14710/14710 [00:00<00:00, 932772.12it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_002/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14710
+[2026-03-28 11:51:29] DONE group_002
+[2026-03-28 11:51:34] START group_003 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.47it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.30it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  3.59it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.36it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.67it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  2.99it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.20it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.37it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.38it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.88it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.18it/s]
+Filter Scenarios:   0%|          | 0/14901 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14901/14901 [00:00<00:00, 674487.10it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_003/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14901
+[2026-03-28 11:51:54] DONE group_003
+[2026-03-28 11:52:00] START group_004 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.12it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.19it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  3.61it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.76it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.90it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.15it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.36it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.68it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.06it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.58it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.57it/s]
+Filter Scenarios:   0%|          | 0/14614 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14614/14614 [00:00<00:00, 950731.46it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_004/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14614
+[2026-03-28 11:52:17] DONE group_004
+[2026-03-28 11:52:22] START group_005 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.25it/s]Merge Data:  20%|██        | 2/10 [00:01<00:04,  1.89it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.57it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.31it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.87it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.77it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  4.04it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.22it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.52it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.86it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.39it/s]
+Filter Scenarios:   0%|          | 0/14583 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14583/14583 [00:00<00:00, 1007039.01it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_005/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14583
+[2026-03-28 11:52:39] DONE group_005
+[2026-03-28 11:52:44] START group_006 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.22it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.22it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  3.59it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.97it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.90it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.39it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.64it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.83it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.97it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.25it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.53it/s]
+Filter Scenarios:   0%|          | 0/14738 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14738/14738 [00:00<00:00, 866432.86it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_006/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14738
+[2026-03-28 11:53:02] DONE group_006
+[2026-03-28 11:53:07] START group_007 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.73it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.17it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.67it/s]Merge Data:  40%|████      | 4/10 [00:01<00:02,  2.98it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  2.97it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  2.78it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.04it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.21it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.72it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.40it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.02it/s]
+Filter Scenarios:   0%|          | 0/14484 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14484/14484 [00:00<00:00, 1087136.94it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_007/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14484
+[2026-03-28 11:53:26] DONE group_007
+[2026-03-28 11:53:31] START group_008 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.77it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.61it/s]Merge Data:  30%|███       | 3/10 [00:00<00:02,  3.48it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.97it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.49it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.87it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  4.14it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.25it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.49it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.78it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.74it/s]
+Filter Scenarios:   0%|          | 0/14582 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14582/14582 [00:00<00:00, 968999.98it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_008/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14582
+[2026-03-28 11:53:48] DONE group_008
+[2026-03-28 11:53:53] START group_009 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:02<00:19,  2.22s/it]Merge Data:  20%|██        | 2/10 [00:02<00:08,  1.09s/it]Merge Data:  30%|███       | 3/10 [00:02<00:04,  1.46it/s]Merge Data:  40%|████      | 4/10 [00:02<00:02,  2.05it/s]Merge Data:  50%|█████     | 5/10 [00:03<00:01,  2.55it/s]Merge Data:  60%|██████    | 6/10 [00:03<00:01,  2.62it/s]Merge Data:  70%|███████   | 7/10 [00:03<00:00,  3.24it/s]Merge Data:  80%|████████  | 8/10 [00:03<00:00,  3.71it/s]Merge Data:  90%|█████████ | 9/10 [00:04<00:00,  3.96it/s]Merge Data: 100%|██████████| 10/10 [00:04<00:00,  3.52it/s]Merge Data: 100%|██████████| 10/10 [00:04<00:00,  2.27it/s]
+Filter Scenarios:   0%|          | 0/14557 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14557/14557 [00:00<00:00, 1037740.22it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_009/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14557
+[2026-03-28 11:54:14] DONE group_009
+[2026-03-28 11:54:19] START group_010 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.73it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.35it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  3.10it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.73it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.21it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.54it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  4.04it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.20it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.51it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.62it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.56it/s]
+Filter Scenarios:   0%|          | 0/14690 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14690/14690 [00:00<00:00, 1059011.12it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_010/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14690
+[2026-03-28 11:54:35] DONE group_010
+[2026-03-28 11:54:40] START group_011 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.75it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.37it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  4.01it/s]Merge Data:  40%|████      | 4/10 [00:00<00:01,  4.46it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.49it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.81it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  4.26it/s]Merge Data:  80%|████████  | 8/10 [00:01<00:00,  4.60it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.84it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.75it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  4.06it/s]
+Filter Scenarios:   0%|          | 0/14697 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14697/14697 [00:00<00:00, 1118536.88it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_011/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14697
+[2026-03-28 11:54:58] DONE group_011
+[2026-03-28 11:55:03] START group_012 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  4.24it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.51it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  4.25it/s]Merge Data:  40%|████      | 4/10 [00:00<00:01,  4.30it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.73it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:00,  4.23it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  4.35it/s]Merge Data:  80%|████████  | 8/10 [00:01<00:00,  4.53it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.88it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.83it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  4.18it/s]
+Filter Scenarios:   0%|          | 0/14659 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14659/14659 [00:00<00:00, 1108464.38it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_012/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14659
+[2026-03-28 11:55:21] DONE group_012
+[2026-03-28 11:55:26] START group_013 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.16it/s]Merge Data:  20%|██        | 2/10 [00:01<00:04,  1.81it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.51it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.08it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.32it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  3.10it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.59it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.93it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.09it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.53it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.09it/s]
+Filter Scenarios:   0%|          | 0/14577 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14577/14577 [00:00<00:00, 944748.89it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_013/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14577
+[2026-03-28 11:55:43] DONE group_013
+[2026-03-28 11:55:48] START group_014 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.69it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.14it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.66it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.02it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.12it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  2.80it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:01,  2.87it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.13it/s]Merge Data:  90%|█████████ | 9/10 [00:03<00:00,  3.35it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.79it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.80it/s]
+Filter Scenarios:   0%|          | 0/14700 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14700/14700 [00:00<00:00, 682922.24it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_014/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14700
+[2026-03-28 11:56:08] DONE group_014
+[2026-03-28 11:56:13] START group_015 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.71it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.64it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  4.26it/s]Merge Data:  40%|████      | 4/10 [00:00<00:01,  4.66it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.72it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.69it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.79it/s]Merge Data:  80%|████████  | 8/10 [00:01<00:00,  4.17it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.37it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.48it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.89it/s]
+Filter Scenarios:   0%|          | 0/14731 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14731/14731 [00:00<00:00, 1062459.89it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_015/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14731
+[2026-03-28 11:56:30] DONE group_015
+[2026-03-28 11:56:35] START group_016 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:01<00:09,  1.05s/it]Merge Data:  20%|██        | 2/10 [00:01<00:05,  1.47it/s]Merge Data:  30%|███       | 3/10 [00:01<00:03,  2.09it/s]Merge Data:  40%|████      | 4/10 [00:01<00:02,  2.53it/s]Merge Data:  50%|█████     | 5/10 [00:02<00:01,  2.92it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  2.77it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.03it/s]Merge Data:  80%|████████  | 8/10 [00:03<00:00,  3.43it/s]Merge Data:  90%|█████████ | 9/10 [00:03<00:00,  3.87it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.50it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.76it/s]
+Filter Scenarios:   0%|          | 0/14567 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14567/14567 [00:00<00:00, 974254.56it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_016/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14567
+[2026-03-28 11:56:53] DONE group_016
+[2026-03-28 11:56:58] START group_017 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.61it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.26it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  3.03it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.60it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.02it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.53it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.82it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.29it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.26it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.70it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.50it/s]
+Filter Scenarios:   0%|          | 0/14479 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14479/14479 [00:00<00:00, 967767.20it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_017/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14479
+[2026-03-28 11:57:15] DONE group_017
+[2026-03-28 11:57:20] START group_018 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  4.35it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.97it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  4.40it/s]Merge Data:  40%|████      | 4/10 [00:00<00:01,  4.64it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.72it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:00,  4.00it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.93it/s]Merge Data:  80%|████████  | 8/10 [00:01<00:00,  4.27it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.32it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.67it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  4.05it/s]
+Filter Scenarios:   0%|          | 0/14479 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14479/14479 [00:00<00:00, 1118877.75it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_018/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14479
+[2026-03-28 11:57:37] DONE group_018
+[2026-03-28 11:57:42] START group_019 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:04,  1.81it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.45it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  3.13it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.74it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.19it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.88it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  4.01it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.37it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.67it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.82it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.69it/s]
+Filter Scenarios:   0%|          | 0/14733 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14733/14733 [00:00<00:00, 1102157.79it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_019/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14733
+[2026-03-28 11:58:03] DONE group_019
+[2026-03-28 11:58:08] START group_020 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.26it/s]Merge Data:  20%|██        | 2/10 [00:01<00:04,  1.89it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.37it/s]Merge Data:  40%|████      | 4/10 [00:01<00:02,  2.81it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.01it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  2.85it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.12it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.39it/s]Merge Data:  90%|█████████ | 9/10 [00:03<00:00,  3.65it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.10it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.84it/s]
+Filter Scenarios:   0%|          | 0/14711 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14711/14711 [00:00<00:00, 823984.16it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_020/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14711
+[2026-03-28 11:58:28] DONE group_020
+[2026-03-28 11:58:33] START group_021 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.65it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.49it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  3.13it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.88it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.12it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.59it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.63it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.99it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.22it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.57it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.49it/s]
+Filter Scenarios:   0%|          | 0/14751 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14751/14751 [00:00<00:00, 1000261.56it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_021/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14751
+[2026-03-28 11:58:52] DONE group_021
+[2026-03-28 11:58:57] START group_022 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.17it/s]Merge Data:  20%|██        | 2/10 [00:01<00:04,  1.90it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.62it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.20it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.89it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  3.54it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.74it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.07it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.44it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.75it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.30it/s]
+Filter Scenarios:   0%|          | 0/14370 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14370/14370 [00:00<00:00, 1096355.59it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_022/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14370
+[2026-03-28 11:59:16] DONE group_022
+[2026-03-28 11:59:21] START group_023 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.22it/s]Merge Data:  20%|██        | 2/10 [00:01<00:04,  1.81it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.57it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.23it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.61it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  3.19it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.51it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.83it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.02it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.53it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.13it/s]
+Filter Scenarios:   0%|          | 0/14614 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14614/14614 [00:00<00:00, 1015331.43it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_023/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14614
+[2026-03-28 11:59:41] DONE group_023
+[2026-03-28 11:59:46] START group_024 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.42it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.32it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  3.68it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  4.07it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.88it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.49it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.71it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.98it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.92it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.13it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.52it/s]
+Filter Scenarios:   0%|          | 0/14690 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14690/14690 [00:00<00:00, 902972.46it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_024/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14690
+[2026-03-28 12:00:05] DONE group_024
+[2026-03-28 12:00:10] START group_025 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.26it/s]Merge Data:  20%|██        | 2/10 [00:01<00:03,  2.05it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.77it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.40it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.75it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.58it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  4.02it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.15it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.29it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.43it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.29it/s]
+Filter Scenarios:   0%|          | 0/14670 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14670/14670 [00:00<00:00, 958761.55it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_025/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14670
+[2026-03-28 12:00:29] DONE group_025
+[2026-03-28 12:00:34] START group_026 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:07,  1.25it/s]Merge Data:  20%|██        | 2/10 [00:01<00:03,  2.11it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.94it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.44it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.92it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.42it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.75it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.01it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.37it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.71it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.37it/s]
+Filter Scenarios:   0%|          | 0/14482 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14482/14482 [00:00<00:00, 965490.61it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_026/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14482
+[2026-03-28 12:00:51] DONE group_026
+[2026-03-28 12:00:56] START group_027 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.92it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  3.12it/s]Merge Data:  30%|███       | 3/10 [00:00<00:02,  3.49it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.81it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.11it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.19it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  3.73it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  4.02it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.28it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.64it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.70it/s]
+Filter Scenarios:   0%|          | 0/14507 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14507/14507 [00:00<00:00, 1040631.56it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_027/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14507
+[2026-03-28 12:01:15] DONE group_027
+[2026-03-28 12:01:20] START group_028 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  3.37it/s]Merge Data:  20%|██        | 2/10 [00:00<00:02,  2.93it/s]Merge Data:  30%|███       | 3/10 [00:00<00:02,  3.20it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.37it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.49it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  2.99it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.17it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.36it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  3.47it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.90it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.13it/s]
+Filter Scenarios:   0%|          | 0/14635 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14635/14635 [00:00<00:00, 772509.93it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_028/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14635
+[2026-03-28 12:01:39] DONE group_028
+[2026-03-28 12:01:44] START group_029 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:02,  4.23it/s]Merge Data:  20%|██        | 2/10 [00:00<00:01,  4.08it/s]Merge Data:  30%|███       | 3/10 [00:00<00:01,  4.37it/s]Merge Data:  40%|████      | 4/10 [00:00<00:01,  4.97it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  4.95it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.81it/s]Merge Data:  70%|███████   | 7/10 [00:01<00:00,  4.21it/s]Merge Data:  80%|████████  | 8/10 [00:01<00:00,  4.37it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.39it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.61it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  4.09it/s]
+Filter Scenarios:   0%|          | 0/14647 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14647/14647 [00:00<00:00, 1120730.64it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_029/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14647
+[2026-03-28 12:02:05] DONE group_029
+[2026-03-28 12:02:10] START group_030 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.61it/s]Merge Data:  20%|██        | 2/10 [00:01<00:03,  2.06it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.65it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.11it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.33it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  3.17it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.39it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.89it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.07it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.47it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  3.19it/s]
+Filter Scenarios:   0%|          | 0/14652 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14652/14652 [00:00<00:00, 1068020.06it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_030/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14652
+[2026-03-28 12:02:28] DONE group_030
+[2026-03-28 12:02:33] START group_031 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:06,  1.34it/s]Merge Data:  20%|██        | 2/10 [00:00<00:03,  2.20it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.95it/s]Merge Data:  40%|████      | 4/10 [00:01<00:01,  3.46it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.87it/s]Merge Data:  60%|██████    | 6/10 [00:01<00:01,  3.65it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.84it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.99it/s]Merge Data:  90%|█████████ | 9/10 [00:02<00:00,  4.31it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.65it/s]Merge Data: 100%|██████████| 10/10 [00:02<00:00,  3.40it/s]
+Filter Scenarios:   0%|          | 0/14382 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14382/14382 [00:00<00:00, 1084605.07it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_031/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14382
+[2026-03-28 12:02:52] DONE group_031
+[2026-03-28 12:02:57] START group_032 with 10 parts
+Merge Data:   0%|          | 0/10 [00:00<?, ?it/s]Merge Data:  10%|█         | 1/10 [00:00<00:05,  1.56it/s]Merge Data:  20%|██        | 2/10 [00:01<00:03,  2.10it/s]Merge Data:  30%|███       | 3/10 [00:01<00:02,  2.61it/s]Merge Data:  40%|████      | 4/10 [00:01<00:02,  2.95it/s]Merge Data:  50%|█████     | 5/10 [00:01<00:01,  3.18it/s]Merge Data:  60%|██████    | 6/10 [00:02<00:01,  2.89it/s]Merge Data:  70%|███████   | 7/10 [00:02<00:00,  3.23it/s]Merge Data:  80%|████████  | 8/10 [00:02<00:00,  3.34it/s]Merge Data:  90%|█████████ | 9/10 [00:03<00:00,  3.39it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.93it/s]Merge Data: 100%|██████████| 10/10 [00:03<00:00,  2.88it/s]
+Filter Scenarios:   0%|          | 0/14472 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 14472/14472 [00:00<00:00, 675254.39it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_032/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 14472
+[2026-03-28 12:03:16] DONE group_032
+[2026-03-28 12:03:21] START group_033 with 4 parts
+Merge Data:   0%|          | 0/4 [00:00<?, ?it/s]Merge Data:  25%|██▌       | 1/4 [00:00<00:00,  3.52it/s]Merge Data:  50%|█████     | 2/4 [00:00<00:00,  3.59it/s]Merge Data:  75%|███████▌  | 3/4 [00:00<00:00,  3.98it/s]Merge Data: 100%|██████████| 4/4 [00:00<00:00,  4.68it/s]
+Filter Scenarios:   0%|          | 0/4885 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 4885/4885 [00:00<00:00, 1120668.11it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/stage1_groups/group_033/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 4885
+[2026-03-28 12:03:31] DONE group_033
+[2026-03-28 12:03:36] No valid stage1 groups found

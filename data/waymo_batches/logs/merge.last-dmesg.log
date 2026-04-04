@@ -1,0 +1,200 @@
+Mar 28 10:45:05 raspberrypi kernel: ata25: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:05 raspberrypi kernel: ata26: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:06 raspberrypi kernel: ata27: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:06 raspberrypi kernel: ata28: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:06 raspberrypi kernel: ata29: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:07 raspberrypi kernel: ata30: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:07 raspberrypi kernel: ata31: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:07 raspberrypi kernel: ata32: SATA link down (SStatus 0 SControl 300)
+Mar 28 10:45:07 raspberrypi kernel: ina2xx 1-0040: supply vs not found, using dummy regulator
+Mar 28 10:45:07 raspberrypi kernel: ina2xx 1-0040: power monitor ina226 (Rshunt = 5000 uOhm)
+Mar 28 10:45:07 raspberrypi kernel: lm75 1-0048: supply vs not found, using dummy regulator
+Mar 28 10:45:07 raspberrypi kernel: lm75 1-0048: hwmon6: sensor 'lm75'
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_of_xlate: MMU 1000005100.iommu
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_probe_device: MMU 1000005100.iommu
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_device_group: MMU 1000005100.iommu
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: Adding to iommu group 0
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_attach_dev: MMU 1000005100.iommu
+Mar 28 10:45:07 raspberrypi kernel: rpi-hevc-dec 1000800000.codec: Device registered as /dev/video19
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: Core ver 2.22
+Mar 28 10:45:07 raspberrypi kernel: NET: Registered PF_BLUETOOTH protocol family
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI device and connection manager initialized
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI socket layer initialized
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: L2CAP socket layer initialized
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: SCO socket layer initialized
+Mar 28 10:45:07 raspberrypi kernel: brcmfmac: F1 signature read @0x18000000=0x15264345
+Mar 28 10:45:07 raspberrypi kernel: brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac43455-sdio for chip BCM4345/6
+Mar 28 10:45:07 raspberrypi kernel: usbcore: registered new interface driver brcmfmac
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI UART driver ver 2.3
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI UART protocol H4 registered
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI UART protocol Three-wire (H5) registered
+Mar 28 10:45:07 raspberrypi kernel: hci_uart_bcm serial0-0: supply vbat not found, using dummy regulator
+Mar 28 10:45:07 raspberrypi kernel: hci_uart_bcm serial0-0: supply vddio not found, using dummy regulator
+Mar 28 10:45:07 raspberrypi kernel: Bluetooth: HCI UART protocol Broadcom registered
+Mar 28 10:45:07 raspberrypi kernel: sd 0:0:0:0: Attached scsi generic sg0 type 0
+Mar 28 10:45:07 raspberrypi kernel: sd 1:0:0:0: Attached scsi generic sg1 type 0
+Mar 28 10:45:07 raspberrypi kernel: sd 2:0:0:0: Attached scsi generic sg2 type 0
+Mar 28 10:45:07 raspberrypi kernel: brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob available (err=-2)
+Mar 28 10:45:07 raspberrypi kernel: brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl0: Aug 29 2023 01:47:08 version 7.45.265 (28bca26 CY) FWID 01-b677b91b
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM: chip id 107
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM: features 0x2f
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM4345C0
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0000
+Mar 28 10:45:08 raspberrypi kernel: Adding 524272k swap on /var/swap.  Priority:-2 extents:12 across:2187264k SS
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM4345C0 'brcm/BCM4345C0.raspberrypi,5-model-b.hcd' Patch
+Mar 28 10:45:08 raspberrypi kernel: EXT4-fs (sdc1): mounted filesystem 8b38736c-ae1d-4786-9882-b112e0fa48b7 r/w with ordered data mode. Quota mode: journalled.
+Mar 28 10:45:08 raspberrypi kernel: Btrfs loaded, zoned=no, fsverity=no
+Mar 28 10:45:08 raspberrypi kernel: BTRFS: device label DATA1 devid 1 transid 200328 /dev/sda (8:0) scanned by (udev-worker) (383)
+Mar 28 10:45:08 raspberrypi kernel: brcmfmac: brcmf_cfg80211_set_power_mgmt: power save enabled
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: BNEP filters: protocol multicast
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: BNEP socket layer initialized
+Mar 28 10:45:08 raspberrypi kernel: BTRFS: device label DATA1 devid 2 transid 200328 /dev/sdb (8:16) scanned by (udev-worker) (391)
+Mar 28 10:45:08 raspberrypi kernel: BTRFS info (device sda): first mount of filesystem 2fb9cb63-8fe8-4912-a8e8-baa0c60742f7
+Mar 28 10:45:08 raspberrypi kernel: BTRFS info (device sda): using crc32c (crc32c-generic) checksum algorithm
+Mar 28 10:45:08 raspberrypi kernel: BTRFS info (device sda): using free-space-tree
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM: features 0x2f
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM43455 37.4MHz Raspberry Pi 3+-0190
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0382
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: hci0: BCM: Using default device address (43:45:c0:00:1f:ac)
+Mar 28 10:45:08 raspberrypi kernel: Bluetooth: MGMT ver 1.23
+Mar 28 10:45:08 raspberrypi kernel: NET: Registered PF_ALG protocol family
+Mar 28 10:45:09 raspberrypi kernel: macb 1f00100000.ethernet end0: PHY [1f00100000.ethernet-ffffffff:01] driver [Broadcom BCM54213PE] (irq=POLL)
+Mar 28 10:45:09 raspberrypi kernel: macb 1f00100000.ethernet end0: configuring for phy/rgmii-id link mode
+Mar 28 10:45:09 raspberrypi kernel: macb 1f00100000.ethernet: gem-ptp-timer ptp clock registered.
+Mar 28 10:45:09 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=22588 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:10 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=22617 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:10 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=22626 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:11 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=fe80:0000:0000:0000:2ecf:67ff:fe3b:8426 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=158255 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:11 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=fe80:0000:0000:0000:2ecf:67ff:fe3b:8426 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=158255 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:11 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC= SRC=fe80:0000:0000:0000:2ecf:67ff:fe3b:8426 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=158255 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:13 raspberrypi kernel: macb 1f00100000.ethernet end0: Link is Up - 1Gbps/Full - flow control tx
+Mar 28 10:45:13 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=23035 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:14 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=23053 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:14 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=192.168.31.97 DST=224.0.0.252 LEN=57 TOS=0x00 PREC=0x00 TTL=255 ID=23111 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:14 raspberrypi kernel: NFSD: Using nfsdcld client tracking operations.
+Mar 28 10:45:14 raspberrypi kernel: NFSD: no clients to reclaim, skipping NFSv4 grace period (net f0000000)
+Mar 28 10:45:15 raspberrypi kernel: BTRFS info (device sda): checking UUID tree
+Mar 28 10:45:15 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:15 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=33:33:00:01:00:03:2c:cf:67:3b:84:25:86:dd SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:15 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40514 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:45:15 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40514 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:45:16 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:16 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=33:33:00:01:00:03:2c:cf:67:3b:84:25:86:dd SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:16 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC= SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:16 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=33:33:00:01:00:03:2c:cf:67:3b:84:25:86:dd SRC=fe80:0000:0000:0000:3bb7:4274:7d87:c007 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=375169 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:18 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30294 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:45:18 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30294 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:45:27 raspberrypi kernel: Initializing XFRM netlink socket
+Mar 28 10:45:27 raspberrypi kernel: bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+Mar 28 10:45:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40517 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:45:37 raspberrypi kernel: docker0: port 1(veth5702d1d) entered blocking state
+Mar 28 10:45:37 raspberrypi kernel: docker0: port 1(veth5702d1d) entered disabled state
+Mar 28 10:45:37 raspberrypi kernel: veth5702d1d: entered allmulticast mode
+Mar 28 10:45:37 raspberrypi kernel: veth5702d1d: entered promiscuous mode
+Mar 28 10:45:37 raspberrypi kernel: br-4aa956b3eb04: port 1(veth5446fb3) entered blocking state
+Mar 28 10:45:37 raspberrypi kernel: br-4aa956b3eb04: port 1(veth5446fb3) entered disabled state
+Mar 28 10:45:37 raspberrypi kernel: veth5446fb3: entered allmulticast mode
+Mar 28 10:45:37 raspberrypi kernel: veth5446fb3: entered promiscuous mode
+Mar 28 10:45:37 raspberrypi kernel: br-a2f600f3f732: port 1(veth31b0dec) entered blocking state
+Mar 28 10:45:37 raspberrypi kernel: br-a2f600f3f732: port 1(veth31b0dec) entered disabled state
+Mar 28 10:45:37 raspberrypi kernel: veth31b0dec: entered allmulticast mode
+Mar 28 10:45:37 raspberrypi kernel: veth31b0dec: entered promiscuous mode
+Mar 28 10:45:37 raspberrypi kernel: docker0: port 2(veth864f75b) entered blocking state
+Mar 28 10:45:37 raspberrypi kernel: docker0: port 2(veth864f75b) entered disabled state
+Mar 28 10:45:37 raspberrypi kernel: veth864f75b: entered allmulticast mode
+Mar 28 10:45:37 raspberrypi kernel: veth864f75b: entered promiscuous mode
+Mar 28 10:45:38 raspberrypi kernel: eth0: renamed from veth70e7167
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 1(veth5702d1d) entered blocking state
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 1(veth5702d1d) entered forwarding state
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 3(veth8467213) entered blocking state
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 3(veth8467213) entered disabled state
+Mar 28 10:45:38 raspberrypi kernel: veth8467213: entered allmulticast mode
+Mar 28 10:45:38 raspberrypi kernel: veth8467213: entered promiscuous mode
+Mar 28 10:45:38 raspberrypi kernel: eth0: renamed from vethfc84452
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 2(veth864f75b) entered blocking state
+Mar 28 10:45:38 raspberrypi kernel: docker0: port 2(veth864f75b) entered forwarding state
+Mar 28 10:45:38 raspberrypi kernel: eth0: renamed from veth0eb6b36
+Mar 28 10:45:38 raspberrypi kernel: br-4aa956b3eb04: port 1(veth5446fb3) entered blocking state
+Mar 28 10:45:38 raspberrypi kernel: br-4aa956b3eb04: port 1(veth5446fb3) entered forwarding state
+Mar 28 10:45:38 raspberrypi kernel: eth0: renamed from veth3e009e7
+Mar 28 10:45:38 raspberrypi kernel: br-a2f600f3f732: port 1(veth31b0dec) entered blocking state
+Mar 28 10:45:38 raspberrypi kernel: br-a2f600f3f732: port 1(veth31b0dec) entered forwarding state
+Mar 28 10:45:39 raspberrypi kernel: [UFW BLOCK] IN=br-4aa956b3eb04 OUT= MAC= SRC=fe80:0000:0000:0000:2484:62ff:fee0:c494 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=365409 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:39 raspberrypi kernel: [UFW BLOCK] IN=veth864f75b OUT= MAC= SRC=fe80:0000:0000:0000:00ce:2bff:fecd:d27f DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=1005496 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:45:40 raspberrypi kernel: docker0: port 4(veth5ae0efb) entered blocking state
+Mar 28 10:45:40 raspberrypi kernel: docker0: port 4(veth5ae0efb) entered disabled state
+Mar 28 10:45:40 raspberrypi kernel: veth5ae0efb: entered allmulticast mode
+Mar 28 10:45:40 raspberrypi kernel: veth5ae0efb: entered promiscuous mode
+Mar 28 10:45:40 raspberrypi kernel: eth0: renamed from vethadbafb7
+Mar 28 10:45:40 raspberrypi kernel: docker0: port 3(veth8467213) entered blocking state
+Mar 28 10:45:40 raspberrypi kernel: docker0: port 3(veth8467213) entered forwarding state
+Mar 28 10:45:41 raspberrypi kernel: docker0: port 5(vethaa12578) entered blocking state
+Mar 28 10:45:41 raspberrypi kernel: docker0: port 5(vethaa12578) entered disabled state
+Mar 28 10:45:41 raspberrypi kernel: vethaa12578: entered allmulticast mode
+Mar 28 10:45:41 raspberrypi kernel: vethaa12578: entered promiscuous mode
+Mar 28 10:45:42 raspberrypi kernel: eth0: renamed from vethac13219
+Mar 28 10:45:42 raspberrypi kernel: docker0: port 4(veth5ae0efb) entered blocking state
+Mar 28 10:45:42 raspberrypi kernel: docker0: port 4(veth5ae0efb) entered forwarding state
+Mar 28 10:45:44 raspberrypi kernel: docker0: port 6(veth43c8402) entered blocking state
+Mar 28 10:45:44 raspberrypi kernel: docker0: port 6(veth43c8402) entered disabled state
+Mar 28 10:45:44 raspberrypi kernel: veth43c8402: entered allmulticast mode
+Mar 28 10:45:44 raspberrypi kernel: veth43c8402: entered promiscuous mode
+Mar 28 10:45:44 raspberrypi kernel: eth0: renamed from veth2d5d0f8
+Mar 28 10:45:44 raspberrypi kernel: docker0: port 5(vethaa12578) entered blocking state
+Mar 28 10:45:44 raspberrypi kernel: docker0: port 5(vethaa12578) entered forwarding state
+Mar 28 10:45:48 raspberrypi kernel: eth0: renamed from veth9f1e5aa
+Mar 28 10:45:48 raspberrypi kernel: docker0: port 6(veth43c8402) entered blocking state
+Mar 28 10:45:48 raspberrypi kernel: docker0: port 6(veth43c8402) entered forwarding state
+Mar 28 10:45:48 raspberrypi kernel: docker0: port 7(veth17e0a2e) entered blocking state
+Mar 28 10:45:48 raspberrypi kernel: docker0: port 7(veth17e0a2e) entered disabled state
+Mar 28 10:45:48 raspberrypi kernel: veth17e0a2e: entered allmulticast mode
+Mar 28 10:45:48 raspberrypi kernel: veth17e0a2e: entered promiscuous mode
+Mar 28 10:45:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40521 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:45:52 raspberrypi kernel: eth0: renamed from veth52de17f
+Mar 28 10:45:52 raspberrypi kernel: docker0: port 7(veth17e0a2e) entered blocking state
+Mar 28 10:45:52 raspberrypi kernel: docker0: port 7(veth17e0a2e) entered forwarding state
+Mar 28 10:45:53 raspberrypi kernel: [UFW BLOCK] IN=veth17e0a2e OUT= MAC= SRC=fe80:0000:0000:0000:d89a:3dff:fe5a:6fd9 DST=ff02:0000:0000:0000:0000:0000:0001:0003 LEN=77 TC=0 HOPLIMIT=255 FLOWLBL=4546 PROTO=UDP SPT=5355 DPT=5355 LEN=37 
+Mar 28 10:46:11 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40525 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:46:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40529 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:46:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40533 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:47:11 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40537 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:47:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40541 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:47:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40545 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:48:11 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40549 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:48:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40553 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:48:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40557 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:49:09 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30348 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:49:29 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30353 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:49:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40569 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:50:11 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40573 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:50:14 raspberrypi kernel: BTRFS info (device sda): device stats zeroed by btrfs (5866)
+Mar 28 10:50:14 raspberrypi kernel: BTRFS info (device sda): device stats zeroed by btrfs (5866)
+Mar 28 10:50:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40577 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:50:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40581 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:51:09 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30376 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:51:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30382 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:51:51 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40593 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:52:11 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40597 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:52:31 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40601 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:52:52 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40605 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:53:09 raspberrypi kernel: [UFW BLOCK] IN=wlan0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30404 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:53:32 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:44:a3:bb:51:28:31:08:00 SRC=192.168.31.129 DST=239.255.255.250 LEN=387 TOS=0x00 PREC=0x00 TTL=1 ID=40613 PROTO=UDP SPT=2200 DPT=2200 LEN=367 
+Mar 28 10:53:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30416 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:54:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30420 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:54:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30424 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:54:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30428 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:55:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30432 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:55:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30438 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:55:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30444 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:56:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30448 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:56:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30452 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:56:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30456 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:57:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30460 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:57:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30466 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:57:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30472 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:58:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30476 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:58:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30480 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:58:50 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30484 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:59:10 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30488 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
+Mar 28 10:59:30 raspberrypi kernel: [UFW BLOCK] IN=end0 OUT= MAC=01:00:5e:7f:ff:fa:f0:20:ff:64:7b:93:08:00 SRC=192.168.31.62 DST=239.255.255.250 LEN=379 TOS=0x00 PREC=0x00 TTL=1 ID=30494 PROTO=UDP SPT=2200 DPT=2200 LEN=359 
