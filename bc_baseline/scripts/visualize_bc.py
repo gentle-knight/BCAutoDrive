@@ -82,7 +82,7 @@ def load_policy(ckpt_path: str, device: torch.device) -> BCActor:
     ckpt = torch.load(ckpt_path, map_location=device)
     state_dict = ckpt.get("model_state_dict", ckpt)
 
-    model = BCActor(obs_dim=45, hidden_dim=256, action_dim=2)
+    model = BCActor(obs_dim=51, hidden_dim=256, action_dim=2)
     model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
@@ -186,8 +186,8 @@ def main():
     while not done:
         step_count += 1
 
-        # 将 45 维观测送入 BCActor，得到动作 [steering, acceleration]
-        obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)  # (1, 45)
+        # 将 51 维观测送入 BCActor，得到动作 [steering, acceleration]
+        obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)  # (1, 51)
         with torch.no_grad():
             action_tensor = policy(obs_tensor)  # (1, 2)，范围 [-1, 1]
         action = action_tensor.squeeze(0).cpu().numpy().astype(np.float32)  # (2,)

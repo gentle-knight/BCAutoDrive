@@ -1,0 +1,704 @@
+[2026-03-26 21:31:22] ===== batch run started =====
+[2026-03-26 21:31:22] RAW_DATA_PATH=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training
+[2026-03-26 21:31:22] OUT_ROOT=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches
+[2026-03-26 21:31:22] START_INDEX=0, END_INDEX=8, BATCH_SIZE=3, NUM_WORKERS=1, RETRY_ON_FAIL=1
+[2026-03-26 21:31:22] START part_0000_0002: start_file_index=0, num_files=3, workers=1
+[2026-03-26 21:31:35] FAIL part_0000_0002: convert_waymo exit code=1
+[2026-03-26 21:31:40] RETRY start_file_index=0, try=1
+[2026-03-26 21:31:40] Archived partial dir: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0000_0002 -> /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0000_0002_partial_2026-03-26_213140
+[2026-03-26 21:31:40] START part_0000_0002: start_file_index=0, num_files=3, workers=1
+[2026-03-26 21:31:48] FAIL part_0000_0002: convert_waymo exit code=1
+[2026-03-26 21:32:03] START part_0003_0005: start_file_index=3, num_files=3, workers=1
+[2026-03-26 21:32:09] FAIL part_0003_0005: convert_waymo exit code=1
+[2026-03-26 21:32:14] RETRY start_file_index=3, try=1
+[2026-03-26 21:32:14] Archived partial dir: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0003_0005 -> /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0003_0005_partial_2026-03-26_213214
+[2026-03-26 21:32:14] START part_0003_0005: start_file_index=3, num_files=3, workers=1
+[2026-03-26 21:32:20] FAIL part_0003_0005: convert_waymo exit code=1
+[2026-03-26 21:32:35] START part_0006_0008: start_file_index=6, num_files=3, workers=1
+[2026-03-26 21:32:41] FAIL part_0006_0008: convert_waymo exit code=1
+[2026-03-26 21:36:19] ===== batch run started =====
+[2026-03-26 21:36:19] RAW_DATA_PATH=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training
+[2026-03-26 21:36:19] OUT_ROOT=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches
+[2026-03-26 21:36:19] START_INDEX=0, END_INDEX=8, BATCH_SIZE=3, NUM_WORKERS=1, RETRY_ON_FAIL=1
+[2026-03-26 21:36:19] START part_0000_0002: start_file_index=0, num_files=3, workers=1
+[2026-03-26 21:40:32] DONE part_0000_0002
+[2026-03-26 21:40:42] Archived partial dir: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0003_0005 -> /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0003_0005_partial_2026-03-26_214042
+[2026-03-26 21:40:43] START part_0003_0005: start_file_index=3, num_files=3, workers=1
+[2026-03-26 21:46:02] DONE part_0003_0005
+[2026-03-26 21:46:12] Archived partial dir: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0006_0008 -> /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0006_0008_partial_2026-03-26_214612
+[2026-03-26 21:46:12] START part_0006_0008: start_file_index=6, num_files=3, workers=1
+[2026-03-26 21:51:37] DONE part_0006_0008
+[2026-03-26 21:51:47] ===== batch run finished =====
+[2026-03-26 21:51:47] Run '/home/huangfukunkun/run_waymo_batches.sh merge' to merge completed parts
+[2026-03-26 21:56:20] ===== batch run started =====
+[2026-03-26 21:56:20] RAW_DATA_PATH=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training
+[2026-03-26 21:56:20] OUT_ROOT=/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches
+[2026-03-26 21:56:20] START_INDEX=0, END_INDEX=999, BATCH_SIZE=3, NUM_WORKERS=1, RETRY_ON_FAIL=1
+[2026-03-26 21:56:20] SKIP part_0000_0002: already done
+[2026-03-26 21:56:30] SKIP part_0003_0005: already done
+[2026-03-26 21:56:40] SKIP part_0006_0008: already done
+[2026-03-26 21:56:50] START part_0009_0011: start_file_index=9, num_files=3, workers=1
+[2026-03-26 22:01:38] DONE part_0009_0011
+[2026-03-26 22:01:48] START part_0012_0014: start_file_index=12, num_files=3, workers=1
+[2026-03-26 22:06:18] DONE part_0012_0014
+[2026-03-26 22:06:28] START part_0015_0017: start_file_index=15, num_files=3, workers=1
+[2026-03-26 22:11:58] DONE part_0015_0017
+[2026-03-26 22:12:08] START part_0018_0020: start_file_index=18, num_files=3, workers=1
+[2026-03-26 22:16:45] DONE part_0018_0020
+[2026-03-26 22:16:55] START part_0021_0023: start_file_index=21, num_files=3, workers=1
+[2026-03-26 22:21:30] DONE part_0021_0023
+[2026-03-26 22:21:40] START part_0024_0026: start_file_index=24, num_files=3, workers=1
+[2026-03-26 22:26:05] DONE part_0024_0026
+[2026-03-26 22:26:15] START part_0027_0029: start_file_index=27, num_files=3, workers=1
+[2026-03-26 22:30:47] DONE part_0027_0029
+[2026-03-26 22:30:57] START part_0030_0032: start_file_index=30, num_files=3, workers=1
+[2026-03-26 22:35:18] DONE part_0030_0032
+[2026-03-26 22:35:28] START part_0033_0035: start_file_index=33, num_files=3, workers=1
+[2026-03-26 22:39:56] DONE part_0033_0035
+[2026-03-26 22:40:06] START part_0036_0038: start_file_index=36, num_files=3, workers=1
+[2026-03-26 22:44:36] DONE part_0036_0038
+[2026-03-26 22:44:46] START part_0039_0041: start_file_index=39, num_files=3, workers=1
+[2026-03-26 22:49:17] DONE part_0039_0041
+[2026-03-26 22:49:28] START part_0042_0044: start_file_index=42, num_files=3, workers=1
+[2026-03-26 22:54:21] DONE part_0042_0044
+[2026-03-26 22:54:31] START part_0045_0047: start_file_index=45, num_files=3, workers=1
+[2026-03-26 22:59:06] DONE part_0045_0047
+[2026-03-26 22:59:16] START part_0048_0050: start_file_index=48, num_files=3, workers=1
+[2026-03-26 23:03:48] DONE part_0048_0050
+[2026-03-26 23:03:58] START part_0051_0053: start_file_index=51, num_files=3, workers=1
+[2026-03-26 23:08:27] DONE part_0051_0053
+[2026-03-26 23:08:37] START part_0054_0056: start_file_index=54, num_files=3, workers=1
+[2026-03-26 23:13:09] DONE part_0054_0056
+[2026-03-26 23:13:19] START part_0057_0059: start_file_index=57, num_files=3, workers=1
+[2026-03-26 23:17:41] DONE part_0057_0059
+[2026-03-26 23:17:51] START part_0060_0062: start_file_index=60, num_files=3, workers=1
+[2026-03-26 23:22:17] DONE part_0060_0062
+[2026-03-26 23:22:28] START part_0063_0065: start_file_index=63, num_files=3, workers=1
+[2026-03-26 23:27:04] DONE part_0063_0065
+[2026-03-26 23:27:14] START part_0066_0068: start_file_index=66, num_files=3, workers=1
+[2026-03-26 23:31:46] DONE part_0066_0068
+[2026-03-26 23:31:56] START part_0069_0071: start_file_index=69, num_files=3, workers=1
+[2026-03-26 23:36:33] DONE part_0069_0071
+[2026-03-26 23:36:43] START part_0072_0074: start_file_index=72, num_files=3, workers=1
+[2026-03-26 23:41:28] DONE part_0072_0074
+[2026-03-26 23:41:38] START part_0075_0077: start_file_index=75, num_files=3, workers=1
+[2026-03-26 23:46:04] DONE part_0075_0077
+[2026-03-26 23:46:14] START part_0078_0080: start_file_index=78, num_files=3, workers=1
+[2026-03-26 23:50:48] DONE part_0078_0080
+[2026-03-26 23:50:58] START part_0081_0083: start_file_index=81, num_files=3, workers=1
+[2026-03-26 23:55:37] DONE part_0081_0083
+[2026-03-26 23:55:47] START part_0084_0086: start_file_index=84, num_files=3, workers=1
+[2026-03-27 00:00:20] DONE part_0084_0086
+[2026-03-27 00:00:31] START part_0087_0089: start_file_index=87, num_files=3, workers=1
+[2026-03-27 00:05:03] DONE part_0087_0089
+[2026-03-27 00:05:13] START part_0090_0092: start_file_index=90, num_files=3, workers=1
+[2026-03-27 00:09:47] DONE part_0090_0092
+[2026-03-27 00:09:57] START part_0093_0095: start_file_index=93, num_files=3, workers=1
+[2026-03-27 00:14:37] DONE part_0093_0095
+[2026-03-27 00:14:47] START part_0096_0098: start_file_index=96, num_files=3, workers=1
+[2026-03-27 00:19:12] DONE part_0096_0098
+[2026-03-27 00:19:22] START part_0099_0101: start_file_index=99, num_files=3, workers=1
+[2026-03-27 00:23:57] DONE part_0099_0101
+[2026-03-27 00:24:07] START part_0102_0104: start_file_index=102, num_files=3, workers=1
+[2026-03-27 00:28:41] DONE part_0102_0104
+[2026-03-27 00:28:51] START part_0105_0107: start_file_index=105, num_files=3, workers=1
+[2026-03-27 00:33:31] DONE part_0105_0107
+[2026-03-27 00:33:41] START part_0108_0110: start_file_index=108, num_files=3, workers=1
+[2026-03-27 00:38:26] DONE part_0108_0110
+[2026-03-27 00:38:36] START part_0111_0113: start_file_index=111, num_files=3, workers=1
+[2026-03-27 00:44:11] DONE part_0111_0113
+[2026-03-27 00:44:21] START part_0114_0116: start_file_index=114, num_files=3, workers=1
+[2026-03-27 00:49:04] DONE part_0114_0116
+[2026-03-27 00:49:14] START part_0117_0119: start_file_index=117, num_files=3, workers=1
+[2026-03-27 00:53:47] DONE part_0117_0119
+[2026-03-27 00:53:57] START part_0120_0122: start_file_index=120, num_files=3, workers=1
+[2026-03-27 00:58:46] DONE part_0120_0122
+[2026-03-27 00:58:57] START part_0123_0125: start_file_index=123, num_files=3, workers=1
+[2026-03-27 01:04:32] DONE part_0123_0125
+[2026-03-27 01:04:42] START part_0126_0128: start_file_index=126, num_files=3, workers=1
+[2026-03-27 01:09:12] DONE part_0126_0128
+[2026-03-27 01:09:22] START part_0129_0131: start_file_index=129, num_files=3, workers=1
+[2026-03-27 01:13:50] DONE part_0129_0131
+[2026-03-27 01:14:00] START part_0132_0134: start_file_index=132, num_files=3, workers=1
+[2026-03-27 01:18:30] DONE part_0132_0134
+[2026-03-27 01:18:40] START part_0135_0137: start_file_index=135, num_files=3, workers=1
+[2026-03-27 01:23:17] DONE part_0135_0137
+[2026-03-27 01:23:27] START part_0138_0140: start_file_index=138, num_files=3, workers=1
+[2026-03-27 01:27:46] DONE part_0138_0140
+[2026-03-27 01:27:56] START part_0141_0143: start_file_index=141, num_files=3, workers=1
+[2026-03-27 01:32:23] DONE part_0141_0143
+[2026-03-27 01:32:33] START part_0144_0146: start_file_index=144, num_files=3, workers=1
+[2026-03-27 01:37:12] DONE part_0144_0146
+[2026-03-27 01:37:22] START part_0147_0149: start_file_index=147, num_files=3, workers=1
+[2026-03-27 01:41:58] DONE part_0147_0149
+[2026-03-27 01:42:08] START part_0150_0152: start_file_index=150, num_files=3, workers=1
+[2026-03-27 01:46:31] DONE part_0150_0152
+[2026-03-27 01:46:41] START part_0153_0155: start_file_index=153, num_files=3, workers=1
+[2026-03-27 01:51:23] DONE part_0153_0155
+[2026-03-27 01:51:33] START part_0156_0158: start_file_index=156, num_files=3, workers=1
+[2026-03-27 01:57:02] DONE part_0156_0158
+[2026-03-27 01:57:12] START part_0159_0161: start_file_index=159, num_files=3, workers=1
+[2026-03-27 02:01:39] DONE part_0159_0161
+[2026-03-27 02:01:49] START part_0162_0164: start_file_index=162, num_files=3, workers=1
+[2026-03-27 02:06:17] DONE part_0162_0164
+[2026-03-27 02:06:27] START part_0165_0167: start_file_index=165, num_files=3, workers=1
+[2026-03-27 02:11:53] DONE part_0165_0167
+[2026-03-27 02:12:03] START part_0168_0170: start_file_index=168, num_files=3, workers=1
+[2026-03-27 02:16:41] DONE part_0168_0170
+[2026-03-27 02:16:51] START part_0171_0173: start_file_index=171, num_files=3, workers=1
+[2026-03-27 02:21:22] DONE part_0171_0173
+[2026-03-27 02:21:32] START part_0174_0176: start_file_index=174, num_files=3, workers=1
+[2026-03-27 02:26:07] DONE part_0174_0176
+[2026-03-27 02:26:17] START part_0177_0179: start_file_index=177, num_files=3, workers=1
+[2026-03-27 02:30:55] DONE part_0177_0179
+[2026-03-27 02:31:06] START part_0180_0182: start_file_index=180, num_files=3, workers=1
+[2026-03-27 02:35:40] DONE part_0180_0182
+[2026-03-27 02:35:50] START part_0183_0185: start_file_index=183, num_files=3, workers=1
+[2026-03-27 02:40:26] DONE part_0183_0185
+[2026-03-27 02:40:36] START part_0186_0188: start_file_index=186, num_files=3, workers=1
+[2026-03-27 02:44:56] DONE part_0186_0188
+[2026-03-27 02:45:06] START part_0189_0191: start_file_index=189, num_files=3, workers=1
+[2026-03-27 02:49:37] DONE part_0189_0191
+[2026-03-27 02:49:47] START part_0192_0194: start_file_index=192, num_files=3, workers=1
+[2026-03-27 02:54:26] DONE part_0192_0194
+[2026-03-27 02:54:36] START part_0195_0197: start_file_index=195, num_files=3, workers=1
+[2026-03-27 02:59:01] DONE part_0195_0197
+[2026-03-27 02:59:11] START part_0198_0200: start_file_index=198, num_files=3, workers=1
+[2026-03-27 03:03:41] DONE part_0198_0200
+[2026-03-27 03:03:51] START part_0201_0203: start_file_index=201, num_files=3, workers=1
+[2026-03-27 03:08:23] DONE part_0201_0203
+[2026-03-27 03:08:33] START part_0204_0206: start_file_index=204, num_files=3, workers=1
+[2026-03-27 03:13:12] DONE part_0204_0206
+[2026-03-27 03:13:23] START part_0207_0209: start_file_index=207, num_files=3, workers=1
+[2026-03-27 03:18:00] DONE part_0207_0209
+[2026-03-27 03:18:10] START part_0210_0212: start_file_index=210, num_files=3, workers=1
+[2026-03-27 03:22:37] DONE part_0210_0212
+[2026-03-27 03:22:47] START part_0213_0215: start_file_index=213, num_files=3, workers=1
+[2026-03-27 03:27:27] DONE part_0213_0215
+[2026-03-27 03:27:37] START part_0216_0218: start_file_index=216, num_files=3, workers=1
+[2026-03-27 03:31:51] DONE part_0216_0218
+[2026-03-27 03:32:01] START part_0219_0221: start_file_index=219, num_files=3, workers=1
+[2026-03-27 03:36:37] DONE part_0219_0221
+[2026-03-27 03:36:47] START part_0222_0224: start_file_index=222, num_files=3, workers=1
+[2026-03-27 03:41:31] DONE part_0222_0224
+[2026-03-27 03:41:41] START part_0225_0227: start_file_index=225, num_files=3, workers=1
+[2026-03-27 03:46:07] DONE part_0225_0227
+[2026-03-27 03:46:17] START part_0228_0230: start_file_index=228, num_files=3, workers=1
+[2026-03-27 03:51:47] DONE part_0228_0230
+[2026-03-27 03:51:57] START part_0231_0233: start_file_index=231, num_files=3, workers=1
+[2026-03-27 03:56:21] DONE part_0231_0233
+[2026-03-27 03:56:31] START part_0234_0236: start_file_index=234, num_files=3, workers=1
+[2026-03-27 04:00:51] DONE part_0234_0236
+[2026-03-27 04:01:01] START part_0237_0239: start_file_index=237, num_files=3, workers=1
+[2026-03-27 04:05:30] DONE part_0237_0239
+[2026-03-27 04:05:40] START part_0240_0242: start_file_index=240, num_files=3, workers=1
+[2026-03-27 04:10:07] DONE part_0240_0242
+[2026-03-27 04:10:17] START part_0243_0245: start_file_index=243, num_files=3, workers=1
+[2026-03-27 04:14:51] DONE part_0243_0245
+[2026-03-27 04:15:01] START part_0246_0248: start_file_index=246, num_files=3, workers=1
+[2026-03-27 04:19:33] DONE part_0246_0248
+[2026-03-27 04:19:43] START part_0249_0251: start_file_index=249, num_files=3, workers=1
+[2026-03-27 04:24:22] DONE part_0249_0251
+[2026-03-27 04:24:32] START part_0252_0254: start_file_index=252, num_files=3, workers=1
+[2026-03-27 04:28:56] DONE part_0252_0254
+[2026-03-27 04:29:06] START part_0255_0257: start_file_index=255, num_files=3, workers=1
+[2026-03-27 04:33:40] DONE part_0255_0257
+[2026-03-27 04:33:50] START part_0258_0260: start_file_index=258, num_files=3, workers=1
+[2026-03-27 04:38:25] DONE part_0258_0260
+[2026-03-27 04:38:35] START part_0261_0263: start_file_index=261, num_files=3, workers=1
+[2026-03-27 04:43:00] DONE part_0261_0263
+[2026-03-27 04:43:10] START part_0264_0266: start_file_index=264, num_files=3, workers=1
+[2026-03-27 04:47:41] DONE part_0264_0266
+[2026-03-27 04:47:51] START part_0267_0269: start_file_index=267, num_files=3, workers=1
+[2026-03-27 04:52:18] DONE part_0267_0269
+[2026-03-27 04:52:28] START part_0270_0272: start_file_index=270, num_files=3, workers=1
+[2026-03-27 04:56:59] DONE part_0270_0272
+[2026-03-27 04:57:09] START part_0273_0275: start_file_index=273, num_files=3, workers=1
+[2026-03-27 05:01:41] DONE part_0273_0275
+[2026-03-27 05:01:51] START part_0276_0278: start_file_index=276, num_files=3, workers=1
+[2026-03-27 05:06:18] DONE part_0276_0278
+[2026-03-27 05:06:28] START part_0279_0281: start_file_index=279, num_files=3, workers=1
+[2026-03-27 05:10:52] DONE part_0279_0281
+[2026-03-27 05:11:02] START part_0282_0284: start_file_index=282, num_files=3, workers=1
+[2026-03-27 05:15:37] DONE part_0282_0284
+[2026-03-27 05:15:47] START part_0285_0287: start_file_index=285, num_files=3, workers=1
+[2026-03-27 05:20:24] DONE part_0285_0287
+[2026-03-27 05:20:34] START part_0288_0290: start_file_index=288, num_files=3, workers=1
+[2026-03-27 05:24:52] DONE part_0288_0290
+[2026-03-27 05:25:02] START part_0291_0293: start_file_index=291, num_files=3, workers=1
+[2026-03-27 05:30:23] DONE part_0291_0293
+[2026-03-27 05:30:33] START part_0294_0296: start_file_index=294, num_files=3, workers=1
+[2026-03-27 05:36:00] DONE part_0294_0296
+[2026-03-27 05:36:10] START part_0297_0299: start_file_index=297, num_files=3, workers=1
+[2026-03-27 05:40:44] DONE part_0297_0299
+[2026-03-27 05:40:54] START part_0300_0302: start_file_index=300, num_files=3, workers=1
+[2026-03-27 05:45:16] DONE part_0300_0302
+[2026-03-27 05:45:26] START part_0303_0305: start_file_index=303, num_files=3, workers=1
+[2026-03-27 05:50:00] DONE part_0303_0305
+[2026-03-27 05:50:10] START part_0306_0308: start_file_index=306, num_files=3, workers=1
+[2026-03-27 05:54:38] DONE part_0306_0308
+[2026-03-27 05:54:48] START part_0309_0311: start_file_index=309, num_files=3, workers=1
+[2026-03-27 05:59:08] DONE part_0309_0311
+[2026-03-27 05:59:19] START part_0312_0314: start_file_index=312, num_files=3, workers=1
+[2026-03-27 06:03:51] DONE part_0312_0314
+[2026-03-27 06:04:01] START part_0315_0317: start_file_index=315, num_files=3, workers=1
+[2026-03-27 06:08:43] DONE part_0315_0317
+[2026-03-27 06:08:53] START part_0318_0320: start_file_index=318, num_files=3, workers=1
+[2026-03-27 06:13:20] DONE part_0318_0320
+[2026-03-27 06:13:30] START part_0321_0323: start_file_index=321, num_files=3, workers=1
+[2026-03-27 06:19:01] DONE part_0321_0323
+[2026-03-27 06:19:11] START part_0324_0326: start_file_index=324, num_files=3, workers=1
+[2026-03-27 06:24:40] DONE part_0324_0326
+[2026-03-27 06:24:50] START part_0327_0329: start_file_index=327, num_files=3, workers=1
+[2026-03-27 06:29:22] DONE part_0327_0329
+[2026-03-27 06:29:32] START part_0330_0332: start_file_index=330, num_files=3, workers=1
+[2026-03-27 06:34:22] DONE part_0330_0332
+[2026-03-27 06:34:32] START part_0333_0335: start_file_index=333, num_files=3, workers=1
+[2026-03-27 06:40:07] DONE part_0333_0335
+[2026-03-27 06:40:17] START part_0336_0338: start_file_index=336, num_files=3, workers=1
+[2026-03-27 06:44:53] DONE part_0336_0338
+[2026-03-27 06:45:04] START part_0339_0341: start_file_index=339, num_files=3, workers=1
+[2026-03-27 06:49:43] DONE part_0339_0341
+[2026-03-27 06:49:53] START part_0342_0344: start_file_index=342, num_files=3, workers=1
+[2026-03-27 06:54:37] DONE part_0342_0344
+[2026-03-27 06:54:47] START part_0345_0347: start_file_index=345, num_files=3, workers=1
+[2026-03-27 06:59:05] DONE part_0345_0347
+[2026-03-27 06:59:15] START part_0348_0350: start_file_index=348, num_files=3, workers=1
+[2026-03-27 07:03:49] DONE part_0348_0350
+[2026-03-27 07:03:59] START part_0351_0353: start_file_index=351, num_files=3, workers=1
+[2026-03-27 07:08:17] DONE part_0351_0353
+[2026-03-27 07:08:27] START part_0354_0356: start_file_index=354, num_files=3, workers=1
+[2026-03-27 07:13:15] DONE part_0354_0356
+[2026-03-27 07:13:25] START part_0357_0359: start_file_index=357, num_files=3, workers=1
+[2026-03-27 07:18:53] DONE part_0357_0359
+[2026-03-27 07:19:03] START part_0360_0362: start_file_index=360, num_files=3, workers=1
+[2026-03-27 07:23:36] DONE part_0360_0362
+[2026-03-27 07:23:46] START part_0363_0365: start_file_index=363, num_files=3, workers=1
+[2026-03-27 07:28:39] DONE part_0363_0365
+[2026-03-27 07:28:49] START part_0366_0368: start_file_index=366, num_files=3, workers=1
+[2026-03-27 07:33:09] DONE part_0366_0368
+[2026-03-27 07:33:19] START part_0369_0371: start_file_index=369, num_files=3, workers=1
+[2026-03-27 07:37:34] DONE part_0369_0371
+[2026-03-27 07:37:44] START part_0372_0374: start_file_index=372, num_files=3, workers=1
+[2026-03-27 07:42:16] DONE part_0372_0374
+[2026-03-27 07:42:26] START part_0375_0377: start_file_index=375, num_files=3, workers=1
+[2026-03-27 07:46:55] DONE part_0375_0377
+[2026-03-27 07:47:05] START part_0378_0380: start_file_index=378, num_files=3, workers=1
+[2026-03-27 07:51:43] DONE part_0378_0380
+[2026-03-27 07:51:53] START part_0381_0383: start_file_index=381, num_files=3, workers=1
+[2026-03-27 07:56:31] DONE part_0381_0383
+[2026-03-27 07:56:42] START part_0384_0386: start_file_index=384, num_files=3, workers=1
+[2026-03-27 08:01:14] DONE part_0384_0386
+[2026-03-27 08:01:24] START part_0387_0389: start_file_index=387, num_files=3, workers=1
+[2026-03-27 08:05:55] DONE part_0387_0389
+[2026-03-27 08:06:05] START part_0390_0392: start_file_index=390, num_files=3, workers=1
+[2026-03-27 08:11:40] DONE part_0390_0392
+[2026-03-27 08:11:50] START part_0393_0395: start_file_index=393, num_files=3, workers=1
+[2026-03-27 08:16:16] DONE part_0393_0395
+[2026-03-27 08:16:27] START part_0396_0398: start_file_index=396, num_files=3, workers=1
+[2026-03-27 08:20:56] DONE part_0396_0398
+[2026-03-27 08:21:06] START part_0399_0401: start_file_index=399, num_files=3, workers=1
+[2026-03-27 08:25:46] DONE part_0399_0401
+[2026-03-27 08:25:56] START part_0402_0404: start_file_index=402, num_files=3, workers=1
+[2026-03-27 08:30:15] DONE part_0402_0404
+[2026-03-27 08:30:26] START part_0405_0407: start_file_index=405, num_files=3, workers=1
+[2026-03-27 08:35:48] DONE part_0405_0407
+[2026-03-27 08:35:58] START part_0408_0410: start_file_index=408, num_files=3, workers=1
+[2026-03-27 08:40:21] DONE part_0408_0410
+[2026-03-27 08:40:31] START part_0411_0413: start_file_index=411, num_files=3, workers=1
+[2026-03-27 08:44:58] DONE part_0411_0413
+[2026-03-27 08:45:08] START part_0414_0416: start_file_index=414, num_files=3, workers=1
+[2026-03-27 08:49:41] DONE part_0414_0416
+[2026-03-27 08:49:51] START part_0417_0419: start_file_index=417, num_files=3, workers=1
+[2026-03-27 08:54:33] DONE part_0417_0419
+[2026-03-27 08:54:43] START part_0420_0422: start_file_index=420, num_files=3, workers=1
+[2026-03-27 08:59:21] DONE part_0420_0422
+[2026-03-27 08:59:32] START part_0423_0425: start_file_index=423, num_files=3, workers=1
+[2026-03-27 09:04:01] DONE part_0423_0425
+[2026-03-27 09:04:11] START part_0426_0428: start_file_index=426, num_files=3, workers=1
+[2026-03-27 09:08:48] DONE part_0426_0428
+[2026-03-27 09:08:58] START part_0429_0431: start_file_index=429, num_files=3, workers=1
+[2026-03-27 09:13:40] DONE part_0429_0431
+[2026-03-27 09:13:50] START part_0432_0434: start_file_index=432, num_files=3, workers=1
+[2026-03-27 09:18:30] DONE part_0432_0434
+[2026-03-27 09:18:40] START part_0435_0437: start_file_index=435, num_files=3, workers=1
+[2026-03-27 09:23:14] DONE part_0435_0437
+[2026-03-27 09:23:25] START part_0438_0440: start_file_index=438, num_files=3, workers=1
+[2026-03-27 09:27:52] DONE part_0438_0440
+[2026-03-27 09:28:02] START part_0441_0443: start_file_index=441, num_files=3, workers=1
+[2026-03-27 09:32:25] DONE part_0441_0443
+[2026-03-27 09:32:35] START part_0444_0446: start_file_index=444, num_files=3, workers=1
+[2026-03-27 09:37:01] DONE part_0444_0446
+[2026-03-27 09:37:11] START part_0447_0449: start_file_index=447, num_files=3, workers=1
+[2026-03-27 09:41:41] DONE part_0447_0449
+[2026-03-27 09:41:51] START part_0450_0452: start_file_index=450, num_files=3, workers=1
+[2026-03-27 09:46:27] DONE part_0450_0452
+[2026-03-27 09:46:37] START part_0453_0455: start_file_index=453, num_files=3, workers=1
+[2026-03-27 09:51:13] DONE part_0453_0455
+[2026-03-27 09:51:23] START part_0456_0458: start_file_index=456, num_files=3, workers=1
+[2026-03-27 09:55:48] DONE part_0456_0458
+[2026-03-27 09:55:58] START part_0459_0461: start_file_index=459, num_files=3, workers=1
+[2026-03-27 10:00:28] DONE part_0459_0461
+[2026-03-27 10:00:38] START part_0462_0464: start_file_index=462, num_files=3, workers=1
+[2026-03-27 10:05:02] DONE part_0462_0464
+[2026-03-27 10:05:12] START part_0465_0467: start_file_index=465, num_files=3, workers=1
+[2026-03-27 10:11:36] DONE part_0465_0467
+[2026-03-27 10:11:46] START part_0468_0470: start_file_index=468, num_files=3, workers=1
+[2026-03-27 10:17:23] DONE part_0468_0470
+[2026-03-27 10:17:34] START part_0471_0473: start_file_index=471, num_files=3, workers=1
+[2026-03-27 10:21:54] DONE part_0471_0473
+[2026-03-27 10:22:04] START part_0474_0476: start_file_index=474, num_files=3, workers=1
+[2026-03-27 10:26:43] DONE part_0474_0476
+[2026-03-27 10:26:53] START part_0477_0479: start_file_index=477, num_files=3, workers=1
+[2026-03-27 10:32:22] DONE part_0477_0479
+[2026-03-27 10:32:32] START part_0480_0482: start_file_index=480, num_files=3, workers=1
+[2026-03-27 10:37:09] DONE part_0480_0482
+[2026-03-27 10:37:19] START part_0483_0485: start_file_index=483, num_files=3, workers=1
+[2026-03-27 10:41:43] DONE part_0483_0485
+[2026-03-27 10:41:53] START part_0486_0488: start_file_index=486, num_files=3, workers=1
+[2026-03-27 10:46:12] DONE part_0486_0488
+[2026-03-27 10:46:22] START part_0489_0491: start_file_index=489, num_files=3, workers=1
+[2026-03-27 10:50:59] DONE part_0489_0491
+[2026-03-27 10:51:09] START part_0492_0494: start_file_index=492, num_files=3, workers=1
+[2026-03-27 10:55:26] DONE part_0492_0494
+[2026-03-27 10:55:36] START part_0495_0497: start_file_index=495, num_files=3, workers=1
+[2026-03-27 11:00:12] DONE part_0495_0497
+[2026-03-27 11:00:22] START part_0498_0500: start_file_index=498, num_files=3, workers=1
+[2026-03-27 11:04:43] DONE part_0498_0500
+[2026-03-27 11:04:53] START part_0501_0503: start_file_index=501, num_files=3, workers=1
+[2026-03-27 11:09:19] DONE part_0501_0503
+[2026-03-27 11:09:29] START part_0504_0506: start_file_index=504, num_files=3, workers=1
+[2026-03-27 11:13:50] DONE part_0504_0506
+[2026-03-27 11:14:00] START part_0507_0509: start_file_index=507, num_files=3, workers=1
+[2026-03-27 11:18:36] DONE part_0507_0509
+[2026-03-27 11:18:47] START part_0510_0512: start_file_index=510, num_files=3, workers=1
+[2026-03-27 11:23:22] DONE part_0510_0512
+[2026-03-27 11:23:32] START part_0513_0515: start_file_index=513, num_files=3, workers=1
+[2026-03-27 11:28:15] DONE part_0513_0515
+[2026-03-27 11:28:25] START part_0516_0518: start_file_index=516, num_files=3, workers=1
+[2026-03-27 11:33:44] DONE part_0516_0518
+[2026-03-27 11:33:54] START part_0519_0521: start_file_index=519, num_files=3, workers=1
+[2026-03-27 11:38:27] DONE part_0519_0521
+[2026-03-27 11:38:37] START part_0522_0524: start_file_index=522, num_files=3, workers=1
+[2026-03-27 11:43:00] DONE part_0522_0524
+[2026-03-27 11:43:10] START part_0525_0527: start_file_index=525, num_files=3, workers=1
+[2026-03-27 11:48:32] DONE part_0525_0527
+[2026-03-27 11:48:42] START part_0528_0530: start_file_index=528, num_files=3, workers=1
+[2026-03-27 11:53:56] DONE part_0528_0530
+[2026-03-27 11:54:06] START part_0531_0533: start_file_index=531, num_files=3, workers=1
+[2026-03-27 11:58:32] DONE part_0531_0533
+[2026-03-27 11:58:42] START part_0534_0536: start_file_index=534, num_files=3, workers=1
+[2026-03-27 12:03:16] DONE part_0534_0536
+[2026-03-27 12:03:26] START part_0537_0539: start_file_index=537, num_files=3, workers=1
+[2026-03-27 12:07:52] DONE part_0537_0539
+[2026-03-27 12:08:02] START part_0540_0542: start_file_index=540, num_files=3, workers=1
+[2026-03-27 12:12:30] DONE part_0540_0542
+[2026-03-27 12:12:40] START part_0543_0545: start_file_index=543, num_files=3, workers=1
+[2026-03-27 12:17:08] DONE part_0543_0545
+[2026-03-27 12:17:18] START part_0546_0548: start_file_index=546, num_files=3, workers=1
+[2026-03-27 12:21:45] DONE part_0546_0548
+[2026-03-27 12:21:55] START part_0549_0551: start_file_index=549, num_files=3, workers=1
+[2026-03-27 12:26:25] DONE part_0549_0551
+[2026-03-27 12:26:35] START part_0552_0554: start_file_index=552, num_files=3, workers=1
+[2026-03-27 12:31:04] DONE part_0552_0554
+[2026-03-27 12:31:14] START part_0555_0557: start_file_index=555, num_files=3, workers=1
+[2026-03-27 12:35:46] DONE part_0555_0557
+[2026-03-27 12:35:56] START part_0558_0560: start_file_index=558, num_files=3, workers=1
+[2026-03-27 12:40:32] DONE part_0558_0560
+[2026-03-27 12:40:42] START part_0561_0563: start_file_index=561, num_files=3, workers=1
+[2026-03-27 12:45:07] DONE part_0561_0563
+[2026-03-27 12:45:17] START part_0564_0566: start_file_index=564, num_files=3, workers=1
+[2026-03-27 12:51:41] DONE part_0564_0566
+[2026-03-27 12:51:51] START part_0567_0569: start_file_index=567, num_files=3, workers=1
+[2026-03-27 12:56:24] DONE part_0567_0569
+[2026-03-27 12:56:34] START part_0570_0572: start_file_index=570, num_files=3, workers=1
+[2026-03-27 13:01:00] DONE part_0570_0572
+[2026-03-27 13:01:11] START part_0573_0575: start_file_index=573, num_files=3, workers=1
+[2026-03-27 13:05:54] DONE part_0573_0575
+[2026-03-27 13:06:04] START part_0576_0578: start_file_index=576, num_files=3, workers=1
+[2026-03-27 13:11:33] DONE part_0576_0578
+[2026-03-27 13:11:43] START part_0579_0581: start_file_index=579, num_files=3, workers=1
+[2026-03-27 13:16:26] DONE part_0579_0581
+[2026-03-27 13:16:36] START part_0582_0584: start_file_index=582, num_files=3, workers=1
+[2026-03-27 13:21:57] DONE part_0582_0584
+[2026-03-27 13:22:07] START part_0585_0587: start_file_index=585, num_files=3, workers=1
+[2026-03-27 13:26:42] DONE part_0585_0587
+[2026-03-27 13:26:52] START part_0588_0590: start_file_index=588, num_files=3, workers=1
+[2026-03-27 13:32:19] DONE part_0588_0590
+[2026-03-27 13:32:29] START part_0591_0593: start_file_index=591, num_files=3, workers=1
+[2026-03-27 13:37:05] DONE part_0591_0593
+[2026-03-27 13:37:15] START part_0594_0596: start_file_index=594, num_files=3, workers=1
+[2026-03-27 13:41:38] DONE part_0594_0596
+[2026-03-27 13:41:48] START part_0597_0599: start_file_index=597, num_files=3, workers=1
+[2026-03-27 13:46:14] DONE part_0597_0599
+[2026-03-27 13:46:24] START part_0600_0602: start_file_index=600, num_files=3, workers=1
+[2026-03-27 13:50:51] DONE part_0600_0602
+[2026-03-27 13:51:01] START part_0603_0605: start_file_index=603, num_files=3, workers=1
+[2026-03-27 13:56:26] DONE part_0603_0605
+[2026-03-27 13:56:36] START part_0606_0608: start_file_index=606, num_files=3, workers=1
+[2026-03-27 14:01:08] DONE part_0606_0608
+[2026-03-27 14:01:18] START part_0609_0611: start_file_index=609, num_files=3, workers=1
+[2026-03-27 14:06:02] DONE part_0609_0611
+[2026-03-27 14:06:12] START part_0612_0614: start_file_index=612, num_files=3, workers=1
+[2026-03-27 14:10:30] DONE part_0612_0614
+[2026-03-27 14:10:40] START part_0615_0617: start_file_index=615, num_files=3, workers=1
+[2026-03-27 14:15:19] DONE part_0615_0617
+[2026-03-27 14:15:29] START part_0618_0620: start_file_index=618, num_files=3, workers=1
+[2026-03-27 14:19:55] DONE part_0618_0620
+[2026-03-27 14:20:05] START part_0621_0623: start_file_index=621, num_files=3, workers=1
+[2026-03-27 14:24:44] DONE part_0621_0623
+[2026-03-27 14:24:54] START part_0624_0626: start_file_index=624, num_files=3, workers=1
+[2026-03-27 14:29:46] DONE part_0624_0626
+[2026-03-27 14:29:56] START part_0627_0629: start_file_index=627, num_files=3, workers=1
+[2026-03-27 14:34:15] DONE part_0627_0629
+[2026-03-27 14:34:25] START part_0630_0632: start_file_index=630, num_files=3, workers=1
+[2026-03-27 14:38:55] DONE part_0630_0632
+[2026-03-27 14:39:05] START part_0633_0635: start_file_index=633, num_files=3, workers=1
+[2026-03-27 14:43:46] DONE part_0633_0635
+[2026-03-27 14:43:57] START part_0636_0638: start_file_index=636, num_files=3, workers=1
+[2026-03-27 14:48:31] DONE part_0636_0638
+[2026-03-27 14:48:41] START part_0639_0641: start_file_index=639, num_files=3, workers=1
+[2026-03-27 14:52:58] DONE part_0639_0641
+[2026-03-27 14:53:08] START part_0642_0644: start_file_index=642, num_files=3, workers=1
+[2026-03-27 14:57:48] DONE part_0642_0644
+[2026-03-27 14:57:58] START part_0645_0647: start_file_index=645, num_files=3, workers=1
+[2026-03-27 15:03:36] DONE part_0645_0647
+[2026-03-27 15:03:46] START part_0648_0650: start_file_index=648, num_files=3, workers=1
+[2026-03-27 15:08:12] DONE part_0648_0650
+[2026-03-27 15:08:22] START part_0651_0653: start_file_index=651, num_files=3, workers=1
+[2026-03-27 15:13:42] DONE part_0651_0653
+[2026-03-27 15:13:52] START part_0654_0656: start_file_index=654, num_files=3, workers=1
+[2026-03-27 15:18:34] DONE part_0654_0656
+[2026-03-27 15:18:44] START part_0657_0659: start_file_index=657, num_files=3, workers=1
+[2026-03-27 15:23:00] DONE part_0657_0659
+[2026-03-27 15:23:10] START part_0660_0662: start_file_index=660, num_files=3, workers=1
+[2026-03-27 15:27:33] DONE part_0660_0662
+[2026-03-27 15:27:43] START part_0663_0665: start_file_index=663, num_files=3, workers=1
+[2026-03-27 15:32:18] DONE part_0663_0665
+[2026-03-27 15:32:28] START part_0666_0668: start_file_index=666, num_files=3, workers=1
+[2026-03-27 15:36:42] DONE part_0666_0668
+[2026-03-27 15:36:52] START part_0669_0671: start_file_index=669, num_files=3, workers=1
+[2026-03-27 15:41:14] DONE part_0669_0671
+[2026-03-27 15:41:24] START part_0672_0674: start_file_index=672, num_files=3, workers=1
+[2026-03-27 15:45:51] DONE part_0672_0674
+[2026-03-27 15:46:01] START part_0675_0677: start_file_index=675, num_files=3, workers=1
+[2026-03-27 15:51:27] DONE part_0675_0677
+[2026-03-27 15:51:37] START part_0678_0680: start_file_index=678, num_files=3, workers=1
+[2026-03-27 15:56:09] DONE part_0678_0680
+[2026-03-27 15:56:19] START part_0681_0683: start_file_index=681, num_files=3, workers=1
+[2026-03-27 16:00:47] DONE part_0681_0683
+[2026-03-27 16:00:57] START part_0684_0686: start_file_index=684, num_files=3, workers=1
+[2026-03-27 16:05:27] DONE part_0684_0686
+[2026-03-27 16:05:37] START part_0687_0689: start_file_index=687, num_files=3, workers=1
+[2026-03-27 16:09:56] DONE part_0687_0689
+[2026-03-27 16:10:06] START part_0690_0692: start_file_index=690, num_files=3, workers=1
+[2026-03-27 16:14:45] DONE part_0690_0692
+[2026-03-27 16:14:55] START part_0693_0695: start_file_index=693, num_files=3, workers=1
+[2026-03-27 16:20:19] DONE part_0693_0695
+[2026-03-27 16:20:29] START part_0696_0698: start_file_index=696, num_files=3, workers=1
+[2026-03-27 16:25:18] DONE part_0696_0698
+[2026-03-27 16:25:28] START part_0699_0701: start_file_index=699, num_files=3, workers=1
+[2026-03-27 16:30:01] DONE part_0699_0701
+[2026-03-27 16:30:11] START part_0702_0704: start_file_index=702, num_files=3, workers=1
+[2026-03-27 16:34:41] DONE part_0702_0704
+[2026-03-27 16:34:51] START part_0705_0707: start_file_index=705, num_files=3, workers=1
+[2026-03-27 16:39:38] DONE part_0705_0707
+[2026-03-27 16:39:48] START part_0708_0710: start_file_index=708, num_files=3, workers=1
+[2026-03-27 16:44:17] DONE part_0708_0710
+[2026-03-27 16:44:27] START part_0711_0713: start_file_index=711, num_files=3, workers=1
+[2026-03-27 16:48:51] DONE part_0711_0713
+[2026-03-27 16:49:02] START part_0714_0716: start_file_index=714, num_files=3, workers=1
+[2026-03-27 16:53:31] DONE part_0714_0716
+[2026-03-27 16:53:41] START part_0717_0719: start_file_index=717, num_files=3, workers=1
+[2026-03-27 16:58:04] DONE part_0717_0719
+[2026-03-27 16:58:14] START part_0720_0722: start_file_index=720, num_files=3, workers=1
+[2026-03-27 17:02:51] DONE part_0720_0722
+[2026-03-27 17:03:01] START part_0723_0725: start_file_index=723, num_files=3, workers=1
+[2026-03-27 17:07:33] DONE part_0723_0725
+[2026-03-27 17:07:43] START part_0726_0728: start_file_index=726, num_files=3, workers=1
+[2026-03-27 17:12:27] DONE part_0726_0728
+[2026-03-27 17:12:37] START part_0729_0731: start_file_index=729, num_files=3, workers=1
+[2026-03-27 17:17:15] DONE part_0729_0731
+[2026-03-27 17:17:25] START part_0732_0734: start_file_index=732, num_files=3, workers=1
+[2026-03-27 17:21:48] DONE part_0732_0734
+[2026-03-27 17:21:58] START part_0735_0737: start_file_index=735, num_files=3, workers=1
+[2026-03-27 17:26:21] DONE part_0735_0737
+[2026-03-27 17:26:31] START part_0738_0740: start_file_index=738, num_files=3, workers=1
+[2026-03-27 17:31:13] DONE part_0738_0740
+[2026-03-27 17:31:23] START part_0741_0743: start_file_index=741, num_files=3, workers=1
+[2026-03-27 17:35:54] DONE part_0741_0743
+[2026-03-27 17:36:04] START part_0744_0746: start_file_index=744, num_files=3, workers=1
+[2026-03-27 17:40:27] DONE part_0744_0746
+[2026-03-27 17:40:37] START part_0747_0749: start_file_index=747, num_files=3, workers=1
+[2026-03-27 17:46:15] DONE part_0747_0749
+[2026-03-27 17:46:25] START part_0750_0752: start_file_index=750, num_files=3, workers=1
+[2026-03-27 17:51:52] DONE part_0750_0752
+[2026-03-27 17:52:02] START part_0753_0755: start_file_index=753, num_files=3, workers=1
+[2026-03-27 17:57:25] DONE part_0753_0755
+[2026-03-27 17:57:35] START part_0756_0758: start_file_index=756, num_files=3, workers=1
+[2026-03-27 18:02:18] DONE part_0756_0758
+[2026-03-27 18:02:28] START part_0759_0761: start_file_index=759, num_files=3, workers=1
+[2026-03-27 18:07:00] DONE part_0759_0761
+[2026-03-27 18:07:10] START part_0762_0764: start_file_index=762, num_files=3, workers=1
+[2026-03-27 18:11:48] DONE part_0762_0764
+[2026-03-27 18:11:58] START part_0765_0767: start_file_index=765, num_files=3, workers=1
+[2026-03-27 18:16:23] DONE part_0765_0767
+[2026-03-27 18:16:33] START part_0768_0770: start_file_index=768, num_files=3, workers=1
+[2026-03-27 18:21:05] DONE part_0768_0770
+[2026-03-27 18:21:15] START part_0771_0773: start_file_index=771, num_files=3, workers=1
+[2026-03-27 18:25:40] DONE part_0771_0773
+[2026-03-27 18:25:50] START part_0774_0776: start_file_index=774, num_files=3, workers=1
+[2026-03-27 18:30:20] DONE part_0774_0776
+[2026-03-27 18:30:30] START part_0777_0779: start_file_index=777, num_files=3, workers=1
+[2026-03-27 18:35:04] DONE part_0777_0779
+[2026-03-27 18:35:14] START part_0780_0782: start_file_index=780, num_files=3, workers=1
+[2026-03-27 18:39:29] DONE part_0780_0782
+[2026-03-27 18:39:39] START part_0783_0785: start_file_index=783, num_files=3, workers=1
+[2026-03-27 18:44:11] DONE part_0783_0785
+[2026-03-27 18:44:21] START part_0786_0788: start_file_index=786, num_files=3, workers=1
+[2026-03-27 18:48:40] DONE part_0786_0788
+[2026-03-27 18:48:50] START part_0789_0791: start_file_index=789, num_files=3, workers=1
+[2026-03-27 18:53:23] DONE part_0789_0791
+[2026-03-27 18:53:33] START part_0792_0794: start_file_index=792, num_files=3, workers=1
+[2026-03-27 18:58:02] DONE part_0792_0794
+[2026-03-27 18:58:12] START part_0795_0797: start_file_index=795, num_files=3, workers=1
+[2026-03-27 19:02:36] DONE part_0795_0797
+[2026-03-27 19:02:46] START part_0798_0800: start_file_index=798, num_files=3, workers=1
+[2026-03-27 19:07:21] DONE part_0798_0800
+[2026-03-27 19:07:31] START part_0801_0803: start_file_index=801, num_files=3, workers=1
+[2026-03-27 19:12:08] DONE part_0801_0803
+[2026-03-27 19:12:18] START part_0804_0806: start_file_index=804, num_files=3, workers=1
+[2026-03-27 19:16:46] DONE part_0804_0806
+[2026-03-27 19:16:56] START part_0807_0809: start_file_index=807, num_files=3, workers=1
+[2026-03-27 19:21:40] DONE part_0807_0809
+[2026-03-27 19:21:50] START part_0810_0812: start_file_index=810, num_files=3, workers=1
+[2026-03-27 19:26:14] DONE part_0810_0812
+[2026-03-27 19:26:24] START part_0813_0815: start_file_index=813, num_files=3, workers=1
+[2026-03-27 19:30:54] DONE part_0813_0815
+[2026-03-27 19:31:04] START part_0816_0818: start_file_index=816, num_files=3, workers=1
+[2026-03-27 19:35:36] DONE part_0816_0818
+[2026-03-27 19:35:46] START part_0819_0821: start_file_index=819, num_files=3, workers=1
+[2026-03-27 19:40:13] DONE part_0819_0821
+[2026-03-27 19:40:23] START part_0822_0824: start_file_index=822, num_files=3, workers=1
+[2026-03-27 19:45:01] DONE part_0822_0824
+[2026-03-27 19:45:11] START part_0825_0827: start_file_index=825, num_files=3, workers=1
+[2026-03-27 19:49:33] DONE part_0825_0827
+[2026-03-27 19:49:43] START part_0828_0830: start_file_index=828, num_files=3, workers=1
+[2026-03-27 19:54:04] DONE part_0828_0830
+[2026-03-27 19:54:15] START part_0831_0833: start_file_index=831, num_files=3, workers=1
+[2026-03-27 19:58:42] DONE part_0831_0833
+[2026-03-27 19:58:52] START part_0834_0836: start_file_index=834, num_files=3, workers=1
+[2026-03-27 20:03:29] DONE part_0834_0836
+[2026-03-27 20:03:39] START part_0837_0839: start_file_index=837, num_files=3, workers=1
+[2026-03-27 20:08:19] DONE part_0837_0839
+[2026-03-27 20:08:30] START part_0840_0842: start_file_index=840, num_files=3, workers=1
+[2026-03-27 20:12:46] DONE part_0840_0842
+[2026-03-27 20:12:56] START part_0843_0845: start_file_index=843, num_files=3, workers=1
+[2026-03-27 20:17:33] DONE part_0843_0845
+[2026-03-27 20:17:43] START part_0846_0848: start_file_index=846, num_files=3, workers=1
+[2026-03-27 20:22:23] DONE part_0846_0848
+[2026-03-27 20:22:33] START part_0849_0851: start_file_index=849, num_files=3, workers=1
+[2026-03-27 20:26:53] DONE part_0849_0851
+[2026-03-27 20:27:03] START part_0852_0854: start_file_index=852, num_files=3, workers=1
+[2026-03-27 20:31:29] DONE part_0852_0854
+[2026-03-27 20:31:39] START part_0855_0857: start_file_index=855, num_files=3, workers=1
+[2026-03-27 20:36:16] DONE part_0855_0857
+[2026-03-27 20:36:26] START part_0858_0860: start_file_index=858, num_files=3, workers=1
+[2026-03-27 20:40:52] DONE part_0858_0860
+[2026-03-27 20:41:03] START part_0861_0863: start_file_index=861, num_files=3, workers=1
+[2026-03-27 20:46:29] DONE part_0861_0863
+[2026-03-27 20:46:39] START part_0864_0866: start_file_index=864, num_files=3, workers=1
+[2026-03-27 20:51:12] DONE part_0864_0866
+[2026-03-27 20:51:22] START part_0867_0869: start_file_index=867, num_files=3, workers=1
+[2026-03-27 20:55:53] DONE part_0867_0869
+[2026-03-27 20:56:03] START part_0870_0872: start_file_index=870, num_files=3, workers=1
+[2026-03-27 21:00:29] DONE part_0870_0872
+[2026-03-27 21:00:39] START part_0873_0875: start_file_index=873, num_files=3, workers=1
+[2026-03-27 21:05:18] DONE part_0873_0875
+[2026-03-27 21:05:28] START part_0876_0878: start_file_index=876, num_files=3, workers=1
+[2026-03-27 21:10:43] DONE part_0876_0878
+[2026-03-27 21:10:54] START part_0879_0881: start_file_index=879, num_files=3, workers=1
+[2026-03-27 21:15:17] DONE part_0879_0881
+[2026-03-27 21:15:27] START part_0882_0884: start_file_index=882, num_files=3, workers=1
+[2026-03-27 21:20:08] DONE part_0882_0884
+[2026-03-27 21:20:18] START part_0885_0887: start_file_index=885, num_files=3, workers=1
+[2026-03-27 21:25:01] DONE part_0885_0887
+[2026-03-27 21:25:11] START part_0888_0890: start_file_index=888, num_files=3, workers=1
+[2026-03-27 21:29:52] DONE part_0888_0890
+[2026-03-27 21:30:02] START part_0891_0893: start_file_index=891, num_files=3, workers=1
+[2026-03-27 21:34:26] DONE part_0891_0893
+[2026-03-27 21:34:36] START part_0894_0896: start_file_index=894, num_files=3, workers=1
+[2026-03-27 21:39:17] DONE part_0894_0896
+[2026-03-27 21:39:27] START part_0897_0899: start_file_index=897, num_files=3, workers=1
+[2026-03-27 21:43:48] DONE part_0897_0899
+[2026-03-27 21:43:58] START part_0900_0902: start_file_index=900, num_files=3, workers=1
+[2026-03-27 21:48:33] DONE part_0900_0902
+[2026-03-27 21:48:43] START part_0903_0905: start_file_index=903, num_files=3, workers=1
+[2026-03-27 21:53:13] DONE part_0903_0905
+[2026-03-27 21:53:23] START part_0906_0908: start_file_index=906, num_files=3, workers=1
+[2026-03-27 21:57:56] DONE part_0906_0908
+[2026-03-27 21:58:06] START part_0909_0911: start_file_index=909, num_files=3, workers=1
+[2026-03-27 22:03:30] DONE part_0909_0911
+[2026-03-27 22:03:40] START part_0912_0914: start_file_index=912, num_files=3, workers=1
+[2026-03-27 22:09:05] DONE part_0912_0914
+[2026-03-27 22:09:15] START part_0915_0917: start_file_index=915, num_files=3, workers=1
+[2026-03-27 22:13:43] DONE part_0915_0917
+[2026-03-27 22:13:54] START part_0918_0920: start_file_index=918, num_files=3, workers=1
+[2026-03-27 22:18:25] DONE part_0918_0920
+[2026-03-27 22:18:35] START part_0921_0923: start_file_index=921, num_files=3, workers=1
+[2026-03-27 22:23:12] DONE part_0921_0923
+[2026-03-27 22:23:22] START part_0924_0926: start_file_index=924, num_files=3, workers=1
+[2026-03-27 22:27:48] DONE part_0924_0926
+[2026-03-27 22:27:58] START part_0927_0929: start_file_index=927, num_files=3, workers=1
+[2026-03-27 22:33:30] DONE part_0927_0929
+[2026-03-27 22:33:40] START part_0930_0932: start_file_index=930, num_files=3, workers=1
+[2026-03-27 22:38:13] DONE part_0930_0932
+[2026-03-27 22:38:23] START part_0933_0935: start_file_index=933, num_files=3, workers=1
+[2026-03-27 22:42:54] DONE part_0933_0935
+[2026-03-27 22:43:04] START part_0936_0938: start_file_index=936, num_files=3, workers=1
+[2026-03-27 22:47:34] DONE part_0936_0938
+[2026-03-27 22:47:45] START part_0939_0941: start_file_index=939, num_files=3, workers=1
+[2026-03-27 22:52:11] DONE part_0939_0941
+[2026-03-27 22:52:21] START part_0942_0944: start_file_index=942, num_files=3, workers=1
+[2026-03-27 22:56:55] DONE part_0942_0944
+[2026-03-27 22:57:05] START part_0945_0947: start_file_index=945, num_files=3, workers=1
+[2026-03-27 23:01:25] DONE part_0945_0947
+[2026-03-27 23:01:35] START part_0948_0950: start_file_index=948, num_files=3, workers=1
+[2026-03-27 23:06:13] DONE part_0948_0950
+[2026-03-27 23:06:24] START part_0951_0953: start_file_index=951, num_files=3, workers=1
+[2026-03-27 23:10:42] DONE part_0951_0953
+[2026-03-27 23:10:52] START part_0954_0956: start_file_index=954, num_files=3, workers=1
+[2026-03-27 23:15:14] DONE part_0954_0956
+[2026-03-27 23:15:24] START part_0957_0959: start_file_index=957, num_files=3, workers=1
+[2026-03-27 23:19:44] DONE part_0957_0959
+[2026-03-27 23:19:54] START part_0960_0962: start_file_index=960, num_files=3, workers=1
+[2026-03-27 23:24:22] DONE part_0960_0962
+[2026-03-27 23:24:32] START part_0963_0965: start_file_index=963, num_files=3, workers=1
+[2026-03-27 23:29:03] DONE part_0963_0965
+[2026-03-27 23:29:13] START part_0966_0968: start_file_index=966, num_files=3, workers=1
+[2026-03-27 23:33:35] DONE part_0966_0968
+[2026-03-27 23:33:45] START part_0969_0971: start_file_index=969, num_files=3, workers=1
+[2026-03-27 23:38:14] DONE part_0969_0971
+[2026-03-27 23:38:24] START part_0972_0974: start_file_index=972, num_files=3, workers=1
+[2026-03-27 23:43:02] DONE part_0972_0974
+[2026-03-27 23:43:12] START part_0975_0977: start_file_index=975, num_files=3, workers=1
+[2026-03-27 23:47:52] DONE part_0975_0977
+[2026-03-27 23:48:02] START part_0978_0980: start_file_index=978, num_files=3, workers=1
+[2026-03-27 23:52:31] DONE part_0978_0980
+[2026-03-27 23:52:41] START part_0981_0983: start_file_index=981, num_files=3, workers=1
+[2026-03-27 23:57:06] DONE part_0981_0983
+[2026-03-27 23:57:16] START part_0984_0986: start_file_index=984, num_files=3, workers=1
+[2026-03-28 00:02:52] DONE part_0984_0986
+[2026-03-28 00:03:02] START part_0987_0989: start_file_index=987, num_files=3, workers=1
+[2026-03-28 00:08:19] DONE part_0987_0989
+[2026-03-28 00:08:29] START part_0990_0992: start_file_index=990, num_files=3, workers=1
+[2026-03-28 00:13:50] DONE part_0990_0992
+[2026-03-28 00:14:00] START part_0993_0995: start_file_index=993, num_files=3, workers=1
+[2026-03-28 00:18:40] DONE part_0993_0995
+[2026-03-28 00:18:52] START part_0996_0998: start_file_index=996, num_files=3, workers=1
+[2026-03-28 00:23:31] DONE part_0996_0998
+[2026-03-28 00:23:41] START part_0999_0999: start_file_index=999, num_files=1, workers=1
+[2026-03-28 00:25:23] DONE part_0999_0999
+[2026-03-28 00:25:33] ===== batch run finished =====
+[2026-03-28 00:25:33] Run '/home/huangfukunkun/run_waymo_batches.sh merge' to merge completed parts
+[2026-03-28 09:58:36] MERGE start: 334 parts -> /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/merged_final

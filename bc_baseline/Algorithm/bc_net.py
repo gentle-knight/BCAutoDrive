@@ -7,14 +7,14 @@ class BCActor(nn.Module):
     Behavior Cloning (BC) Actor 网络。
 
     输入：
-        - obs: shape = (B, 45) 或 (45,)
+        - obs: shape = (B, 51) 或 (51,)
 
     输出：
         - action: shape = (B, 2) 或 (2,)
           对应 [steering, acceleration]，并通过 Tanh 限制在 [-1, 1] 区间内。
     """
 
-    def __init__(self, obs_dim: int = 45, hidden_dim: int = 256, action_dim: int = 2):
+    def __init__(self, obs_dim: int = 51, hidden_dim: int = 256, action_dim: int = 2):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(obs_dim, hidden_dim),

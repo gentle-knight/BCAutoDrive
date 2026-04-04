@@ -12,13 +12,15 @@ from typing import Dict, Iterable, Tuple, Any
 3. 对所有模块（数据生成、训练、评估）提供一个唯一的入口函数：
       extract_ego_observation(vehicle, map_manager, active_agents)
 
-观测空间设计（总维度 = 45）：
-    - Ego 特征（5 维）：
+观测空间设计（总维度 = 51）：
+    - Ego 特征（11 维）：
         1) lateral_offset      : 自车相对于当前车道中心线的横向偏移（米），左正右负（取决于地图实现）
         2) heading_error       : 自车航向与车道切向的偏差角（弧度），取值范围约 [-pi, pi]
         3) vel_longitudinal    : 自车在 **自车坐标系 X 轴方向** 的速度（纵向速度，前正后负）
         4) vel_lateral         : 自车在 **自车坐标系 Y 轴方向** 的速度（横向速度，左正右负）
         5) yaw_rate            : 自车角速度（rad/s），**本基线中强制设置为 0.0**
+        6–11) waypoints_ego    : 前瞻路点（10m、20m、30m 处车道中心线）在自车坐标系下的 (rel_x, rel_y)，
+                                 共 3 点 × 2 = 6 维，用于提供“前瞻视野”以更好应对弯道。
 
     - Neighbor 特征（40 维 = 10 × 4）：
         - 在自车 30 米半径范围内，选择距离最近的最多 10 辆其他车。
@@ -36,8 +38,12 @@ from typing import Dict, Iterable, Tuple, Any
 
 # -------------------------- 观测空间维度常量 -------------------------- #
 
-# Ego 部分维度：5
-OBS_EGO_DIM: int = 5
+# Ego 部分维度：11 = 5（基础） + 6（前瞻路点 3×2）
+OBS_EGO_DIM: int = 11
+
+# 前瞻路点数量与维度：3 个距离（10m、20m、30m），每点 2 维 (rel_x, rel_y)
+OBS_WAYPOINT_DISTANCES: Tuple[float, ...] = (10.0, 20.0, 30.0)
+OBS_WAYPOINT_DIM: int = len(OBS_WAYPOINT_DISTANCES) * 2  # 6
 
 # 邻居槽位数量：最多考虑 10 辆邻居车
 OBS_NEIGHBOR_SLOTS: int = 10
@@ -45,7 +51,7 @@ OBS_NEIGHBOR_SLOTS: int = 10
 # 每辆邻居车的特征维度：4 = (rel_x, rel_y, vel_x, vel_y)
 OBS_NEIGHBOR_FEAT_DIM: int = 4
 
-# 总观测维度：5 + 10 * 4 = 45
+# 总观测维度：11 + 10 * 4 = 51
 OBS_DIM: int = OBS_EGO_DIM + OBS_NEIGHBOR_SLOTS * OBS_NEIGHBOR_FEAT_DIM
 
 
@@ -126,38 +132,38 @@ def to_ego_frame_2d(
 
 # -------------------------- 车道相关特征提取 -------------------------- #
 
-def get_ego_lane_features(vehicle: Any, map_manager: Any) -> Tuple[float, float]:
+def get_ego_lane_features(
+    vehicle: Any, map_manager: Any
+) -> Tuple[float, float, Tuple[float, ...]]:
     """
-    计算 Ego 的车道相关特征：
+    计算 Ego 的车道相关特征及前瞻路点（自车系下）。
+
+    返回：
         1) lateral_offset : 自车相对于最近车道中心线的横向偏移（米）
         2) heading_error  : 自车朝向与车道切线方向的偏差角（弧度，ego_heading - lane_heading）
+        3) waypoints_ego  : 长度为 6 的一维元组，为前方 10m、20m、30m 处车道中心线
+                           在自车坐标系下的 (rel_x, rel_y) 依次拼接，即
+                           (wp10_x, wp10_y, wp20_x, wp20_y, wp30_x, wp30_y)。
+                           若车道获取失败或某点越界，则对应位置填 0.0。
 
     设计要点：
         - 优先使用 MetaDrive 中 vehicle.navigation.current_ref_lanes 提供的当前参考车道；
         - 若导航信息缺失，则回退为在 road_network 中搜索“最近车道”；
-        - 若 map 未加载或查询失败，则返回 (0.0, 0.0)，保持观测维度稳定。
-
-    参数：
-        vehicle     : MetaDrive 自车对象，需要至少提供：
-                        - position (x, y)
-                        - heading_theta 或 heading
-        map_manager : MetaDrive 的 map 管理器，一般为 env.engine.map_manager
-
-    返回：
-        (lateral_offset, heading_error)
+        - 前瞻点通过 lane.position(longitudinal + 10/20/30, 0) 得到全局坐标，再经 to_ego_frame_2d 转为自车系。
     """
     lateral_offset: float = 0.0
     heading_error: float = 0.0
+    waypoints_ego: Tuple[float, ...] = (0.0,) * OBS_WAYPOINT_DIM  # 6 个 0
 
     if map_manager is None or getattr(map_manager, "current_map", None) is None:
-        # 若地图信息缺失，则无法计算车道几何，直接返回 0
-        return lateral_offset, heading_error
+        return lateral_offset, heading_error, waypoints_ego
 
     try:
-        # 1. 获取自车全局位置
         ego_pos = np.asarray(getattr(vehicle, "position")[:2], dtype=np.float64)
+        ego_heading = float(
+            getattr(vehicle, "heading_theta", getattr(vehicle, "heading", 0.0))
+        )
 
-        # 2. 优先从导航模块中获取当前参考车道
         lane = None
         navigation = getattr(vehicle, "navigation", None)
         if navigation is not None and getattr(navigation, "current_ref_lanes", None):
@@ -165,41 +171,51 @@ def get_ego_lane_features(vehicle: Any, map_manager: Any) -> Tuple[float, float]
             if ref_lanes:
                 lane = ref_lanes[0]
 
-        # 3. 若导航未提供车道，则使用 road_network 最近车道
         if lane is None:
             road_network = map_manager.current_map.road_network
-            # MetaDrive 通常提供 get_closest_lane_index(pos, return_lane=True)
             lane, _ = road_network.get_closest_lane_index(ego_pos, return_lane=True)
 
         if lane is None:
-            # 未找到有效车道，保持 0.0
-            return lateral_offset, heading_error
+            return lateral_offset, heading_error, waypoints_ego
 
-        # 4. 在车道局部坐标中获取 (longitudinal, lateral)，其中 lateral 即为相对中心线偏移
         longitudinal, lateral = lane.local_coordinates(ego_pos)
         lateral_offset = float(lateral)
 
-        # 5. 自车朝向
-        ego_heading = float(
-            getattr(vehicle, "heading_theta", getattr(vehicle, "heading", 0.0))
-        )
-
-        # 6. 车道在该纵向位置的切线朝向
         if hasattr(lane, "heading_theta_at"):
             lane_heading = float(lane.heading_theta_at(longitudinal))
         elif hasattr(lane, "heading_at"):
             lane_heading = float(lane.heading_at(longitudinal))
         else:
-            # 若车道未提供 heading 查询接口，则保守起见视为与自车同向
             lane_heading = ego_heading
-
-        # 7. 航向误差：ego_heading - lane_heading，经过 wrap 到 [-pi, pi]
         heading_error = _wrap_angle_rad(ego_heading - lane_heading)
 
-        return lateral_offset, heading_error
+        # 前瞻路点：10m、20m、30m 处的车道中心线全局坐标 -> 自车系 (rel_x, rel_y)
+        waypoint_list: list[float] = []
+        for dist in OBS_WAYPOINT_DISTANCES:
+            target_long = float(longitudinal) + dist
+            try:
+                # MetaDrive 车道中心线：position(longitudinal, lateral=0)
+                if hasattr(lane, "position"):
+                    pt_global = np.asarray(lane.position(target_long, 0.0), dtype=np.float64)
+                elif hasattr(lane, "position_heading"):
+                    pt_global, _ = lane.position_heading(target_long, 0.0)
+                    pt_global = np.asarray(pt_global[:2], dtype=np.float64)
+                else:
+                    pt_global = np.zeros(2, dtype=np.float64)
+                pos_ego, _ = to_ego_frame_2d(ego_pos, ego_heading, pt_global, None)
+                waypoint_list.append(float(pos_ego[0]))
+                waypoint_list.append(float(pos_ego[1]))
+            except Exception:
+                waypoint_list.extend([0.0, 0.0])
+
+        if len(waypoint_list) >= OBS_WAYPOINT_DIM:
+            waypoints_ego = tuple(waypoint_list[: OBS_WAYPOINT_DIM])
+        else:
+            waypoints_ego = tuple(waypoint_list) + (0.0,) * (OBS_WAYPOINT_DIM - len(waypoint_list))
+
+        return lateral_offset, heading_error, waypoints_ego
     except Exception:
-        # 为了鲁棒性，任何异常都不影响整体 pipeline，直接回退到 0.0
-        return 0.0, 0.0
+        return 0.0, 0.0, (0.0,) * OBS_WAYPOINT_DIM
 
 
 # -------------------------- 统一 Ego 观测提取函数 -------------------------- #
@@ -213,13 +229,14 @@ def extract_ego_observation(
     max_neighbors: int = OBS_NEIGHBOR_SLOTS,
 ) -> np.ndarray:
     """
-    提取单辆自车的 **45 维 Ego-centric 观测向量**。
+    提取单辆自车的 **51 维 Ego-centric 观测向量**。
 
     观测结构：
-        - 前 5 维：Ego 特征
+        - 前 11 维：Ego 特征
               [lateral_offset, heading_error,
                vel_longitudinal, vel_lateral,
-               yaw_rate(=0.0)]
+               yaw_rate(=0.0),
+               wp10_x, wp10_y, wp20_x, wp20_y, wp30_x, wp30_y]
         - 后 40 维：邻居车辆特征（最多 10 辆，每辆 4 维）
               [rel_x_1, rel_y_1, vel_x_1, vel_y_1,
                ...
@@ -269,14 +286,15 @@ def extract_ego_observation(
     vel_longitudinal = float(ego_vel_ego[0])
     vel_lateral = float(ego_vel_ego[1])
 
-    # 车道相关特征：lateral_offset / heading_error
-    lateral_offset, heading_error = get_ego_lane_features(vehicle, map_manager)
+    # 车道相关特征：lateral_offset / heading_error / 前瞻路点（6 维）
+    lateral_offset, heading_error, waypoints_ego = get_ego_lane_features(vehicle, map_manager)
 
     # 绝对红线：yaw_rate 在此处直接硬编码为 0.0，不做任何微分运算
     yaw_rate = 0.0
 
     ego_state = np.array(
-        [lateral_offset, heading_error, vel_longitudinal, vel_lateral, yaw_rate],
+        [lateral_offset, heading_error, vel_longitudinal, vel_lateral, yaw_rate]
+        + list(waypoints_ego),
         dtype=np.float32,
     )
 
@@ -364,16 +382,18 @@ def extract_ego_observation(
             [0.0] * (OBS_NEIGHBOR_SLOTS * OBS_NEIGHBOR_FEAT_DIM - len(neighbor_feats))
         )
 
-    # -------------------- 4. 拼接 Ego 与 Neighbor 特征，返回 45 维向量 -------------------- #
+    # -------------------- 4. 拼接 Ego 与 Neighbor 特征，返回 51 维向量 -------------------- #
     obs = np.concatenate([ego_state, np.asarray(neighbor_feats, dtype=np.float32)], axis=0)
 
-    # 最终保证输出维度为 (45,) 且 dtype 为 float32
+    # 最终保证输出维度为 (51,) 且 dtype 为 float32
     assert obs.shape == (OBS_DIM,), f"观测维度不匹配，期望 {OBS_DIM}，实际 {obs.shape[0]}"
     return obs.astype(np.float32)
 
 
 __all__ = [
     "OBS_EGO_DIM",
+    "OBS_WAYPOINT_DISTANCES",
+    "OBS_WAYPOINT_DIM",
     "OBS_NEIGHBOR_SLOTS",
     "OBS_NEIGHBOR_FEAT_DIM",
     "OBS_DIM",

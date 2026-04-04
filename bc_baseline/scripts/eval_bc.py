@@ -18,7 +18,7 @@ eval_bc.py
 
 数据流：
     - 输入：Waymo->ScenarioNet 的 .pkl 场景（由 MetaDrive 在 ScenarioEnv 中读取）；
-    - 策略：BCActor (45 -> 2)，输出 [steering, acceleration]，范围 [-1, 1]；
+    - 策略：BCActor (51 -> 2)，输出 [steering, acceleration]，范围 [-1, 1]；
     - 环境：BCEvalEnv，背景车 log-replay，Ego 用策略输出的 action 控制。
 """
 
@@ -74,7 +74,7 @@ def load_policy(ckpt_path: str, device: torch.device) -> BCActor:
     ckpt = torch.load(ckpt_path, map_location=device)
     state_dict = ckpt.get("model_state_dict", ckpt)
 
-    model = BCActor(obs_dim=45, hidden_dim=256, action_dim=2)
+    model = BCActor(obs_dim=51, hidden_dim=256, action_dim=2)
     model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
@@ -161,8 +161,8 @@ def main():
         last_info = {}
 
         while not done:
-            # 将 45 维观测送入 BCActor，得到动作 [steering, acceleration]
-            obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)  # (1, 45)
+            # 将 51 维观测送入 BCActor，得到动作 [steering, acceleration]
+            obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)  # (1, 51)
             with torch.no_grad():
                 action_tensor = policy(obs_tensor)  # (1, 2)，范围 [-1, 1]
             action = action_tensor.squeeze(0).cpu().numpy().astype(np.float32)  # (2,)

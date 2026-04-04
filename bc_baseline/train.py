@@ -188,7 +188,7 @@ def main() -> None:
     )
 
     # 2) 模型、损失、优化器
-    model = BCActor(obs_dim=45, hidden_dim=256, action_dim=2).to(device)
+    model = BCActor(obs_dim=51, hidden_dim=256, action_dim=2).to(device)
     criterion = nn.MSELoss(reduction="mean")
     optimizer = torch.optim.Adam(model.parameters(), lr=cfg.lr)
 

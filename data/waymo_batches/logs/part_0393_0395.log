@@ -1,0 +1,23 @@
+INFO:scenarionet.converter.waymo.utils:
+Reading raw data
+INFO:scenarionet.converter.waymo.utils:
+Find 3 waymo files
+INFO:__main__:We will read 3 raw files. You set the number of workers to 1. Please make sure there will not be too much files to be read in each worker (now it's 3.0)!
+Worker 0 Number of raw file:   0%|          | 0/3 [00:00<?, ?it/s]INFO:scenarionet.converter.waymo.utils:Worker 0 is reading raw file: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training/training.tfrecord-00389-of-01000
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/converter/utils.py:Worker 0 has processed 500 scenarios.
+Worker 0 Number of raw file:  33%|███▎      | 1/3 [01:29<02:58, 89.50s/it]INFO:scenarionet.converter.waymo.utils:Worker 0 is reading raw file: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training/training.tfrecord-00393-of-01000
+Worker 0 Number of raw file:  67%|██████▋   | 2/3 [02:53<01:26, 86.15s/it]INFO:scenarionet.converter.waymo.utils:Worker 0 is reading raw file: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/wodm/scenario/training/training.tfrecord-00402-of-01000
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/converter/utils.py:Worker 0 has processed 1000 scenarios.
+Worker 0 Number of raw file: 100%|██████████| 3/3 [04:14<00:00, 83.68s/it]                                                                          INFO:scenarionet.converter.waymo.utils:Worker 0 finished read 3 files.
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0393_0395/part_0393_0395_0_tmp/dataset_summary.pkl ================ 
+
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/converter/utils.py:Worker 0 finished! Files are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0393_0395/part_0393_0395_0
+Merge Data:   0%|          | 0/1 [00:00<?, ?it/s]Merge Data: 100%|██████████| 1/1 [00:00<00:00,  5.29it/s]Merge Data: 100%|██████████| 1/1 [00:00<00:00,  5.28it/s]
+Filter Scenarios:   0%|          | 0/1438 [00:00<?, ?it/s]Filter Scenarios: 100%|██████████| 1438/1438 [00:00<00:00, 736076.29it/s]
+INFO:root:
+ ================ Dataset Summary and Mapping are saved at: /srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/waymo_batches/part_0393_0395/dataset_summary.pkl ================ 
+
+/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources  # for suppress warning
+INFO:/srv/dev-disk-by-uuid-2fb9cb63-8fe8-4912-a8e8-baa0c60742f7/data/code/jovyan/科研/AutoDrive/scenarionet/scenarionet/num.py:Number of scenarios: 1438

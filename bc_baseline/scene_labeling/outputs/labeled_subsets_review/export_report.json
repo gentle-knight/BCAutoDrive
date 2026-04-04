@@ -1,0 +1,37 @@
+{
+  "version": "export_labeled_subsets_v2",
+  "export_mode": "review",
+  "scene_labels_json": "/home/huangfukk/workspace/MAGAIL4AutoDrive/bc_baseline/scene_labeling/outputs/scene_labels.json",
+  "dataset_dir": "/home/huangfukk/workspace/MAGAIL4AutoDrive/legacy_magail/data/exp_filtered",
+  "output_root": "/home/huangfukk/workspace/MAGAIL4AutoDrive/bc_baseline/scene_labeling/outputs/labeled_subsets_review",
+  "categories": [
+    "control_type",
+    "road_type",
+    "interaction_type"
+  ],
+  "subset_limit_per_label": null,
+  "counts_by_category_and_label": {
+    "control_type": {
+      "none": 20,
+      "stop_controlled": 20
+    },
+    "road_type": {
+      "freeway": 14,
+      "urban_road": 20,
+      "merge_ramp": 20,
+      "intersection": 1
+    },
+    "interaction_type": {
+      "mixed": 20,
+      "turning_conflict": 1,
+      "lane_change": 20,
+      "merge": 1,
+      "crossing_conflict": 1
+    }
+  },
+  "total_scenarios_in_plans": 138,
+  "missing_info": {
+    "missing_scene_id": 0
+  },
+  "review_samples_json": "/home/huangfukk/workspace/MAGAIL4AutoDrive/bc_baseline/scene_labeling/outputs/review_samples.json"
+}
